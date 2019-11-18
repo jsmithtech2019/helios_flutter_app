@@ -14,10 +14,10 @@ class ContactPage extends StatelessWidget {
               new NamePlates("Helios Team", "", "(713) 898-3810", "helioscapstone@gmail.com", "helioslogo.png"),
 
               new SeparatorBox("Our Team"),
-              new NamePlates("Christian Ledgard", "Project Manager", "(713) 898-3810", "christianledgard@tamu.edu", "christian_header.jpg"),
+              new NamePlates("Christian Ledgard", "Project Manager", "(713) 898-3810", "christian.ledgard@tamu.edu", "christian_header.jpg"),
               new NamePlates("Kenley Pang", "Hardware Engineer", "(979) 571-5010", "kenleypang@tamu.edu", "kenley_header.jpg"),
               new NamePlates("Jonathan Smith", "Software Engineer", "(303) 801-8528", "john.d.smitherton@tamu.edu", "jack_header.jpg"),
-              new NamePlates("Diego Espina", "Test/Integration Engineer", "(979) 574-7193", "diegoespina@tamu.edu", "diego_header.jpg"),
+              new NamePlates("Diego Espina", "Test/Integration Engineer", "(979) 574-7193", "diegoespina7@tamu.edu", "diego_header.jpg"),
             ],
           )
         ),
@@ -28,7 +28,7 @@ class ContactPage extends StatelessWidget {
 }
 
 class NamePlates extends StatelessWidget {
-  String name, role, phone, email, image;
+  final String name, role, phone, email, image;
   NamePlates(this.name, this.role, this.phone, this.email, this.image);
 
   Widget build(BuildContext context) {
@@ -86,10 +86,10 @@ class SeparatorBox extends StatelessWidget {
     return Container(
       color: Colors.blueGrey[800],
       alignment: Alignment.centerLeft,
-      height: 75,
+      height: 60,
       child: Text("     $text:",
         style: TextStyle(
-          fontSize: 35,
+          fontSize: 25,
           fontWeight: FontWeight.bold,
         ),
       ),

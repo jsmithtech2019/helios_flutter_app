@@ -4,9 +4,9 @@ class ResultsPage extends StatelessWidget {
   Widget build (BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("Results Page"),
+        title: new Text("Test Results"),
       ),
-      body: Text("Results Page"),
+      body: Text("Results Text"),
     );
   }
 }

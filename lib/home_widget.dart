@@ -1,8 +1,8 @@
 import 'package:HITCH/contactpage.dart';
 import 'package:flutter/material.dart';
-import 'homepage.dart';
 import 'testingpage.dart';
 import 'resultspage.dart';
+import 'settingspage.dart';
 import 'helppage.dart';
 import 'contactpage.dart';
 
@@ -16,9 +16,9 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int _currentIndex = 0;
   final List<Widget> _children = [
-    HomePage(),
     TestingPage(),
     ResultsPage(),
+    SettingsPage(),
     HelpPage(),
     ContactPage()
   ];
@@ -30,23 +30,24 @@ class _HomeState extends State<Home> {
       bottomNavigationBar: new Container(
         child: BottomNavigationBar(
           onTap: onTabTapped,
+          showUnselectedLabels: true,
           currentIndex: _currentIndex,
           items: [
             BottomNavigationBarItem(
               icon: new Icon(Icons.developer_mode),
-              title: Text('Testing'),
+              title: new Text('Testing'),
             ),
             BottomNavigationBarItem(
               icon: new Icon(Icons.storage),
-              title: Text('Results'),
+              title: new Text('Results'),
             ),
             BottomNavigationBarItem(
               icon: new Icon(Icons.settings),
-              title: Text('Settings'),
+              title: new Text('Settings'),
             ),
             BottomNavigationBarItem(
               icon: new Icon(Icons.help),
-              title: Text('Help'),
+              title: new Text('Help'),
             )
           ],
           fixedColor: Colors.cyanAccent,

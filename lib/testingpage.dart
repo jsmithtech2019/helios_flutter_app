@@ -4,9 +4,18 @@ class TestingPage extends StatelessWidget {
   Widget build (BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text("Testing page"),
+        title: new Text("H.I.T.C.H. Testing"),
       ),
-      body: Text("Testing Page"),
+      body: Column(
+        children: <Widget>[
+          new TextField(
+            decoration: InputDecoration(
+              hintText: 'Enter a search term'
+            ),
+          ),
+          new Text("Testing Text"),
+        ],
+      )
     );
   }
 }
