@@ -1,16 +1,11 @@
-# flutter_helios
+# H.I.T.C.H App Controller
 
-A new Flutter project.
+Helios Technologies.
+
+Application for controlling the HITCH module for truck/trailer compatibility testing.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+No need, this app will be available on the Apple App Store and the Google Play stores. Documentation for setup of a new device as well as configuration of the application with the module will be available on the application and with module documentation. A H.I.T.C.H. testing module is required for testing.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Purchase yours today: https://helios-docker-site.herokuapp.com/
