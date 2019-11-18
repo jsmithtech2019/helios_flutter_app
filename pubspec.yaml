@@ -1,5 +1,5 @@
-name: flutter_helios
-description: A new Flutter project.
+name: HITCH
+description: Helios truck trailer compatibility testing module.
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -28,13 +28,24 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: "^0.7.0"
 
+
+# Flutter icons setup
+flutter_icons:
+  ios: true
+  android: true
+  image_path_ios: "assets/app_icons/ios/iTunesArtwork@2x.png"
+  image_path_android: "assets/app_icons/android/playstore-icon.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter.
 flutter:
+  assets:
+    - assets/images/
+    - assets/
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

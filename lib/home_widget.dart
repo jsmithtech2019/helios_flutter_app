@@ -1,8 +1,10 @@
+import 'package:HITCH/contactpage.dart';
 import 'package:flutter/material.dart';
 import 'homepage.dart';
 import 'testingpage.dart';
 import 'resultspage.dart';
 import 'helppage.dart';
+import 'contactpage.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -17,33 +19,38 @@ class _HomeState extends State<Home> {
     HomePage(),
     TestingPage(),
     ResultsPage(),
-    HelpPage()
+    HelpPage(),
+    ContactPage()
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: _children[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: onTabTapped,
-        currentIndex: _currentIndex,
-        items: [
-          BottomNavigationBarItem(
-            icon: new Icon(Icons.home),
-            title: new Text('Home'),
-          ),
-          BottomNavigationBarItem(
-            icon: new Icon(Icons.developer_mode),
-            title: new Text('Testing'),
-          ),
-          BottomNavigationBarItem(
-            icon: new Icon(Icons.archive),
-            title: new Text('Results'),
-          ),
-          BottomNavigationBarItem(
-            icon: new Icon(Icons.help),
-            title: new Text('Help'),
-          )
-        ],
+      backgroundColor: Colors.red,
+      bottomNavigationBar: new Container(
+        child: BottomNavigationBar(
+          onTap: onTabTapped,
+          currentIndex: _currentIndex,
+          items: [
+            BottomNavigationBarItem(
+              icon: new Icon(Icons.developer_mode),
+              title: Text('Testing'),
+            ),
+            BottomNavigationBarItem(
+              icon: new Icon(Icons.storage),
+              title: Text('Results'),
+            ),
+            BottomNavigationBarItem(
+              icon: new Icon(Icons.settings),
+              title: Text('Settings'),
+            ),
+            BottomNavigationBarItem(
+              icon: new Icon(Icons.help),
+              title: Text('Help'),
+            )
+          ],
+          fixedColor: Colors.cyanAccent,
+        ),
       ),
     );
   }
