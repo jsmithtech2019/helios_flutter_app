@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:HITCH/contactpage.dart';
+
 class TestingPage extends StatelessWidget {
   @override
   Widget build (BuildContext context) {
@@ -8,12 +10,45 @@ class TestingPage extends StatelessWidget {
       ),
       body: Column(
         children: <Widget>[
+          new Text(""),
+          new Text("Insert Customer Details:",
+            style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0),
+          ),
+          new Text(""),
           new TextField(
             decoration: InputDecoration(
-              hintText: 'Enter a search term'
+              hintText: '    Customer Name'
             ),
           ),
-          new Text("Testing Text"),
+          new TextField(
+            decoration: InputDecoration(
+                hintText: '    Customer Phone Number'
+            ),
+          ),
+          new TextField(
+            decoration: InputDecoration(
+                hintText: '    Customer Truck License Plate'
+            ),
+          ),
+          new TextField(
+            decoration: InputDecoration(
+                hintText: '    Trailer License Plate'
+            ),
+          ),
+          new Text(""),
+          new SizedBox(
+            width: 200,
+            height: 50,
+            child: RaisedButton(
+              child: Text("Begin Testing!"),
+              onPressed: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ContactPage()),
+                );
+              },
+            ),
+          ),
         ],
       )
     );

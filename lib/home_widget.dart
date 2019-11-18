@@ -1,10 +1,9 @@
-import 'package:HITCH/contactpage.dart';
 import 'package:flutter/material.dart';
-import 'testingpage.dart';
-import 'resultspage.dart';
-import 'settingspage.dart';
-import 'helppage.dart';
-import 'contactpage.dart';
+import 'package:HITCH/testingpage.dart';
+import 'package:HITCH/resultspage.dart';
+import 'package:HITCH/settingspage.dart';
+import 'package:HITCH/helppage.dart';
+import 'package:HITCH/contactpage.dart';
 
 class Home extends StatefulWidget {
   @override

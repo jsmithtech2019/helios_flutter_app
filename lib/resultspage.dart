@@ -6,7 +6,17 @@ class ResultsPage extends StatelessWidget {
       appBar: new AppBar(
         title: new Text("Test Results"),
       ),
-      body: Text("Results Text"),
+      body: Center(
+        child: Container(
+          child: Column(
+            children: <Widget>[
+              Text("Results Text",
+                style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 3.0),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

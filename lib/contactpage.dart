@@ -36,9 +36,13 @@ class NamePlates extends StatelessWidget {
       children: <Widget>[
         Container(
           alignment: Alignment.center,
+          constraints: BoxConstraints(
+            maxHeight: 250,
+            maxWidth: 200,
+            minHeight: 120,
+            minWidth: 100,
+          ),
           margin: new EdgeInsets.only(left: 40.0),
-          height: 200,
-          width: 175,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
