@@ -15,26 +15,9 @@ class TestingPage extends StatelessWidget {
             style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0),
           ),
           new Text(""),
-          new TextField(
-            decoration: InputDecoration(
-              hintText: '    Customer Name'
-            ),
-          ),
-          new TextField(
-            decoration: InputDecoration(
-                hintText: '    Customer Phone Number'
-            ),
-          ),
-          new TextField(
-            decoration: InputDecoration(
-                hintText: '    Customer Truck License Plate'
-            ),
-          ),
-          new TextField(
-            decoration: InputDecoration(
-                hintText: '    Trailer License Plate'
-            ),
-          ),
+          new TextEntryField('Customer Phone Number'),
+          new TextEntryField('Customer Truck License Plate'),
+          new TextEntryField('Trailer License Plate'),
           new Text(""),
           new SizedBox(
             width: 200,
@@ -51,6 +34,21 @@ class TestingPage extends StatelessWidget {
           ),
         ],
       )
+    );
+  }
+}
+
+class TextEntryField extends StatelessWidget {
+  final String text;
+  TextEntryField(this.text);
+
+  Widget build(BuildContext context){
+    return TextField(
+      //controller: ,
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.all(20),
+        hintText: '$text',
+      ),
     );
   }
 }

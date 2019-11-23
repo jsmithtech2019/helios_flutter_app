@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 class ContactPage extends StatelessWidget {
   @override
   Widget build (BuildContext context) {
@@ -11,13 +13,13 @@ class ContactPage extends StatelessWidget {
           child: Column(
             children: <Widget>[
               new SeparatorBox("General Inquiries"),
-              new NamePlates("Helios Team", "", "(713) 898-3810", "helioscapstone@gmail.com", "helioslogo.png"),
+              new NamePlates("Helios Team", "", "(713) 898-3810", "helioscapstone@gmail.com", "helioslogo.png", "7138983810"),
 
               new SeparatorBox("Our Team"),
-              new NamePlates("Christian Ledgard", "Project Manager", "(713) 898-3810", "christian.ledgard@tamu.edu", "christian_header.jpg"),
-              new NamePlates("Kenley Pang", "Hardware Engineer", "(979) 571-5010", "kenleypang@tamu.edu", "kenley_header.jpg"),
-              new NamePlates("Jonathan Smith", "Software Engineer", "(303) 801-8528", "john.d.smitherton@tamu.edu", "jack_header.jpg"),
-              new NamePlates("Diego Espina", "Test/Integration Engineer", "(979) 574-7193", "diegoespina7@tamu.edu", "diego_header.jpg"),
+              new NamePlates("Christian Ledgard", "Project Manager", "(713) 898-3810", "christian.ledgard@tamu.edu", "christian_header.jpg", "7138983810"),
+              new NamePlates("Kenley Pang", "Hardware Engineer", "(979) 571-5010", "kenleypang@tamu.edu", "kenley_header.jpg", "9795715010"),
+              new NamePlates("Jonathan Smith", "Software Engineer", "(303) 801-8528", "john.d.smitherton@tamu.edu", "jack_header.jpg", "3038018528"),
+              new NamePlates("Diego Espina", "Test/Integration Engineer", "(979) 574-7193", "diegoespina7@tamu.edu", "diego_header.jpg", "9795747193"),
             ],
           )
         ),
@@ -28,8 +30,8 @@ class ContactPage extends StatelessWidget {
 }
 
 class NamePlates extends StatelessWidget {
-  final String name, role, phone, email, image;
-  NamePlates(this.name, this.role, this.phone, this.email, this.image);
+  final String name, role, phone, email, image, phoneclean;
+  NamePlates(this.name, this.role, this.phone, this.email, this.image, this.phoneclean);
 
   Widget build(BuildContext context) {
     return Row(
@@ -59,14 +61,24 @@ class NamePlates extends StatelessWidget {
                   fontStyle: FontStyle.italic,
                 ),
               ),
-              new Text(phone,
-                style: TextStyle(
-                  fontSize: 13,
+              new GestureDetector(
+                onTap: (){
+                  _sendMessage();
+                },
+                child: new Text(phone,
+                  style: TextStyle(
+                    fontSize: 13,
+                  ),
                 ),
               ),
-              new Text(email,
-                style: TextStyle(
-                  fontSize: 13,
+              new GestureDetector(
+                onTap: (){
+                  _sendEmail();
+                },
+                child: new Text(email,
+                  style: TextStyle(
+                    fontSize: 13,
+                  ),
                 ),
               ),
             ],
@@ -79,6 +91,24 @@ class NamePlates extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  _sendMessage() async {
+    String uri = 'sms:$phoneclean';
+    if (await canLaunch(uri)) {
+      await launch(uri);
+    } else {
+      throw 'Could not text $uri';
+    }
+  }
+
+  _sendEmail() async {
+    String uri = 'mailto:$email';
+    if (await canLaunch(uri)) {
+      await launch(uri);
+    } else {
+      throw 'Could not email $uri';
+    }
   }
 }
 
