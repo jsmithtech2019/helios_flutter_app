@@ -14,7 +14,6 @@ class ContactPage extends StatelessWidget {
             children: <Widget>[
               new SeparatorBox("General Inquiries"),
               new NamePlates("Helios Team", "", "(713) 898-3810", "helioscapstone@gmail.com", "helioslogo.png", "7138983810"),
-
               new SeparatorBox("Our Team"),
               new NamePlates("Christian Ledgard", "Project Manager", "(713) 898-3810", "christian.ledgard@tamu.edu", "christian_header.jpg", "7138983810"),
               new NamePlates("Kenley Pang", "Hardware Engineer", "(979) 571-5010", "kenleypang@tamu.edu", "kenley_header.jpg", "9795715010"),

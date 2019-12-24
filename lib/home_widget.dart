@@ -1,9 +1,12 @@
+import 'package:HITCH/resultspage.dart' as prefix0;
 import 'package:flutter/material.dart';
 import 'package:HITCH/testingpage.dart';
 import 'package:HITCH/resultspage.dart';
 import 'package:HITCH/settingspage.dart';
 import 'package:HITCH/helppage.dart';
 import 'package:HITCH/contactpage.dart';
+import 'package:HITCH/customerdetails.dart';
+import 'package:HITCH/testingpage.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -15,7 +18,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int _currentIndex = 0;
   final List<Widget> _children = [
-    TestingPage(),
+    CustomerPage(),
     ResultsPage(),
     SettingsPage(),
     HelpPage(),
@@ -25,7 +28,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _children[_currentIndex],
-      backgroundColor: Colors.red,
+      backgroundColor: Colors.black12,
       bottomNavigationBar: new Container(
         child: BottomNavigationBar(
           onTap: onTabTapped,
