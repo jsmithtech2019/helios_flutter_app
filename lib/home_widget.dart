@@ -1,14 +1,15 @@
-import 'package:HITCH/resultspage.dart' as prefix0;
-import 'package:flutter/material.dart';
-import 'package:HITCH/testingpage.dart';
+import 'package:HITCH/datastorage.dart';
 import 'package:HITCH/resultspage.dart';
+import 'package:flutter/material.dart';
 import 'package:HITCH/settingspage.dart';
 import 'package:HITCH/helppage.dart';
-import 'package:HITCH/contactpage.dart';
 import 'package:HITCH/customerdetails.dart';
-import 'package:HITCH/testingpage.dart';
 
 class Home extends StatefulWidget {
+  final CustomerData customerData;
+
+  Home({this.customerData});
+
   @override
   State<StatefulWidget> createState() {
     return _HomeState();
@@ -22,7 +23,6 @@ class _HomeState extends State<Home> {
     ResultsPage(),
     SettingsPage(),
     HelpPage(),
-    ContactPage()
   ];
   @override
   Widget build(BuildContext context) {

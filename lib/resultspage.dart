@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:HITCH/datastorage.dart';
 
 class ResultsPage extends StatelessWidget {
+  final CustomerData customerData;
+
+  ResultsPage({this.customerData});
+
   @override
   Widget build (BuildContext context) {
     return new Scaffold(
@@ -12,7 +17,7 @@ class ResultsPage extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Text("Results Text",
-                style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 3.0),
+                style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.0),
               ),
             ],
           ),

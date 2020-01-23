@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:HITCH/testingpage.dart';
 import 'package:HITCH/forms.dart';
 
 class CustomerPage extends StatelessWidget {
