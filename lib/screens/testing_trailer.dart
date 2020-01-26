@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:HITCH/models/database.dart';
 
 class TrailerTestingPage extends StatelessWidget {
-  final TestData testData;
+  final CustomerData custData;
 
-  TrailerTestingPage({this.testData});
+  TrailerTestingPage({this.custData});
 
   @override
   Widget build (BuildContext context) {
@@ -18,16 +18,16 @@ class TrailerTestingPage extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Text('I guess we start trailer testing now?'),
-              Text('Customer Name: ${testData.custName}'),
-              Text('Customer Phone: ${testData.custPhoneNumber}'),
-              Text('Customer Email: ${testData.custEmail}'),
+              Text('Customer Name: ${custData.customerName}'),
+              Text('Customer Phone: ${custData.customerPhoneNumber}'),
+              Text('Customer Email: ${custData.customerEmail}'),
               RaisedButton(
                 onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => TestingCompletePage(
-                        testData: testData,
+                        custData: custData,
                       ),
                     ),
                   );

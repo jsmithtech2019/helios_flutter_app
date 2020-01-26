@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:HITCH/models/database.dart';
 
 class ResultsPage extends StatefulWidget {
-  final TestData testData;
-  ResultsPage({this.testData});
+  final CustomerData custData;
+  ResultsPage({this.custData});
 
   @override
   State<StatefulWidget> createState() {
-    return ResultsPageState(this.testData);
+    return ResultsPageState(this.custData);
   }
 }
 
@@ -16,8 +16,8 @@ class ResultsPageState extends State<ResultsPage> {
   DatabaseHelper helper = DatabaseHelper();
 
   // Pass customer data into this state
-  final TestData testData;
-  ResultsPageState(this.testData);
+  final CustomerData custData;
+  ResultsPageState(this.custData);
 
   @override
   Widget build (BuildContext context) {

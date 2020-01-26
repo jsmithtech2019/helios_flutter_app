@@ -6,24 +6,24 @@ import 'package:HITCH/utils/database_helper.dart';
 class TestingCompletePage extends StatelessWidget {
   final DatabaseHelper helper = DatabaseHelper();
 
-  final TestData testData;
+  final CustomerData custData;
 
-  TestingCompletePage({this.testData});
+  TestingCompletePage({this.custData});
 
   @override
   Widget build (BuildContext context) {
-    helper.initializeDatabase().then((onValue){print("Done initializing");});
+    //helper.initializeDatabase().then((onValue){print("Done initializing");});
     //String oldCount = helper.getCount().toString();
     //helper.insertTestData(customerData);
     //testData.ID = 2;
 
     //testData.custEmail = "john.d.smitherton@tamu.edu";
     //testData.custState = "Colorado";
-    helper.insertTestData(testData);
+    helper.insertTestData(custData);
     //helper.updateTestData(testData);
     //helper.deleteTestData(5);
     //testData.ID = null;
-    helper.updateTestData(testData);
+    helper.updateTestData(custData);
 
     //helper.deleteTestData(25);
 

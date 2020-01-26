@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:HITCH/screens/testing_trailer.dart';
 import 'package:HITCH/screens/testing_truck.dart';
 import 'package:HITCH/models/database.dart';
+import 'package:HITCH/utils/database_helper.dart';
 
 // Define a custom Form widget.
 class MyCustomForm extends StatefulWidget {
@@ -199,7 +200,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                   // otherwise.
                   if (_formKey.currentState.validate()) {
                     // If the form is valid, display a Snackbar.
-                    final testingData = TestData(
+                    final custData = CustomerData(
                         custNameController.text,
                         custPhoneController.text,
                         custEmailController.text,
@@ -217,7 +218,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => TruckTestingPage(
-                            testData: testingData,
+                            custData: custData,
                           )
                       ),
                     );
@@ -231,7 +232,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                   // otherwise.
                   if (_formKey.currentState.validate()) {
                     // If the form is valid, display a Snackbar.
-                    final testingData = TestData(
+                    final custData = CustomerData(
                         custNameController.text,
                         custPhoneController.text,
                         custEmailController.text,
@@ -249,7 +250,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => TrailerTestingPage(
-                            testData: testingData,
+                            custData: custData,
                           )
                       ),
                     );

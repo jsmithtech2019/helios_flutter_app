@@ -6,9 +6,9 @@ import 'package:HITCH/screens/help.dart';
 import 'package:HITCH/screens/testing_init.dart';
 
 class Home extends StatefulWidget {
-  final TestData testData;
+  final CustomerData custData;
 
-  Home({this.testData});
+  Home({this.custData});
 
   @override
   State<StatefulWidget> createState() {
