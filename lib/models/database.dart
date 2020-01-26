@@ -1,6 +1,6 @@
 import 'dart:core';
 
-// Data Class
+// Customer Data
 class CustomerData {
   int _customerId;
   String _customerName;
@@ -14,16 +14,17 @@ class CustomerData {
   String _truckLicensePlate;
   String _trailerLicensePlate;
 
-  CustomerData(this._customerName,
-    this._customerPhoneNumber,
-    this._customerEmail,
-    this._customerAddressLine1,
-    this._customerAddressLine2,
-    this._customerCity,
-    this._customerState,
-    this._customerZipCode,
-    this._truckLicensePlate,
-    this._trailerLicensePlate
+  CustomerData(
+      this._customerName,
+      this._customerPhoneNumber,
+      this._customerEmail,
+      this._customerAddressLine1,
+      this._customerAddressLine2,
+      this._customerCity,
+      this._customerState,
+      this._customerZipCode,
+      this._truckLicensePlate,
+      this._trailerLicensePlate
   );
 
   // Getters
@@ -110,6 +111,7 @@ class CustomerData {
   }
 }
 
+// Truck Test Data
 class TruckTestData {
   int _truckId;
   int _truckTest1Result;
@@ -121,14 +123,15 @@ class TruckTestData {
   double _truckTest3Current;
   double _truckTest4Current;
 
-  TruckTestData(this._truckTest1Result,
-    this._truckTest2Result,
-    this._truckTest3Result,
-    this._truckTest4Result,
-    this._truckTest1Current,
-    this._truckTest2Current,
-    this._truckTest3Current,
-    this._truckTest4Current
+  TruckTestData(
+      this._truckTest1Result,
+      this._truckTest2Result,
+      this._truckTest3Result,
+      this._truckTest4Result,
+      this._truckTest1Current,
+      this._truckTest2Current,
+      this._truckTest3Current,
+      this._truckTest4Current
   );
 
   // Getters
@@ -209,6 +212,7 @@ class TruckTestData {
   }
 }
 
+// Trailer Test Data
 class TrailerTestData {
   int _trailerId;
   int _trailerTest1Result;
@@ -220,7 +224,8 @@ class TrailerTestData {
   double _trailerTest3Current;
   double _trailerTest4Current;
 
-  TrailerTestData(this._trailerTest1Result,
+  TrailerTestData(
+      this._trailerTest1Result,
       this._trailerTest2Result,
       this._trailerTest3Result,
       this._trailerTest4Result,
@@ -228,7 +233,7 @@ class TrailerTestData {
       this._trailerTest2Current,
       this._trailerTest3Current,
       this._trailerTest4Current
-      );
+  );
 
   // Getters
   int get trailerId => _trailerId;
@@ -305,5 +310,89 @@ class TrailerTestData {
     this._trailerTest2Current = map['test2_current'];
     this._trailerTest3Current = map['test3_current'];
     this._trailerTest4Current = map['test4_current'];
+  }
+}
+
+// Admin Data
+class AdminData {
+  String _employeeName = 'name';
+  String _employeePhoneNumber = 'phone';
+  String _employeeEmail = 'email';
+  String _employeePass = 'pass'; // THIS NEEDS TO BE SALTED AND HASHED
+  String _moduleID = 'moduleID';
+  String _dealership = 'dealership';
+  String _dealershipUUID = 'dealer_uuid';
+
+  AdminData(
+      this._employeeName,
+      this._employeePhoneNumber,
+      this._employeeEmail,
+      this._employeePass,
+      this._moduleID,
+      this._dealership,
+      this._dealershipUUID
+  );
+
+  // Getters
+  String get employeeName =>_employeeName;
+  String get employeePhoneNumber =>_employeePhoneNumber;
+  String get employeeEmail =>_employeeEmail;
+  String get employeePass =>_employeePass;
+  String get moduleID =>_moduleID;
+  String get dealership =>_dealership;
+  String get dealershipUUID =>_dealershipUUID;
+
+  // Setters
+  set employeeName(String newEmployeeName){
+    this._employeeName = newEmployeeName;
+  }
+
+  set employeePhoneNumber(String newEmployeePhoneNumber){
+    this._employeePhoneNumber = newEmployeePhoneNumber;
+  }
+
+  set employeeEmail(String newEmployeeEmail){
+    this._employeeEmail = newEmployeeEmail;
+  }
+
+  set employeePass(String newEmployeePass){
+    this._employeePass = newEmployeePass;
+  }
+
+  set moduleID(String newModuleID){
+    this._moduleID = newModuleID;
+  }
+
+  set dealership(String newDealership){
+    this._dealership = newDealership;
+  }
+
+  set dealershipUUID(String newDealershipUUID){
+    this._dealershipUUID = newDealershipUUID;
+  }
+
+  // Mapping
+  Map<String, dynamic> toMap() {
+    var map = Map<String, dynamic>();
+
+    map['name'] = _employeeName;
+    map['phone'] = _employeePhoneNumber;
+    map['email'] = _employeeEmail;
+    map['pass'] = _employeePass;
+    map['moduleID'] = _moduleID;
+    map['dealership'] = _dealership;
+    map['dealer_uuid'] = _dealershipUUID;
+
+    return map;
+  }
+
+  AdminData.fromMapObject(Map<String, dynamic> map) {
+    this._employeeName = map['name'];
+    this._employeePhoneNumber = map['phone'];
+    this._employeeEmail = map['email'];
+    this._employeePass = map['pass'];
+    this._moduleID = map['moduleID'];
+    this._dealership = map['dealership'];
+    this._dealershipUUID = map['dealer_uuid'];
   }
 }
