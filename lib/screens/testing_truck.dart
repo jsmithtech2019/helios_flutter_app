@@ -22,7 +22,7 @@ class TruckTestingPage extends StatelessWidget {
           child: Column(
             children: <Widget>[
               FutureBuilder<String>(
-                  future: helper.executeFormattedQuery("email", "CUSTOMER_DATA", "1")
+                  future: helper.executeRawQuery("SELECT name FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1")
                       .then((resp){return resp[0].values.toList()[0];}),
                   builder: (BuildContext context, AsyncSnapshot<String> snapshot){
                     switch (snapshot.connectionState) {
@@ -32,7 +32,8 @@ class TruckTestingPage extends StatelessWidget {
                         if(snapshot.hasError){
                           return new Text('Error: ${snapshot.error}');
                         } else {
-                          return new Text('Email from Database: ${snapshot.data}');
+                          return new Text('Running test for Customer: ${snapshot.data}',
+                              style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0));
                         }
                     }
                   }

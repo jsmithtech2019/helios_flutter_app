@@ -48,7 +48,24 @@ class TestingCompletePage extends StatelessWidget {
                * Context: https://stackoverflow.com/questions/49930180/flutter-render-widget-after-async-call
                */
               FutureBuilder<String>(
-                  future: helper.executeFormattedQuery("email", "CUSTOMER_DATA", "1")
+                  future: helper.executeRawQuery('SELECT name FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1')
+                      .then((onValue){return onValue[0].values.toList()[0];}),
+                  builder: (BuildContext context, AsyncSnapshot<String> snapshot){
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.none: return new Text('Didn\'t Work!');
+                      case ConnectionState.waiting: return new Text('Awaiting result!');
+                      default:
+                        if(snapshot.hasError){
+                          return new Text('Error: ${snapshot.error}');
+                        } else {
+                          return new Text('Name from Database: ${snapshot.data}',
+                              style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0));
+                        }
+                    }
+                  }
+              ),
+              FutureBuilder<String>(
+                  future: helper.executeRawQuery("SELECT email FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1")
                       .then((resp){return resp[0].values.toList()[0];}),
                 builder: (BuildContext context, AsyncSnapshot<String> snapshot){
                   switch (snapshot.connectionState) {
@@ -58,26 +75,11 @@ class TestingCompletePage extends StatelessWidget {
                       if(snapshot.hasError){
                         return new Text('Error: ${snapshot.error}');
                       } else {
-                        return new Text('Email from Database: ${snapshot.data}');
+                        return new Text('Email from Database: ${snapshot.data}',
+                            style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0));
                       }
                   }
                 }
-              ),
-              FutureBuilder<String>(
-                future: helper.executeRawQuery('SELECT name FROM CUSTOMER_DATA WHERE id=1;')
-                    .then((onValue){return onValue[0].values.toList()[0];}),
-                builder: (BuildContext context, AsyncSnapshot<String> snapshot){
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.none: return new Text('Didn\'t Work!');
-                    case ConnectionState.waiting: return new Text('Awaiting result!');
-                    default:
-                      if(snapshot.hasError){
-                        return new Text('Error: ${snapshot.error}');
-                      } else {
-                        return new Text('Name from Database: ${snapshot.data}');
-                      }
-                  }
-                  }
               ),
               RaisedButton(
                 onPressed: () {

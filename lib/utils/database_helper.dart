@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:HITCH/models/database.dart';
+import 'package:path/path.dart' as p;
 
 class DatabaseHelper {
 
@@ -78,12 +79,11 @@ class DatabaseHelper {
   Future<Database> initializeDatabase() async {
     // Get the directory path for both Android and iOS to store database.
     Directory directory = await getApplicationDocumentsDirectory();
-    String path = directory.path + 'HitchDatabase.db';
+    String path = p.join(directory.toString(),'HitchDatabase.db');
     print(path);
 
     // Open/create the database at a given path
     var HitchDatabase = await openDatabase(path, version: 1, onCreate: _createTables);
-    //var employeeDataDatabase = await openDatabase(path, version: 1, onCreate: _createEmployeeDb);
     return HitchDatabase;
   }
 
@@ -203,12 +203,12 @@ class DatabaseHelper {
   }
 
   // THESE ARE THE ONES THAT WILL LIKELY BE USED MOST
-  Future<List<Map<String, dynamic>>> executeRawQuery(String query) async {
+  Future<List<Map<dynamic, dynamic>>> executeRawQuery(String query) async {
     Database db = await this.database;
     return await db.rawQuery(query);
   }
 
-  Future<List<Map<String, dynamic>>> executeFormattedQuery(String param, String database, String id) async {
+  Future<List<Map<dynamic, dynamic>>> executeFormattedQuery(String param, String database, String id) async {
     Database db = await this.database;
     return await db.rawQuery("SELECT $param FROM $database WHERE id=$id");
   }
