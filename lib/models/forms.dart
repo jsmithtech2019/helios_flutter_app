@@ -248,7 +248,6 @@ class MyCustomFormState extends State<MyCustomForm> {
                         truckLicensePlateController.text,
                         trailerLicensePlateController.text
                     );
-                    helper.initializeDatabase().then((onValue){print("Done initializing");});
                     helper.insertCustomerData(custData);
                     Scaffold.of(context)
                         .showSnackBar(SnackBar(content: Text('Processing Data')));

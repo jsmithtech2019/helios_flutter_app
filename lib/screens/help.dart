@@ -10,13 +10,9 @@ class HelpPage extends StatelessWidget {
       ),
       body: Center(
         child: Container(
+          margin: EdgeInsets.all(24),
           child: Column(
             children: <Widget>[
-              new Text(""),
-              Text("Help Text",
-                style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 3.0),
-              ),
-              new Text(""),
               new SizedBox(
                 width: 200,
                 height: 50,

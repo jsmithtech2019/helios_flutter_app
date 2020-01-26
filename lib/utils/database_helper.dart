@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dart:async';
 import 'dart:io';
@@ -78,13 +80,15 @@ class DatabaseHelper {
 
   Future<Database> initializeDatabase() async {
     // Get the directory path for both Android and iOS to store database.
-    Directory directory = await getApplicationDocumentsDirectory();
-    String path = p.join(directory.toString(),'HitchDatabase.db');
+    // TODO: re enable this for on device runs
+    //Directory directory = await getApplicationDocumentsDirectory();
+    //String path = p.join(directory.toString(),'HitchDatabase.db');
+    String path = '/Users/mars/Desktop/HitchDatabase.db';
     print(path);
 
     // Open/create the database at a given path
-    var HitchDatabase = await openDatabase(path, version: 1, onCreate: _createTables);
-    return HitchDatabase;
+    var hitchDatabase = await openDatabase(path, version: 1, onCreate: _createTables);
+    return hitchDatabase;
   }
 
   void _createTables(Database db, int newVersion) async {
@@ -161,7 +165,7 @@ class DatabaseHelper {
   // Insert Operation: Insert a TestData object to database
   Future<int> insertCustomerData(CustomerData custData) async {
     Database db = await this.database;
-    var result = await db.insert(custTable, custData.toMap());
+    var result = await db.insert(custTable, custData.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
     return result;
   }
 
@@ -208,8 +212,98 @@ class DatabaseHelper {
     return await db.rawQuery(query);
   }
 
-  Future<List<Map<dynamic, dynamic>>> executeFormattedQuery(String param, String database, String id) async {
+  Future<List<Map<dynamic, dynamic>>> executeFormattedQuery(String param, String database) async {
     Database db = await this.database;
-    return await db.rawQuery("SELECT $param FROM $database WHERE id=$id");
+    return await db.rawQuery("SELECT $param FROM $database ORDER BY id DESC LIMIT 1");
+  }
+}
+
+class PrintDatabaseResponses extends StatelessWidget {
+  final DatabaseHelper helper;
+  final String query;
+  final String success_statement;
+  final double size;
+
+  PrintDatabaseResponses(this.helper, this.query, this.success_statement, this.size);
+
+  Widget build(BuildContext context){
+    return FutureBuilder<String>(
+        future: helper.executeRawQuery(query)
+            .then((resp){return resp[0].values.toList()[0].toString();}),
+        builder: (BuildContext context, AsyncSnapshot<String> snapshot){
+          switch (snapshot.connectionState) {
+            case ConnectionState.none: return new Text('Didn\'t Work!');
+            case ConnectionState.waiting: return new Text('Awaiting result!');
+            default:
+              if(snapshot.hasError){
+                return new Text('Error: ${snapshot.error}');
+              } else {
+                return new Text('$success_statement: ${snapshot.data}',
+                  style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: size),
+                );
+              }
+          }
+        }
+    );
+  }
+}
+
+class PrintDatabaseTestResult extends StatelessWidget {
+  final DatabaseHelper helper;
+  final String query;
+  final String success_statement;
+  final double size;
+
+  PrintDatabaseTestResult(this.helper, this.query, this.success_statement, this.size);
+
+  Widget build(BuildContext context){
+    return FutureBuilder<String>(
+        future: helper.executeRawQuery(query)
+            .then((resp){return resp[0].values.toList()[0].toString();}),
+        builder: (BuildContext context, AsyncSnapshot<String> snapshot){
+          switch (snapshot.connectionState) {
+            case ConnectionState.none: return new Text('Didn\'t Work!');
+            case ConnectionState.waiting: return new Text('Awaiting result!');
+            default:
+              if(snapshot.hasError){
+                return new Text('Error: ${snapshot.error}');
+              } else {
+                return new Text('$success_statement: ${snapshot.data}',
+                  style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: size),
+                );
+              }
+          }
+        }
+    );
+  }
+}
+
+class PrintDatabaseCurrentResult extends StatelessWidget {
+  final DatabaseHelper helper;
+  final String query;
+  final String success_statement;
+  final double size;
+
+  PrintDatabaseCurrentResult(this.helper, this.query, this.success_statement, this.size);
+
+  Widget build(BuildContext context){
+    return FutureBuilder<String>(
+        future: helper.executeRawQuery(query)
+            .then((resp){return resp[0].values.toList()[0].toString();}),
+        builder: (BuildContext context, AsyncSnapshot<String> snapshot){
+          switch (snapshot.connectionState) {
+            case ConnectionState.none: return new Text('Didn\'t Work!');
+            case ConnectionState.waiting: return new Text('Awaiting result!');
+            default:
+              if(snapshot.hasError){
+                return new Text('Error: ${snapshot.error}');
+              } else {
+                return new Text('$success_statement: ${snapshot.data} A',
+                  style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: size),
+                );
+              }
+          }
+        }
+    );
   }
 }

@@ -7,8 +7,8 @@ import 'package:HITCH/screens/testing_init.dart';
 
 class Home extends StatefulWidget {
   final CustomerData custData;
-
-  Home({this.custData});
+  int setIndex = 0;
+  Home({this.custData, this.setIndex});
 
   @override
   State<StatefulWidget> createState() {

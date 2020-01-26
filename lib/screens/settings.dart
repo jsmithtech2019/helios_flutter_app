@@ -11,9 +11,7 @@ class SettingsPage extends StatelessWidget {
         child: Container(
           child: Column(
             children: <Widget>[
-              Text("Settings Text",
-                style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 3.0),
-              ),
+              Text("Placeholder widget"),
             ],
           ),
         ),
