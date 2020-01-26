@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'home_widget.dart';
-//import 'dart:async';
-//import 'package:path/path.dart';
-//import 'package:sqflite/sqflite.dart';
+import 'package:HITCH/utils/home_widget.dart';
+import 'package:HITCH/models/database.dart';
 //import 'package:flutter_blue/flutter_blue.dart';
 
 void main() => runApp(HeliosApp());

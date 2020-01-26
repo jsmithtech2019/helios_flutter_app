@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:HITCH/forms.dart';
+import 'package:HITCH/models/forms.dart';
 
 class CustomerPage extends StatelessWidget {
   @override

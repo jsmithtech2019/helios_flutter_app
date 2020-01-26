@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:HITCH/contactpage.dart';
+import 'package:HITCH/screens/contact.dart';
 
 class HelpPage extends StatelessWidget {
   @override

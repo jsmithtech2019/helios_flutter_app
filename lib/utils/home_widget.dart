@@ -1,14 +1,14 @@
-import 'package:HITCH/datastorage.dart';
-import 'package:HITCH/resultspage.dart';
+import 'package:HITCH/models/database.dart';
+import 'package:HITCH/screens/results.dart';
 import 'package:flutter/material.dart';
-import 'package:HITCH/settingspage.dart';
-import 'package:HITCH/helppage.dart';
-import 'package:HITCH/customerdetails.dart';
+import 'package:HITCH/screens/settings.dart';
+import 'package:HITCH/screens/help.dart';
+import 'package:HITCH/screens/testing_init.dart';
 
 class Home extends StatefulWidget {
-  final CustomerData customerData;
+  final TestData testData;
 
-  Home({this.customerData});
+  Home({this.testData});
 
   @override
   State<StatefulWidget> createState() {
