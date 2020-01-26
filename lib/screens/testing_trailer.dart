@@ -1,9 +1,12 @@
 import 'package:HITCH/screens/testing_complete.dart';
 import 'package:flutter/material.dart';
 import 'package:HITCH/models/database.dart';
+import 'package:HITCH/utils/database_helper.dart';
 
 class TrailerTestingPage extends StatelessWidget {
   final CustomerData custData;
+
+  final DatabaseHelper helper = DatabaseHelper();
 
   TrailerTestingPage({this.custData});
 

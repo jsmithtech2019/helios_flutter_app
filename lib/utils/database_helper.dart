@@ -78,13 +78,20 @@ class DatabaseHelper {
   Future<Database> initializeDatabase() async {
     // Get the directory path for both Android and iOS to store database.
     Directory directory = await getApplicationDocumentsDirectory();
-    String path = directory.path + 'testData.db';
-    //print(path);
+    String path = directory.path + 'HitchDatabase.db';
+    print(path);
 
     // Open/create the database at a given path
-    var testDataDatabase = await openDatabase(path, version: 1, onCreate: _createCustomerDb);
+    var HitchDatabase = await openDatabase(path, version: 1, onCreate: _createTables);
     //var employeeDataDatabase = await openDatabase(path, version: 1, onCreate: _createEmployeeDb);
-    return testDataDatabase;
+    return HitchDatabase;
+  }
+
+  void _createTables(Database db, int newVersion) async {
+    _createCustomerDb(db, newVersion);
+    _createTruckDb(db, newVersion);
+    _createTrailerDb(db, newVersion);
+    _createAdminDb(db, newVersion);
   }
 
   void _createCustomerDb(Database db, int newVersion) async {
@@ -152,36 +159,36 @@ class DatabaseHelper {
   }
 
   // Insert Operation: Insert a TestData object to database
-  Future<int> insertTestData(CustomerData custData) async {
+  Future<int> insertCustomerData(CustomerData custData) async {
     Database db = await this.database;
     var result = await db.insert(custTable, custData.toMap());
     return result;
   }
 
   // Update Operation: Update a TestData object and save it to database
-  Future<int> updateTestData(CustomerData custData) async {
+  Future<int> updateCustomerData(CustomerData custData) async {
     var db = await this.database;
     var result = await db.update(custTable, custData.toMap(), where: '$colId = ?', whereArgs: [custData.customerId]);
     return result;
   }
 
   // Delete Operation: Delete a TestData object from database
-  Future<int> deleteTestData(int id) async {
+  Future<int> deleteCustomerData(int id) async {
     var db = await this.database;
     int result = await db.rawDelete('DELETE FROM $custTable WHERE $colId = $id');
     return result;
   }
 
   // Get number of TestData objects in database
-  Future<int> getCount() async {
+  Future<int> getCount(String db) async {
     Database db = await this.database;
-    List<Map<String, dynamic>> x = await db.rawQuery('SELECT COUNT (*) from $custTable');
+    List<Map<String, dynamic>> x = await db.rawQuery('SELECT COUNT (*) from $db');
     int result = Sqflite.firstIntValue(x);
     return result;
   }
 
   // Get the 'Map List' [ List<Map> ] and convert it to 'TestData List' [ List<TestData> ]
-  Future<List<CustomerData>> getTestDataList() async {
+  Future<List<CustomerData>> getCustomerDataList() async {
 
     var testDataMapList = await getTestDataMapList(); // Get 'Map List' from database
     int count = testDataMapList.length;         // Count the number of map entries in db table

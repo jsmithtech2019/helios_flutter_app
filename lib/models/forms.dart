@@ -22,6 +22,8 @@ class MyCustomFormState extends State<MyCustomForm> {
   // not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
 
+  final DatabaseHelper helper = DatabaseHelper();
+
   @override
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
@@ -212,6 +214,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                         truckLicensePlateController.text,
                         trailerLicensePlateController.text
                     );
+                    helper.initializeDatabase().then((onValue){print("Done initializing");});
+                    helper.insertCustomerData(custData);
                     Scaffold.of(context)
                         .showSnackBar(SnackBar(content: Text('Processing Data')));
                     Navigator.push(
@@ -244,6 +248,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                         truckLicensePlateController.text,
                         trailerLicensePlateController.text
                     );
+                    helper.initializeDatabase().then((onValue){print("Done initializing");});
+                    helper.insertCustomerData(custData);
                     Scaffold.of(context)
                         .showSnackBar(SnackBar(content: Text('Processing Data')));
                     Navigator.push(

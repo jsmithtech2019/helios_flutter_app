@@ -21,9 +21,8 @@ class TruckTestingPage extends StatelessWidget {
         child: Container(
           child: Column(
             children: <Widget>[
-              Text('Customer Name: ${custData.customerName}'),
               FutureBuilder<String>(
-                  future: helper.executeFormattedQuery("email", "TESTING_DATA", "2")
+                  future: helper.executeFormattedQuery("email", "CUSTOMER_DATA", "1")
                       .then((resp){return resp[0].values.toList()[0];}),
                   builder: (BuildContext context, AsyncSnapshot<String> snapshot){
                     switch (snapshot.connectionState) {

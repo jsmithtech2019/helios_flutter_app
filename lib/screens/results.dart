@@ -35,10 +35,60 @@ class ResultsPageState extends State<ResultsPage> {
         child: Container(
           child: Column(
             children: <Widget>[
-              Text("Results Text",
+              Text("Showing most recent test result",
                 style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.0),
               ),
-              
+              FutureBuilder<String>(
+                  future: helper.executeRawQuery("SELECT name FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1")
+                      .then((resp){return resp[0].values.toList()[0];}),
+                  builder: (BuildContext context, AsyncSnapshot<String> snapshot){
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.none: return new Text('Didn\'t Work!');
+                      case ConnectionState.waiting: return new Text('Awaiting result!');
+                      default:
+                        if(snapshot.hasError){
+                          return new Text('Error: ${snapshot.error}');
+                        } else {
+                          return new Text('Customer Name: ${snapshot.data}',
+                            style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0));
+                        }
+                    }
+                  }
+              ),
+              FutureBuilder<String>(
+                future: helper.executeRawQuery("SELECT truckplate FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1")
+                    .then((resp){return resp[0].values.toList()[0];}),
+                builder: (BuildContext context, AsyncSnapshot<String> snapshot){
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.none: return new Text('Didn\'t Work!');
+                    case ConnectionState.waiting: return new Text('Awaiting result!');
+                    default:
+                      if(snapshot.hasError){
+                        return new Text('Error: ${snapshot.error}');
+                      } else {
+                        return new Text('Truck License Plate: ${snapshot.data}',
+                            style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0));
+                      }
+                  }
+                }
+              ),
+              FutureBuilder<String>(
+                future: helper.executeRawQuery("SELECT trailerplate FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1")
+                    .then((resp){return resp[0].values.toList()[0];}),
+                builder: (BuildContext context, AsyncSnapshot<String> snapshot){
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.none: return new Text('Didn\'t Work!');
+                    case ConnectionState.waiting: return new Text('Awaiting result!');
+                    default:
+                      if(snapshot.hasError){
+                        return new Text('Error: ${snapshot.error}');
+                      } else {
+                        return new Text('Trailer License Plate: ${snapshot.data}',
+                            style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0));
+                      }
+                  }
+                }
+              ),
             ],
           ),
         ),

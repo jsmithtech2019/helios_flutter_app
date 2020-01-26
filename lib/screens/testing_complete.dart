@@ -19,11 +19,11 @@ class TestingCompletePage extends StatelessWidget {
 
     //testData.custEmail = "john.d.smitherton@tamu.edu";
     //testData.custState = "Colorado";
-    helper.insertTestData(custData);
+    //helper.insertTestData(custData);
     //helper.updateTestData(testData);
     //helper.deleteTestData(5);
     //testData.ID = null;
-    helper.updateTestData(custData);
+    //helper.updateTestData(custData);
 
     //helper.deleteTestData(25);
 
@@ -48,7 +48,7 @@ class TestingCompletePage extends StatelessWidget {
                * Context: https://stackoverflow.com/questions/49930180/flutter-render-widget-after-async-call
                */
               FutureBuilder<String>(
-                  future: helper.executeFormattedQuery("email", "TESTING_DATA", "2")
+                  future: helper.executeFormattedQuery("email", "CUSTOMER_DATA", "1")
                       .then((resp){return resp[0].values.toList()[0];}),
                 builder: (BuildContext context, AsyncSnapshot<String> snapshot){
                   switch (snapshot.connectionState) {
@@ -64,7 +64,7 @@ class TestingCompletePage extends StatelessWidget {
                 }
               ),
               FutureBuilder<String>(
-                future: helper.executeRawQuery('SELECT name FROM TESTING_DATA WHERE id=2;')
+                future: helper.executeRawQuery('SELECT name FROM CUSTOMER_DATA WHERE id=1;')
                     .then((onValue){return onValue[0].values.toList()[0];}),
                 builder: (BuildContext context, AsyncSnapshot<String> snapshot){
                   switch (snapshot.connectionState) {
