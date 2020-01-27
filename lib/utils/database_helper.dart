@@ -97,8 +97,7 @@ class DatabaseHelper {
     print(path);
 
     // Open/create the database at a given path
-    var hitchDatabase = await openDatabase(path, version: 1, onCreate: _createTables);
-    return hitchDatabase;
+    return await openDatabase(path, version: 1, onCreate: _createTables);
   }
 
   void _createTables(Database db, int newVersion) async {
