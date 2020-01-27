@@ -1,11 +1,19 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:sqflite/sqflite.dart';
+// Flutter Packages
 import 'dart:async';
 import 'dart:io';
-import 'package:path_provider/path_provider.dart';
-import 'package:HITCH/models/database.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
+import 'package:sqflite/sqflite.dart';
+
+// Models
+import 'package:HITCH/models/database.dart';
+
+
+///#############################################################################
+///                            testing_init.dart
+///#############################################################################
 
 class DatabaseHelper {
 
@@ -80,10 +88,10 @@ class DatabaseHelper {
   Future<Database> initializeDatabase() async {
     // Get the directory path for both Android and iOS to store database.
     // TODO: re enable this for on device runs
-    //Directory directory = await getApplicationDocumentsDirectory();
-    //String path = p.join(directory.toString(),'HitchDatabase.db');
+    Directory directory = await getApplicationDocumentsDirectory();
+    String path = p.join(directory.toString(),'HitchDatabase.db');
     // TODO: use the following path for local debugging
-    String path = '/Users/mars/Desktop/HitchDatabase.db';
+    //String path = '/Users/mars/Desktop/HitchDatabase.db';
 
     // Log the database path for debugging purposes
     print(path);

@@ -17,7 +17,7 @@ import 'package:HITCH/screens/testing_init.dart';
 import 'package:HITCH/utils/database_helper.dart';
 
 ///#############################################################################
-///
+///                            home_widget.dart
 ///#############################################################################
 
 class Home extends StatefulWidget {

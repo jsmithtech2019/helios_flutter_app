@@ -54,15 +54,15 @@ class ResultsPageState extends State<ResultsPage> {
               SizedBox(height: 20),
               Align(
                 alignment: Alignment.centerLeft,
-                child:  PrintDatabaseResponses(dbHelper, 'SELECT name FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1', 'Name from Database', 1.15),
+                child:  PrintDatabaseResponses(dbHelper, 'SELECT name FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1', 'Name from Database', 1.5),
               ),
               Align(
                   alignment: Alignment.centerLeft,
-                  child: PrintDatabaseResponses(dbHelper, 'SELECT truckplate FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1', 'Truck from Database', 1.15),
+                  child: PrintDatabaseResponses(dbHelper, 'SELECT truckplate FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1', 'Truck from Database', 1.5),
               ),
               Align(
                   alignment: Alignment.centerLeft,
-                  child: PrintDatabaseResponses(dbHelper, 'SELECT trailerplate FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1', 'Trailer from Database', 1.15),
+                  child: PrintDatabaseResponses(dbHelper, 'SELECT trailerplate FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1', 'Trailer from Database', 1.5),
               ),
               TruckResults(),
               TrailerResults(),
