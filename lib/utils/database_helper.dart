@@ -224,10 +224,10 @@ class DatabaseHelper {
 class PrintDatabaseResponses extends StatelessWidget {
   final DatabaseHelper helper;
   final String query;
-  final String success_statement;
+  final String successStatement;
   final double size;
 
-  PrintDatabaseResponses(this.helper, this.query, this.success_statement, this.size);
+  PrintDatabaseResponses(this.helper, this.query, this.successStatement, this.size);
 
   Widget build(BuildContext context){
     return FutureBuilder<String>(
@@ -241,7 +241,7 @@ class PrintDatabaseResponses extends StatelessWidget {
               if(snapshot.hasError){
                 return new Text('Error: ${snapshot.error}');
               } else {
-                return new Text('$success_statement: ${snapshot.data}',
+                return new Text('$successStatement: ${snapshot.data}',
                   style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: size),
                 );
               }
@@ -254,10 +254,10 @@ class PrintDatabaseResponses extends StatelessWidget {
 class PrintDatabaseTestResult extends StatelessWidget {
   final DatabaseHelper helper;
   final String query;
-  final String success_statement;
+  final String successStatement;
   final double size;
 
-  PrintDatabaseTestResult(this.helper, this.query, this.success_statement, this.size);
+  PrintDatabaseTestResult(this.helper, this.query, this.successStatement, this.size);
 
   Widget build(BuildContext context){
     return FutureBuilder<String>(
@@ -271,7 +271,7 @@ class PrintDatabaseTestResult extends StatelessWidget {
               if(snapshot.hasError){
                 return new Text('Error: ${snapshot.error}');
               } else {
-                return new Text('$success_statement: ${snapshot.data}',
+                return new Text('$successStatement: ${snapshot.data}',
                   style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: size),
                 );
               }
@@ -284,10 +284,10 @@ class PrintDatabaseTestResult extends StatelessWidget {
 class PrintDatabaseCurrentResult extends StatelessWidget {
   final DatabaseHelper helper;
   final String query;
-  final String success_statement;
+  final String successStatement;
   final double size;
 
-  PrintDatabaseCurrentResult(this.helper, this.query, this.success_statement, this.size);
+  PrintDatabaseCurrentResult(this.helper, this.query, this.successStatement, this.size);
 
   Widget build(BuildContext context){
     return FutureBuilder<String>(
@@ -301,7 +301,7 @@ class PrintDatabaseCurrentResult extends StatelessWidget {
               if(snapshot.hasError){
                 return new Text('Error: ${snapshot.error}');
               } else {
-                return new Text('$success_statement: ${snapshot.data} A',
+                return new Text('$successStatement: ${snapshot.data} A',
                   style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: size),
                 );
               }
