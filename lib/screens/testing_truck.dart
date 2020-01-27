@@ -19,8 +19,7 @@ import 'package:HITCH/utils/database_helper.dart';
 
 class TruckTestingPage extends StatelessWidget {
   // Pull GetIt Singleton and create pointers to Singleton Helpers
-  static GetIt sl = GetIt.instance;
-  final DatabaseHelper dbHelper = sl.get<DatabaseHelper>();
+  final DatabaseHelper dbHelper = GetIt.instance<DatabaseHelper>();
 
   final CustomerData custData;
 

@@ -12,7 +12,6 @@ class DatabaseHelper {
   static DatabaseHelper _databaseHelper;    // Singleton DatabaseHelper
   static Database _database;                // Singleton Database
 
-
   // Shared table values
   String colId = 'id';
   String colTimestamp = 'timestamp';
@@ -81,10 +80,10 @@ class DatabaseHelper {
   Future<Database> initializeDatabase() async {
     // Get the directory path for both Android and iOS to store database.
     // TODO: re enable this for on device runs
-    Directory directory = await getApplicationDocumentsDirectory();
-    String path = p.join(directory.toString(),'HitchDatabase.db');
+    //Directory directory = await getApplicationDocumentsDirectory();
+    //String path = p.join(directory.toString(),'HitchDatabase.db');
     // TODO: use the following path for local debugging
-    //String path = '/Users/mars/Desktop/HitchDatabase.db';
+    String path = '/Users/mars/Desktop/HitchDatabase.db';
 
     // Log the database path for debugging purposes
     print(path);

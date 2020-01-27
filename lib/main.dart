@@ -26,7 +26,26 @@ import 'package:HITCH/utils/home_widget.dart';
 /// - Logger Singleton
 ///#############################################################################
 
-void main() => runApp(HeliosApp());
+GetIt sl = GetIt.instance;
+
+void main() {
+  // Generate Singleton GetIt for usage on all Sheets
+  GetIt.asNewInstance();
+
+  // Generated and register Singletons into GetIt instance
+  sl.registerSingleton<DatabaseHelper>(DatabaseHelper());
+  sl.registerSingleton<Logger>(Logger());
+  // TODO: enable the bluetooth singleton
+  //getIt.registerSingleton<BluetoothHelper>(BluetoothHelper());
+
+  // Get DatabaseHelper Singleton
+  var dbHelper = GetIt.instance<DatabaseHelper>();
+
+  // Initialize the database on the device
+  dbHelper.initializeDatabase().then((onValue){print("Done initializng");});
+
+  runApp(HeliosApp());
+}
 
 class HeliosApp extends StatefulWidget{
   @override
@@ -38,21 +57,6 @@ class HeliosApp extends StatefulWidget{
 class HeliosAppStateful extends State<HeliosApp> {
   @override
   Widget build(BuildContext context) {
-    // Generate Singleton GetIt for usage on all Sheets
-    GetIt getIt = GetIt.asNewInstance();
-
-    // Generated and register Singletons into GetIt instance
-    getIt.registerSingleton<DatabaseHelper>(DatabaseHelper());
-    getIt.registerSingleton<Logger>(Logger());
-    // TODO: enable the bluetooth singleton
-    //getIt.registerSingleton<BluetoothHelper>(BluetoothHelper());
-
-    // Get DatabaseHelper Singleton
-    var dbHelper = GetIt.instance<DatabaseHelper>();
-
-    // Initialize the database on the device
-    dbHelper.initializeDatabase().then((onValue){print("Done initializing");});
-
     return MaterialApp(
       title: 'HITCH Controller Application',
       home: Home(),
