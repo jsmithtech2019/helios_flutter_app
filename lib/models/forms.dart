@@ -1,8 +1,21 @@
+// Flutter Packages
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+
+// Models
+import 'package:HITCH/models/database.dart';
+
+// Screens
 import 'package:HITCH/screens/testing_trailer.dart';
 import 'package:HITCH/screens/testing_truck.dart';
-import 'package:HITCH/models/database.dart';
+
+// Utils
 import 'package:HITCH/utils/database_helper.dart';
+
+
+///#############################################################################
+///
+///#############################################################################
 
 // Define a custom Form widget.
 class MyCustomForm extends StatefulWidget {
@@ -22,7 +35,9 @@ class MyCustomFormState extends State<MyCustomForm> {
   // not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
 
-  final DatabaseHelper helper = DatabaseHelper();
+  // Pull GetIt Singleton and create pointers to Singleton Helpers
+  static GetIt sl = GetIt.instance;
+  final DatabaseHelper dbHelper = sl.get<DatabaseHelper>();
 
   @override
   Widget build(BuildContext context) {
@@ -214,8 +229,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                         truckLicensePlateController.text,
                         trailerLicensePlateController.text
                     );
-                    helper.initializeDatabase().then((onValue){print("Done initializing");});
-                    helper.insertCustomerData(custData);
+                    dbHelper.initializeDatabase().then((onValue){print("Done initializing");});
+                    dbHelper.insertCustomerData(custData);
                     Scaffold.of(context)
                         .showSnackBar(SnackBar(content: Text('Processing Data')));
                     Navigator.push(
@@ -248,7 +263,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                         truckLicensePlateController.text,
                         trailerLicensePlateController.text
                     );
-                    helper.insertCustomerData(custData);
+                    dbHelper.insertCustomerData(custData);
                     Scaffold.of(context)
                         .showSnackBar(SnackBar(content: Text('Processing Data')));
                     Navigator.push(

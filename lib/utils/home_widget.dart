@@ -1,9 +1,21 @@
-import 'package:HITCH/models/database.dart';
-import 'package:HITCH/screens/results.dart';
+// Flutter Packages
 import 'package:flutter/material.dart';
-import 'package:HITCH/screens/settings.dart';
+
+// Models
+import 'package:HITCH/models/database.dart';
+
+// Screens
 import 'package:HITCH/screens/help.dart';
+import 'package:HITCH/screens/results.dart';
+import 'package:HITCH/screens/settings.dart';
 import 'package:HITCH/screens/testing_init.dart';
+
+// Utils
+
+
+///#############################################################################
+///
+///#############################################################################
 
 class Home extends StatefulWidget {
   final CustomerData custData;

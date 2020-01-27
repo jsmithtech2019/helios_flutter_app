@@ -1,10 +1,23 @@
+// Flutter Packages
 import 'package:flutter/material.dart';
-import 'package:HITCH/utils/home_widget.dart';
+import 'package:get_it/get_it.dart';
+
+// Models
 import 'package:HITCH/models/database.dart';
+
+// Utils
 import 'package:HITCH/utils/database_helper.dart';
+import 'package:HITCH/utils/home_widget.dart';
+
+
+///#############################################################################
+///
+///#############################################################################
 
 class TestingCompletePage extends StatelessWidget {
-  final DatabaseHelper helper = DatabaseHelper();
+  // Pull GetIt Singleton and create pointers to Singleton Helpers
+  static GetIt sl = GetIt.instance;
+  final DatabaseHelper dbHelper = sl.get<DatabaseHelper>();
 
   final CustomerData custData;
 
@@ -47,8 +60,8 @@ class TestingCompletePage extends StatelessWidget {
                *
                * Context: https://stackoverflow.com/questions/49930180/flutter-render-widget-after-async-call
                */
-              PrintDatabaseResponses(helper, 'SELECT name FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1', 'Name from Database', 1.5),
-              PrintDatabaseResponses(helper, 'SELECT email FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1', 'Email from Database', 1.5),
+              PrintDatabaseResponses(dbHelper, 'SELECT name FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1', 'Name from Database', 1.5),
+              PrintDatabaseResponses(dbHelper, 'SELECT email FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1', 'Email from Database', 1.5),
               RaisedButton(
                 onPressed: () {
                   Navigator.of(context).pushAndRemoveUntil(

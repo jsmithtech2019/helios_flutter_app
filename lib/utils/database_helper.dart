@@ -38,28 +38,28 @@ class DatabaseHelper {
   String colEmployeePass = 'pass'; // THIS NEEDS TO BE SALTED AND HASHED
   String colModuleID = 'moduleID';
   String colDealership = 'dealership';
-  String colDealershipUUID = 'dealer_uuid';
+  String colDealershipUUID = 'dealer_uuid'; // THIS NEEDS TO BE SALTED AND HASHED
 
   // TRUCK_TEST_DATA
   String truckTable = 'TRUCK_TEST_DATA';
   String colTruckTest1Result = 'test1_result';
-  String colTruckTest1Current = 'test1_current';
   String colTruckTest2Result = 'test2_result';
-  String colTruckTest2Current = 'test2_current';
   String colTruckTest3Result = 'test3_result';
-  String colTruckTest3Current = 'test3_current';
   String colTruckTest4Result = 'test4_result';
+  String colTruckTest1Current = 'test1_current';
+  String colTruckTest2Current = 'test2_current';
+  String colTruckTest3Current = 'test3_current';
   String colTruckTest4Current = 'test4_current';
 
   // TRAILER_TEST_DATA
   String trailerTable = 'TRAILER_TEST_DATA';
   String colTrailerTest1Result = 'test1_result';
-  String colTrailerTest1Current = 'test1_current';
   String colTrailerTest2Result = 'test2_result';
-  String colTrailerTest2Current = 'test2_current';
   String colTrailerTest3Result = 'test3_result';
-  String colTrailerTest3Current = 'test3_current';
   String colTrailerTest4Result = 'test4_result';
+  String colTrailerTest1Current = 'test1_current';
+  String colTrailerTest2Current = 'test2_current';
+  String colTrailerTest3Current = 'test3_current';
   String colTrailerTest4Current = 'test4_current';
 
   DatabaseHelper._createInstance(); // Named constructor to create instance of DatabaseHelper
@@ -81,9 +81,12 @@ class DatabaseHelper {
   Future<Database> initializeDatabase() async {
     // Get the directory path for both Android and iOS to store database.
     // TODO: re enable this for on device runs
-    //Directory directory = await getApplicationDocumentsDirectory();
-    //String path = p.join(directory.toString(),'HitchDatabase.db');
-    String path = '/Users/mars/Desktop/HitchDatabase.db';
+    Directory directory = await getApplicationDocumentsDirectory();
+    String path = p.join(directory.toString(),'HitchDatabase.db');
+    // TODO: use the following path for local debugging
+    //String path = '/Users/mars/Desktop/HitchDatabase.db';
+
+    // Log the database path for debugging purposes
     print(path);
 
     // Open/create the database at a given path

@@ -1,6 +1,17 @@
-import 'package:HITCH/utils/database_helper.dart';
+// Flutter Packages
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+
+// Models
 import 'package:HITCH/models/database.dart';
+
+// Utils
+import 'package:HITCH/utils/database_helper.dart';
+
+
+///#############################################################################
+///
+///#############################################################################
 
 class ResultsPage extends StatefulWidget {
   final CustomerData custData;
@@ -13,7 +24,9 @@ class ResultsPage extends StatefulWidget {
 }
 
 class ResultsPageState extends State<ResultsPage> {
-  DatabaseHelper helper = DatabaseHelper();
+  // Pull GetIt Singleton and create pointers to Singleton Helpers
+  static GetIt sl = GetIt.instance;
+  final DatabaseHelper dbHelper = sl.get<DatabaseHelper>();
 
   // Pass customer data into this state
   final CustomerData custData;
@@ -42,15 +55,15 @@ class ResultsPageState extends State<ResultsPage> {
               SizedBox(height: 20),
               Align(
                 alignment: Alignment.centerLeft,
-                child:  PrintDatabaseResponses(helper, 'SELECT name FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1', 'Name from Database', 1.15),
+                child:  PrintDatabaseResponses(dbHelper, 'SELECT name FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1', 'Name from Database', 1.15),
               ),
               Align(
                   alignment: Alignment.centerLeft,
-                  child: PrintDatabaseResponses(helper, 'SELECT truckplate FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1', 'Truck from Database', 1.15),
+                  child: PrintDatabaseResponses(dbHelper, 'SELECT truckplate FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1', 'Truck from Database', 1.15),
               ),
               Align(
                   alignment: Alignment.centerLeft,
-                  child: PrintDatabaseResponses(helper, 'SELECT trailerplate FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1', 'Trailer from Database', 1.15),
+                  child: PrintDatabaseResponses(dbHelper, 'SELECT trailerplate FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1', 'Trailer from Database', 1.15),
               ),
               TruckResults(),
               TrailerResults(),
@@ -63,7 +76,9 @@ class ResultsPageState extends State<ResultsPage> {
 }
 
 class TruckResults extends StatelessWidget {
-  DatabaseHelper helper = DatabaseHelper();
+  // Pull GetIt Singleton and create pointers to Singleton Helpers
+  static GetIt sl = GetIt.instance;
+  final DatabaseHelper dbHelper = sl.get<DatabaseHelper>();
 
   Widget build(BuildContext context){
     return new Align(
@@ -76,26 +91,26 @@ class TruckResults extends StatelessWidget {
           children: <Widget>[
             // Truck test result 1
             Text('Truck Test 1:', style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5)),
-            PrintDatabaseCurrentResult(helper, 'SELECT test1_current FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
-            PrintDatabaseResponses(helper, 'SELECT test1_result FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 1),
+            PrintDatabaseCurrentResult(dbHelper, 'SELECT test1_current FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
+            PrintDatabaseResponses(dbHelper, 'SELECT test1_result FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 1),
 
             // Truck test result 2
             SizedBox(height: 15),
             Text('Truck Test 2:', style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5)),
-            PrintDatabaseCurrentResult(helper, 'SELECT test2_current FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
-            PrintDatabaseResponses(helper, 'SELECT test2_result FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 1),
+            PrintDatabaseCurrentResult(dbHelper, 'SELECT test2_current FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
+            PrintDatabaseResponses(dbHelper, 'SELECT test2_result FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 1),
 
             // Truck test result 3
             SizedBox(height: 15),
             Text('Truck Test 3:', style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5)),
-            PrintDatabaseCurrentResult(helper, 'SELECT test3_current FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
-            PrintDatabaseResponses(helper, 'SELECT test3_result FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 1),
+            PrintDatabaseCurrentResult(dbHelper, 'SELECT test3_current FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
+            PrintDatabaseResponses(dbHelper, 'SELECT test3_result FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 1),
 
             // Truck test result 4
             SizedBox(height: 15),
             Text('Truck Test 4:', style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5)),
-            PrintDatabaseCurrentResult(helper, 'SELECT test4_current FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
-            PrintDatabaseResponses(helper, 'SELECT test4_result FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 1),
+            PrintDatabaseCurrentResult(dbHelper, 'SELECT test4_current FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
+            PrintDatabaseResponses(dbHelper, 'SELECT test4_result FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 1),
           ],
         ),
       ),
@@ -104,7 +119,9 @@ class TruckResults extends StatelessWidget {
 }
 
 class TrailerResults extends StatelessWidget {
-  DatabaseHelper helper = DatabaseHelper();
+  // Pull GetIt Singleton and create pointers to Singleton Helpers
+  static GetIt sl = GetIt.instance;
+  final DatabaseHelper dbHelper = sl.get<DatabaseHelper>();
 
   Widget build(BuildContext context){
     return new Align(
@@ -117,26 +134,26 @@ class TrailerResults extends StatelessWidget {
           children: <Widget>[
             // Truck test result 1
             Text('Trailer Test 1:', style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5)),
-            PrintDatabaseCurrentResult(helper, 'SELECT test1_current FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
-            PrintDatabaseResponses(helper, 'SELECT test1_result FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 1),
+            PrintDatabaseCurrentResult(dbHelper, 'SELECT test1_current FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
+            PrintDatabaseResponses(dbHelper, 'SELECT test1_result FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 1),
 
             // Truck test result 2
             SizedBox(height: 15),
             Text('Trailer Test 2:', style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5)),
-            PrintDatabaseCurrentResult(helper, 'SELECT test2_current FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
-            PrintDatabaseResponses(helper, 'SELECT test2_result FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 1),
+            PrintDatabaseCurrentResult(dbHelper, 'SELECT test2_current FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
+            PrintDatabaseResponses(dbHelper, 'SELECT test2_result FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 1),
 
             // Truck test result 3
             SizedBox(height: 15),
             Text('Trailer Test 3:', style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5)),
-            PrintDatabaseCurrentResult(helper, 'SELECT test3_current FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
-            PrintDatabaseResponses(helper, 'SELECT test3_result FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 1),
+            PrintDatabaseCurrentResult(dbHelper, 'SELECT test3_current FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
+            PrintDatabaseResponses(dbHelper, 'SELECT test3_result FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 1),
 
             // Truck test result 4
             SizedBox(height: 15),
             Text('Trailer Test 4:', style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5)),
-            PrintDatabaseCurrentResult(helper, 'SELECT test4_current FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
-            PrintDatabaseResponses(helper, 'SELECT test4_result FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 1),
+            PrintDatabaseCurrentResult(dbHelper, 'SELECT test4_current FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
+            PrintDatabaseResponses(dbHelper, 'SELECT test4_result FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 1),
           ],
         ),
       ),

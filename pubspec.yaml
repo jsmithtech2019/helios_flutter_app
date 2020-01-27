@@ -29,6 +29,14 @@ dependencies:
   # Open links and other applications
   url_launcher: ^5.2.5
 
+  # Create better Singleton management using GetIt
+  # TODO: Using version V2 of flutter requires more specialized
+  # TODO: GetIt commands so ensure that these are implemented correctly!
+  get_it: ^3.1.0
+
+  # Write useful logging for debugging of application
+  logger: ^0.8.3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

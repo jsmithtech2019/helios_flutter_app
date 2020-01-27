@@ -1,12 +1,27 @@
-import 'package:HITCH/screens/testing_complete.dart';
+// Flutter Packages
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+
+// Models
 import 'package:HITCH/models/database.dart';
+
+// Screens
+import 'package:HITCH/screens/testing_complete.dart';
+
+// Utils
 import 'package:HITCH/utils/database_helper.dart';
 
-class TrailerTestingPage extends StatelessWidget {
-  final CustomerData custData;
 
-  final DatabaseHelper helper = DatabaseHelper();
+///#############################################################################
+///
+///#############################################################################
+
+class TrailerTestingPage extends StatelessWidget {
+  // Pull GetIt Singleton and create pointers to Singleton Helpers
+  static GetIt sl = GetIt.instance;
+  final DatabaseHelper dbHelper = sl.get<DatabaseHelper>();
+
+  final CustomerData custData;
 
   TrailerTestingPage({this.custData});
 
@@ -21,7 +36,7 @@ class TrailerTestingPage extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Text('I guess we start trailer testing now?'),
-              PrintDatabaseResponses(helper, 'SELECT name FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1', 'Running test for Customer', 1.5),
+              PrintDatabaseResponses(dbHelper, 'SELECT name FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1', 'Running test for Customer', 1.5),
               RaisedButton(
                 onPressed: () {
                   Navigator.push(
