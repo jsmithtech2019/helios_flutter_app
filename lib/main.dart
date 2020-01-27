@@ -38,13 +38,8 @@ class HeliosApp extends StatefulWidget{
 class HeliosAppStateful extends State<HeliosApp> {
   @override
   Widget build(BuildContext context) {
-    /*
-
-     */
     // Generate Singleton GetIt for usage on all Sheets
     GetIt getIt = GetIt.asNewInstance();
-
-    // Create Singletons that will be registered on GetIt
 
     // Generated and register Singletons into GetIt instance
     getIt.registerSingleton<DatabaseHelper>(DatabaseHelper());
@@ -68,41 +63,3 @@ class HeliosAppStateful extends State<HeliosApp> {
     );
   } // Build
 } // Class
-
-
-/*
-
-Use this for cool animated things
-  AnimatedContainer(
-    duration: Duration(seconds: 2),
-    etc
-  )
-
-Use this for keeping an image on screen between screen changes without
-redrawing
-  Hero(
-
-  )
-
---profile in running app to see the FPS on physical device
-
-Used to show the proper widget based on Android or iOS, can also use adaptive flag
-  Platform(
-  )
-
-Builders are functions that build widgets
-  Use with lists to page things etc
-
-// Statemanagement solutions
-get_it
-  CREATE GLOBAL SINGLETON -> USE FOR THE DB SINGLETON
-
-provider
-  Very good for state management too, can be accessed with a bunch
-  of other pages etc
-
-// Icons
-flutter_launcher_icons
-  already used, autogens all the icons for Android
-  and iOS
-*/
