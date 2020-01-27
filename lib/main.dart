@@ -29,6 +29,9 @@ import 'package:HITCH/utils/home_widget.dart';
 GetIt sl = GetIt.instance;
 
 void main() {
+  // Wait until ASYNC calls are completed before starting the application
+  WidgetsFlutterBinding.ensureInitialized();
+
   // Generate Singleton GetIt for usage on all Sheets
   GetIt.asNewInstance();
 
