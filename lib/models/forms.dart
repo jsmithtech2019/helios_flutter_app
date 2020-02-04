@@ -380,6 +380,7 @@ class EmployeeFormState extends State<EmployeeForm> {
 //              }
 //              return null;
 //            },
+            obscureText: true,
             decoration: InputDecoration(
               contentPadding: EdgeInsets.all(20),
               hintText: 'Employee Password',

@@ -72,9 +72,17 @@ void main() {
       '0, 13.9, '
       '1, .98)');
 
-  // Dummy User Data
-  dbHelper.executeRawQuery('INSERT INTO CUSTOMER_DATA (name, phone, email, addr1, addr2, city, state, zip, truckplate, trailerplate) VALUES ('
-      '"Jack Smith", "11111", "dummy@gmail.com", "addr1", "addr2", "cstat", "tx", "7777", "truckplateval", "trailerplateval")');
+  // Dummy Customer Data
+  dbHelper.executeRawQuery('INSERT INTO CUSTOMER_DATA (name, phone, email, '
+      'addr1, addr2, city, state, zip, truckplate, trailerplate) VALUES ('
+      '"Jack Smith", "11111", "dummy@gmail.com", "addr1", "addr2", "cstat", '
+      '"tx", "7777", "truckplateval", "trailerplateval")');
+  
+  // Dummy Employee Data
+  dbHelper.executeRawQuery('INSERT INTO ADMIN_DATA (name, phone, email, pass, '
+      'moduleID, dealership, dealer_uuid) VALUES ("Christian Ledgard", '
+      '"7138983810", "christianledgard@tamu.edu", '
+      '"password", "HITCH001", "Helios", "lkjfAIFhjsfdY78325")');
 
   runApp(HeliosApp());
 }

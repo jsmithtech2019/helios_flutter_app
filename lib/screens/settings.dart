@@ -25,56 +25,79 @@ class SettingsPage extends StatelessWidget {
         child: Container(
           margin: EdgeInsets.all(24),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(
-                'Current Configuration:',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
-              ),
-              SizedBox(height: 15),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: PrintDatabaseResponses(dbHelper,
-                    'SELECT name FROM ADMIN_DATA ORDER BY id DESC LIMIT 1',
-                    'Employee Name', 17),
-              ),
-              SizedBox(height: 5),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: PrintDatabaseResponses(dbHelper,
-                    'SELECT email FROM ADMIN_DATA ORDER BY id DESC LIMIT 1',
-                    'Employee Name', 17),
-              ),
-              SizedBox(height: 5),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: PrintDatabaseResponses(dbHelper,
-                    'SELECT dealership FROM ADMIN_DATA ORDER BY id DESC LIMIT 1',
-                    'Dealership', 17),
-              ),
-              SizedBox(height: 5),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: PrintDatabaseResponses(dbHelper,
-                    'SELECT dealer_uuid FROM ADMIN_DATA ORDER BY id DESC LIMIT 1',
-                    'Dealership UUID', 17),
-              ),
-              SizedBox(height: 5),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: PrintDatabaseResponses(dbHelper,
-                    'SELECT moduleID FROM ADMIN_DATA ORDER BY id DESC LIMIT 1',
-                    'Paired Module', 17),
-              ),
-              SizedBox(height: 20),
-              Text(
-                'Update Configuration:',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
-              ),
-              SizedBox(height: 15),
-              new EmployeeForm(),
+              new SeparatorBox("General Inquiries"),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    'Current Configuration:',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                  ),
+                  SizedBox(height: 15),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: PrintDatabaseResponses(dbHelper,
+                        'SELECT name FROM ADMIN_DATA ORDER BY id DESC LIMIT 1',
+                        'Employee Name', 17),
+                  ),
+                  SizedBox(height: 5),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: PrintDatabaseResponses(dbHelper,
+                        'SELECT email FROM ADMIN_DATA ORDER BY id DESC LIMIT 1',
+                        'Employee Name', 17),
+                  ),
+                  SizedBox(height: 5),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: PrintDatabaseResponses(dbHelper,
+                        'SELECT dealership FROM ADMIN_DATA ORDER BY id DESC LIMIT 1',
+                        'Dealership', 17),
+                  ),
+                  SizedBox(height: 5),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: PrintDatabaseResponses(dbHelper,
+                        'SELECT dealer_uuid FROM ADMIN_DATA ORDER BY id DESC LIMIT 1',
+                        'Dealership UUID', 17),
+                  ),
+                  SizedBox(height: 5),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: PrintDatabaseResponses(dbHelper,
+                        'SELECT moduleID FROM ADMIN_DATA ORDER BY id DESC LIMIT 1',
+                        'Paired Module', 17),
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    'Update Configuration:',
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                  ),
+                  new EmployeeForm(),
+                ],
+              )
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class SeparatorBox extends StatelessWidget {
+  final String text;
+  SeparatorBox(this.text);
+
+  Widget build(BuildContext context){
+    return Container(
+      color: Colors.blueGrey[800],
+      alignment: Alignment.centerLeft,
+      height: 60,
+      child: Text("     $text:",
+        style: TextStyle(
+          fontSize: 25,
+          fontWeight: FontWeight.bold,
         ),
       ),
     );
