@@ -26,13 +26,13 @@ class CustomerPage extends StatelessWidget {
         body: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              new Text(""),
+              SizedBox(height: 20),
               new Text("Insert Customer Details:",
                 style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0),
               ),
-              new Text(""),
-              new MyCustomForm(),
-              new Text(""),
+              SizedBox(height: 20),
+              new CustomerForm(),
+              SizedBox(height: 20),
             ],
           ),
         ),

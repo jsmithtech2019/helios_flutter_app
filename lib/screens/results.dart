@@ -49,20 +49,27 @@ class ResultsPageState extends State<ResultsPage> {
           child: Column(
             children: <Widget>[
               Text("Showing test result for:",
-                style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)
+                //style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0),
               ),
               SizedBox(height: 20),
               Align(
                 alignment: Alignment.centerLeft,
-                child:  PrintDatabaseResponses(dbHelper, 'SELECT name FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1', 'Name from Database', 1.5),
+                child:  PrintDatabaseResponses(dbHelper,
+                    'SELECT name FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1',
+                    'Customer', 20),
               ),
               Align(
                   alignment: Alignment.centerLeft,
-                  child: PrintDatabaseResponses(dbHelper, 'SELECT truckplate FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1', 'Truck from Database', 1.5),
+                  child: PrintDatabaseResponses(dbHelper,
+                      'SELECT truckplate FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1',
+                      'Truck License Plate', 20),
               ),
               Align(
                   alignment: Alignment.centerLeft,
-                  child: PrintDatabaseResponses(dbHelper, 'SELECT trailerplate FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1', 'Trailer from Database', 1.5),
+                  child: PrintDatabaseResponses(dbHelper,
+                      'SELECT trailerplate FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1',
+                      'Trailer License Plate', 20),
               ),
               TruckResults(),
               TrailerResults(),
@@ -91,25 +98,25 @@ class TruckResults extends StatelessWidget {
             // Truck test result 1
             Text('Truck Test 1:', style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5)),
             PrintDatabaseCurrentResult(dbHelper, 'SELECT test1_current FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
-            PrintDatabaseResponses(dbHelper, 'SELECT test1_result FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 1),
+            PrintDatabaseResponses(dbHelper, 'SELECT test1_result FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 14),
 
             // Truck test result 2
             SizedBox(height: 15),
             Text('Truck Test 2:', style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5)),
             PrintDatabaseCurrentResult(dbHelper, 'SELECT test2_current FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
-            PrintDatabaseResponses(dbHelper, 'SELECT test2_result FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 1),
+            PrintDatabaseResponses(dbHelper, 'SELECT test2_result FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 14),
 
             // Truck test result 3
             SizedBox(height: 15),
             Text('Truck Test 3:', style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5)),
             PrintDatabaseCurrentResult(dbHelper, 'SELECT test3_current FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
-            PrintDatabaseResponses(dbHelper, 'SELECT test3_result FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 1),
+            PrintDatabaseResponses(dbHelper, 'SELECT test3_result FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 14),
 
             // Truck test result 4
             SizedBox(height: 15),
             Text('Truck Test 4:', style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5)),
             PrintDatabaseCurrentResult(dbHelper, 'SELECT test4_current FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
-            PrintDatabaseResponses(dbHelper, 'SELECT test4_result FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 1),
+            PrintDatabaseResponses(dbHelper, 'SELECT test4_result FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 14),
           ],
         ),
       ),
@@ -134,25 +141,25 @@ class TrailerResults extends StatelessWidget {
             // Truck test result 1
             Text('Trailer Test 1:', style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5)),
             PrintDatabaseCurrentResult(dbHelper, 'SELECT test1_current FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
-            PrintDatabaseResponses(dbHelper, 'SELECT test1_result FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 1),
+            PrintDatabaseResponses(dbHelper, 'SELECT test1_result FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 14),
 
             // Truck test result 2
             SizedBox(height: 15),
             Text('Trailer Test 2:', style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5)),
             PrintDatabaseCurrentResult(dbHelper, 'SELECT test2_current FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
-            PrintDatabaseResponses(dbHelper, 'SELECT test2_result FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 1),
+            PrintDatabaseResponses(dbHelper, 'SELECT test2_result FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 14),
 
             // Truck test result 3
             SizedBox(height: 15),
             Text('Trailer Test 3:', style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5)),
             PrintDatabaseCurrentResult(dbHelper, 'SELECT test3_current FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
-            PrintDatabaseResponses(dbHelper, 'SELECT test3_result FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 1),
+            PrintDatabaseResponses(dbHelper, 'SELECT test3_result FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 14),
 
             // Truck test result 4
             SizedBox(height: 15),
             Text('Trailer Test 4:', style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5)),
             PrintDatabaseCurrentResult(dbHelper, 'SELECT test4_current FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
-            PrintDatabaseResponses(dbHelper, 'SELECT test4_result FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 1),
+            PrintDatabaseResponses(dbHelper, 'SELECT test4_result FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 14),
           ],
         ),
       ),

@@ -21,9 +21,11 @@ import 'package:HITCH/utils/database_helper.dart';
 ///#############################################################################
 
 class Home extends StatefulWidget {
-  final CustomerData custData;
   int setIndex = 0;
-  Home({this.custData, this.setIndex});
+
+  Home(int index){
+    this.setIndex = index;
+  }
 
   @override
   State<StatefulWidget> createState() {
@@ -41,6 +43,10 @@ class _HomeState extends State<Home> {
   ];
   @override
   Widget build(BuildContext context) {
+    if(widget.setIndex != 0){
+      setIndex(widget.setIndex);
+    }
+    //_currentIndex = widget.setIndex;
     return Scaffold(
       body: _children[_currentIndex],
       backgroundColor: Colors.black12,
@@ -67,13 +73,20 @@ class _HomeState extends State<Home> {
               title: new Text('Help'),
             )
           ],
-          fixedColor: Colors.cyanAccent,
+          fixedColor: Colors.blue[300],
         ),
       ),
     );
   }
   void onTabTapped(int index) {
     setState(() {
+      _currentIndex = index;
+    });
+  }
+
+  void setIndex(int index) {
+    setState(() {
+      widget.setIndex = 0;
       _currentIndex = index;
     });
   }

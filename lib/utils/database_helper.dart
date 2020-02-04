@@ -12,7 +12,7 @@ import 'package:HITCH/models/database.dart';
 
 
 ///#############################################################################
-///                            testing_init.dart
+///                            database_helper.dart
 ///#############################################################################
 
 class DatabaseHelper {
@@ -23,6 +23,7 @@ class DatabaseHelper {
   // Shared table values
   String colId = 'id';
   String colTimestamp = 'timestamp';
+  String colCustomerId = 'customerid';
 
   // TESTING_DATA Database
   String custTable = 'CUSTOMER_DATA';
@@ -125,6 +126,7 @@ class DatabaseHelper {
 
   void _createAdminDb(Database db, int newVersion) async {
     await db.execute('CREATE TABLE $adminTable('
+        '$colId INTEGER PRIMARY KEY AUTOINCREMENT,'
         '$colEmployeeName TEXT, '
         '$colEmployeePhoneNumber TEXT, '
         '$colEmployeeEmail TEXT, '
@@ -137,6 +139,7 @@ class DatabaseHelper {
   void _createTruckDb(Database db, int newVersion) async {
     await db.execute('CREATE TABLE $truckTable('
         '$colId INTEGER PRIMARY KEY NOT NULL, '
+        '$colCustomerId INTEGER, '
         '$colTruckTest1Result INTEGER, '
         '$colTruckTest1Current REAL, '
         '$colTruckTest2Result INTEGER, '
@@ -145,12 +148,14 @@ class DatabaseHelper {
         '$colTruckTest3Current REAL, '
         '$colTruckTest4Result INTEGER, '
         '$colTruckTest4Current REAL, '
-        '$colTimestamp DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL)');
+        '$colTimestamp DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL, '
+        'FOREIGN KEY($colCustomerId) REFERENCES $custTable($colId))');
   }
 
   void _createTrailerDb(Database db, int newVersion) async {
     await db.execute('CREATE TABLE $trailerTable('
         '$colId INTEGER PRIMARY KEY NOT NULL, '
+        '$colCustomerId INTEGER, '
         '$colTrailerTest1Result INTEGER, '
         '$colTrailerTest1Current REAL, '
         '$colTrailerTest2Result INTEGER, '
@@ -159,7 +164,8 @@ class DatabaseHelper {
         '$colTrailerTest3Current REAL, '
         '$colTrailerTest4Result INTEGER, '
         '$colTrailerTest4Current REAL, '
-        '$colTimestamp DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL)');
+        '$colTimestamp DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL, '
+        'FOREIGN KEY($colCustomerId) REFERENCES $custTable($colId))');
   }
 
   // Fetch Operation: Get all testData objects from database
@@ -189,6 +195,12 @@ class DatabaseHelper {
   Future<int> deleteCustomerData(int id) async {
     var db = await this.database;
     int result = await db.rawDelete('DELETE FROM $custTable WHERE $colId = $id');
+    return result;
+  }
+
+  Future<int> insertAdminData(AdminData adminData) async {
+    Database db = await this.database;
+    var result = await db.insert(adminTable, adminData.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
     return result;
   }
 
@@ -248,7 +260,8 @@ class PrintDatabaseResponses extends StatelessWidget {
                 return new Text('Error: ${snapshot.error}');
               } else {
                 return new Text('$successStatement: ${snapshot.data}',
-                  style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: size),
+                  style: TextStyle(fontStyle: FontStyle.italic, fontSize: size)
+                  //style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: size),
                 );
               }
           }

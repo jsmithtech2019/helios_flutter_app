@@ -1,4 +1,7 @@
 // Flutter Packages
+import 'dart:io';
+
+import 'package:HITCH/screens/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
@@ -11,6 +14,7 @@ import 'package:HITCH/screens/testing_truck.dart';
 
 // Utils
 import 'package:HITCH/utils/database_helper.dart';
+import 'package:HITCH/utils/home_widget.dart';
 
 
 ///#############################################################################
@@ -18,16 +22,16 @@ import 'package:HITCH/utils/database_helper.dart';
 ///#############################################################################
 
 // Define a custom Form widget.
-class MyCustomForm extends StatefulWidget {
+class CustomerForm extends StatefulWidget {
   @override
-  MyCustomFormState createState() {
-    return MyCustomFormState();
+  CustomerFormState createState() {
+    return CustomerFormState();
   }
 }
 
 // Define a corresponding State class.
 // This class holds data related to the form.
-class MyCustomFormState extends State<MyCustomForm> {
+class CustomerFormState extends State<CustomerForm> {
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
   //
@@ -228,7 +232,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                         truckLicensePlateController.text,
                         trailerLicensePlateController.text
                     );
-                    dbHelper.initializeDatabase().then((onValue){print("Done initializing");});
+                    //dbHelper.initializeDatabase().then((onValue){print("Done initializing");});
                     dbHelper.insertCustomerData(custData);
                     Scaffold.of(context)
                         .showSnackBar(SnackBar(content: Text('Processing Data')));
@@ -285,3 +289,175 @@ class MyCustomFormState extends State<MyCustomForm> {
   }
 }
 
+// Define a custom Form widget.
+class EmployeeForm extends StatefulWidget {
+  @override
+  EmployeeFormState createState() {
+    return EmployeeFormState();
+  }
+}
+
+// Define a corresponding State class.
+// This class holds data related to the form.
+class EmployeeFormState extends State<EmployeeForm> {
+  // Create a global key that uniquely identifies the Form widget
+  // and allows validation of the form.
+  //
+  // Note: This is a `GlobalKey<FormState>`,
+  // not a GlobalKey<MyCustomFormState>.
+  final _formKey = GlobalKey<FormState>();
+
+  // Pull GetIt Singleton and create pointers to Singleton Helpers
+  final DatabaseHelper dbHelper = GetIt.instance<DatabaseHelper>();
+
+  @override
+  Widget build(BuildContext context) {
+    // Build a Form widget using the _formKey created above.
+    TextEditingController employeeNameController = new TextEditingController();
+    TextEditingController employeePhoneNumberController = new TextEditingController();
+    TextEditingController employeeEmailController = new TextEditingController();
+    TextEditingController employeePassController = new TextEditingController();
+    TextEditingController moduleID = new TextEditingController();
+    TextEditingController dealership = new TextEditingController();
+    TextEditingController dealershipUUID = new TextEditingController();
+
+    return Form(
+        key: _formKey,
+        child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          new TextFormField(
+            controller: employeeNameController,
+            textAlign: TextAlign.left,
+//            validator: (value) {
+//              if (value.isEmpty) {
+//                return 'Please provide Trailer License Plate';
+//              }
+//              return null;
+//            },
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.all(20),
+              hintText: 'Employee Name',
+              hintStyle: TextStyle(color: Colors.grey),
+            ),
+          ),
+          new TextFormField(
+            controller: employeePhoneNumberController,
+            textAlign: TextAlign.left,
+//            validator: (value) {
+//              if (value.isEmpty) {
+//                return 'Please provide Trailer License Plate';
+//              }
+//              return null;
+//            },
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.all(20),
+              hintText: 'Employee Phone Number',
+              hintStyle: TextStyle(color: Colors.grey),
+            ),
+          ),
+          new TextFormField(
+            controller: employeeEmailController,
+            textAlign: TextAlign.left,
+//            validator: (value) {
+//              if (value.isEmpty) {
+//                return 'Please provide Trailer License Plate';
+//              }
+//              return null;
+//            },
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.all(20),
+              hintText: 'Employee Email',
+              hintStyle: TextStyle(color: Colors.grey),
+            ),
+          ),
+          new TextFormField(
+            controller: employeePassController,
+            textAlign: TextAlign.left,
+//            validator: (value) {
+//              if (value.isEmpty) {
+//                return 'Please provide Trailer License Plate';
+//              }
+//              return null;
+//            },
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.all(20),
+              hintText: 'Employee Password',
+              hintStyle: TextStyle(color: Colors.grey),
+            ),
+          ),
+          new TextFormField(
+            controller: moduleID,
+            textAlign: TextAlign.left,
+//            validator: (value) {
+//              if (value.isEmpty) {
+//                return 'Please provide Trailer License Plate';
+//              }
+//              return null;
+//            },
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.all(20),
+              hintText: 'Module ID',
+              hintStyle: TextStyle(color: Colors.grey),
+            ),
+          ),
+          new TextFormField(
+            controller: dealership,
+            textAlign: TextAlign.left,
+//            validator: (value) {
+//              if (value.isEmpty) {
+//                return 'Please provide Trailer License Plate';
+//              }
+//              return null;
+//            },
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.all(20),
+              hintText: 'Dealership',
+              hintStyle: TextStyle(color: Colors.grey),
+            ),
+          ),
+          new TextFormField(
+            controller: dealershipUUID,
+            textAlign: TextAlign.left,
+//            validator: (value) {
+//              if (value.isEmpty) {
+//                return 'Please provide Trailer License Plate';
+//              }
+//              return null;
+//            },
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.all(20),
+              hintText: 'Dealership UUID',
+              hintStyle: TextStyle(color: Colors.grey),
+            ),
+          ),
+          RaisedButton(
+            onPressed: () {
+              // Validate returns true if the form is valid, or false
+              // otherwise.
+              if (_formKey.currentState.validate()) {
+                // If the form is valid, display a Snackbar.
+                final adminData = AdminData(
+                  employeeNameController.text,
+                  employeePhoneNumberController.text,
+                  employeeEmailController.text,
+                  employeePassController.text,
+                  moduleID.text,
+                  dealership.text,
+                  dealershipUUID.text,
+                );
+                //dbHelper.initializeDatabase().then((onValue){print("Done initializing");});
+                dbHelper.insertAdminData(adminData);
+                Scaffold.of(context).showSnackBar(SnackBar(content: Text('Processing Data')));
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(builder: (context) => Home(2)),
+                    (Route<dynamic> route) => false);
+              } // if
+            }, // onPressed
+            child: Text('Update Admin Configuration'),
+          ),
+        ],
+        ),
+    );
+  }
+}

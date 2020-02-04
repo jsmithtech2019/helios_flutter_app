@@ -91,7 +91,7 @@ class HeliosAppStateful extends State<HeliosApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'HITCH Controller Application',
-      home: Home(),
+      home: Home(0),
       theme: ThemeData(
         brightness: Brightness.dark,
         primarySwatch: Colors.blueGrey,

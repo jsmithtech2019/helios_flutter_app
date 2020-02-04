@@ -64,12 +64,13 @@ class TestingCompletePage extends StatelessWidget {
               RaisedButton(
                 onPressed: () {
                   Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(
-                          builder: (context) => Home(
-                            //testData: testData,
-                          )
-                      ),
-                          (Route<dynamic> route) => false);
+                    MaterialPageRoute(
+                        builder: (context) => Home(
+                          //testData: testData,
+                          2
+                        )
+                    ),
+                    (Route<dynamic> route) => false);
                 }, // onPressed
                 child: Text('Return to Home Page'),
               ),
