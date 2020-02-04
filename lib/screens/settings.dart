@@ -6,6 +6,8 @@ import 'package:HITCH/models/forms.dart';
 // Utils
 import 'package:HITCH/utils/database_helper.dart';
 
+// Models
+import 'package:HITCH/models/seperator.dart';
 
 ///#############################################################################
 ///                            settings.dart
@@ -22,18 +24,15 @@ class SettingsPage extends StatelessWidget {
         title: new Text("Settings"),
       ),
       body: SingleChildScrollView(
-        child: Container(
-          margin: EdgeInsets.all(24),
-          child: Column(
-            children: <Widget>[
-              new SeparatorBox("General Inquiries"),
-              Column(
+        child: Column(
+          children: <Widget>[
+            new SeparatorBox("General Inquiries"),
+            Container(
+              //margin: EdgeInsets.all(24),
+              margin: EdgeInsets.fromLTRB(24, 0, 24, 0),
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(
-                    'Current Configuration:',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
-                  ),
                   SizedBox(height: 15),
                   Align(
                     alignment: Alignment.centerLeft,
@@ -70,36 +69,23 @@ class SettingsPage extends StatelessWidget {
                         'Paired Module', 17),
                   ),
                   SizedBox(height: 20),
-                  Text(
-                    'Update Configuration:',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
-                  ),
-                  new EmployeeForm(),
                 ],
+              ),
+            ),
+            new SeparatorBox("Update Configuration"),
+            Container(
+              margin: EdgeInsets.fromLTRB(24, 0, 24, 0),
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    new EmployeeForm(),
+                  ]
               )
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 }
 
-class SeparatorBox extends StatelessWidget {
-  final String text;
-  SeparatorBox(this.text);
-
-  Widget build(BuildContext context){
-    return Container(
-      color: Colors.blueGrey[800],
-      alignment: Alignment.centerLeft,
-      height: 60,
-      child: Text("     $text:",
-        style: TextStyle(
-          fontSize: 25,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    );
-  }
-}

@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 
 // Models
 import 'package:HITCH/models/database.dart';
+import 'package:HITCH/models/seperator.dart';
 
 // Screens
 import 'package:HITCH/screens/testing_complete.dart';

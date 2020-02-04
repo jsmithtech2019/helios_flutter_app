@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 
 // Models
 import 'package:HITCH/models/forms.dart';
+import 'package:HITCH/models/seperator.dart';
 
 // Utils
 import 'package:HITCH/utils/database_helper.dart';
@@ -26,11 +27,7 @@ class CustomerPage extends StatelessWidget {
         body: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              SizedBox(height: 20),
-              new Text("Insert Customer Details:",
-                style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0),
-              ),
-              SizedBox(height: 20),
+              new SeparatorBox('Insert Customer Details'),
               new CustomerForm(),
               SizedBox(height: 20),
             ],

@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 
 // Models
 import 'package:HITCH/models/database.dart';
+import 'package:HITCH/models/seperator.dart';
 
 // Utils
 import 'package:HITCH/utils/database_helper.dart';
@@ -44,37 +45,38 @@ class ResultsPageState extends State<ResultsPage> {
         title: new Text("Test Results"),
       ),
       body: SingleChildScrollView(
-        child: Container(
-          margin: EdgeInsets.all(20),
-          child: Column(
-            children: <Widget>[
-              Text("Showing test result for:",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)
-                //style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 2.0),
+        child: Column(
+          children: <Widget>[
+            new SeparatorBox("Showing test result for"),
+            Container(
+              margin: EdgeInsets.fromLTRB(24, 0, 24, 0),
+              child: Column(
+                children: <Widget>[
+                  SizedBox(height: 20),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child:  PrintDatabaseResponses(dbHelper,
+                        'SELECT name FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1',
+                        'Customer', 20),
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: PrintDatabaseResponses(dbHelper,
+                        'SELECT truckplate FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1',
+                        'Truck License Plate', 20),
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: PrintDatabaseResponses(dbHelper,
+                        'SELECT trailerplate FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1',
+                        'Trailer License Plate', 20),
+                  ),
+                  TruckResults(),
+                  TrailerResults(),
+                ],
               ),
-              SizedBox(height: 20),
-              Align(
-                alignment: Alignment.centerLeft,
-                child:  PrintDatabaseResponses(dbHelper,
-                    'SELECT name FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1',
-                    'Customer', 20),
-              ),
-              Align(
-                  alignment: Alignment.centerLeft,
-                  child: PrintDatabaseResponses(dbHelper,
-                      'SELECT truckplate FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1',
-                      'Truck License Plate', 20),
-              ),
-              Align(
-                  alignment: Alignment.centerLeft,
-                  child: PrintDatabaseResponses(dbHelper,
-                      'SELECT trailerplate FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1',
-                      'Trailer License Plate', 20),
-              ),
-              TruckResults(),
-              TrailerResults(),
-            ],
-          ),
+            )
+          ],
         ),
       ),
     );
