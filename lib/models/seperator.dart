@@ -7,7 +7,7 @@ class SeparatorBox extends StatelessWidget {
 
   Widget build(BuildContext context){
     return Container(
-      color: Colors.blueGrey[800],
+      color: Colors.blueGrey[600],
       alignment: Alignment.centerLeft,
       height: 60,
       child: Text("     $text:",

@@ -75,8 +75,8 @@ void main() {
   // Dummy Customer Data
   dbHelper.executeRawQuery('INSERT INTO CUSTOMER_DATA (name, phone, email, '
       'addr1, addr2, city, state, zip, truckplate, trailerplate) VALUES ('
-      '"Jack Smith", "11111", "dummy@gmail.com", "addr1", "addr2", "cstat", '
-      '"tx", "7777", "truckplateval", "trailerplateval")');
+      '"Jack Smith", "3038018528", "dummy@gmail.com", "addr1", "addr2", "cstat", '
+      '"tx", "7777", "246zlf", "zlf246")');
   
   // Dummy Employee Data
   dbHelper.executeRawQuery('INSERT INTO ADMIN_DATA (name, phone, email, pass, '
