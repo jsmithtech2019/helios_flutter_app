@@ -33,10 +33,13 @@ class TruckTestingPage extends StatelessWidget {
       ),
       body: Center(
         child: Container(
+          margin: EdgeInsets.all(20),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              PrintDatabaseResponses(dbHelper, 'SELECT name FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1', 'Testing for customer', 1.5),
-              PrintDatabaseResponses(dbHelper, 'SELECT phone FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1', 'Phone number from db', 1.5),
+              PrintDatabaseResponses(dbHelper, 'SELECT name FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1', 'Testing for customer', 20),
+              PrintDatabaseResponses(dbHelper, 'SELECT phone FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1', 'Phone number from db', 20),
+              SizedBox(height: 15),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.center,

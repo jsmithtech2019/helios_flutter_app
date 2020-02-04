@@ -45,31 +45,36 @@ class TestingCompletePage extends StatelessWidget {
       ),
       body: Center(
         child: Container(
+          margin: EdgeInsets.all(20),
           child: Column(
+
             children: <Widget>[
-              Text('Testing completed successfully, please move to the results'
-                  ' tab to view test results.'),
-              /*
-               * This whole function is critical for reading from async function
-               * calls to the SQLite database. The FutureBuilder class reads
-               * on a AsyncSnapshot state that branches either waiting, error,
-               * success or none response. This will need to be called whenever
-               * data is needed to be read from the database and displayed on
-               * the screen prior to drawing.
-               *
-               * Context: https://stackoverflow.com/questions/49930180/flutter-render-widget-after-async-call
-               */
-              PrintDatabaseResponses(dbHelper, 'SELECT name FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1', 'Name from Database', 1.5),
-              PrintDatabaseResponses(dbHelper, 'SELECT email FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1', 'Email from Database', 1.5),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text('Testing completed successfully, please move to the results'
+                      ' tab to view test results.',
+                    style: TextStyle(fontSize: 25),
+                  ),
+                  SizedBox(height: 15),
+                  /*
+                   * This whole function is critical for reading from async function
+                   * calls to the SQLite database. The FutureBuilder class reads
+                   * on a AsyncSnapshot state that branches either waiting, error,
+                   * success or none response. This will need to be called whenever
+                   * data is needed to be read from the database and displayed on
+                   * the screen prior to drawing.
+                   *
+                   * Context: https://stackoverflow.com/questions/49930180/flutter-render-widget-after-async-call
+                   */
+                  PrintDatabaseResponses(dbHelper, 'SELECT name FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1', 'Name from Database', 20),
+                  PrintDatabaseResponses(dbHelper, 'SELECT email FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1', 'Email from Database', 20),
+                ],
+              ),
               RaisedButton(
                 onPressed: () {
                   Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(
-                        builder: (context) => Home(
-                          //testData: testData,
-                          2
-                        )
-                    ),
+                    MaterialPageRoute(builder: (context) => Home(0)),
                     (Route<dynamic> route) => false);
                 }, // onPressed
                 child: Text('Return to Home Page'),

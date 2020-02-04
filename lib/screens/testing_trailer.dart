@@ -32,10 +32,16 @@ class TrailerTestingPage extends StatelessWidget {
       ),
       body: Center(
         child: Container(
+          margin: EdgeInsets.all(20),
           child: Column(
             children: <Widget>[
-              Text('I guess we start trailer testing now?'),
-              PrintDatabaseResponses(dbHelper, 'SELECT name FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1', 'Running test for Customer', 1.5),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  PrintDatabaseResponses(dbHelper, 'SELECT name FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1', 'Running test for Customer', 20),
+                ],
+              ),
+              SizedBox(height: 15),
               RaisedButton(
                 onPressed: () {
                   Navigator.push(
