@@ -45,44 +45,20 @@ void main() {
   var dbHelper = GetIt.instance<DatabaseHelper>();
 
   // Initialize the database on the device
-  dbHelper.initializeDatabase().then((onValue){print("Done initializng");});
+  dbHelper.initializeDatabase().then((onValue){print("Done initializing");});
 
   // TODO: remove test data insertion lines
   // Insert test data for debugging development
   // Dummy Truck Test Data
-  dbHelper.executeRawQuery('INSERT INTO TRUCK_TEST_DATA '
-      '(test1_result, test1_current, '
-      'test2_result, test2_current, '
-      'test3_result, test3_current, '
-      'test4_result, test4_current) '
-      'VALUES '
-      '(0, 21.0, '
-      '1, 1.24, '
-      '0, 13.9, '
-      '1, .98)');
-  // Dummy Trailer Test Data
-  dbHelper.executeRawQuery('INSERT INTO TRAILER_TEST_DATA '
-      '(test1_result, test1_current, '
-      'test2_result, test2_current, '
-      'test3_result, test3_current, '
-      'test4_result, test4_current) '
-      'VALUES '
-      '(0, 21.0, '
-      '1, 1.24, '
-      '0, 13.9, '
-      '1, .98)');
 
-  // Dummy Customer Data
-  dbHelper.executeRawQuery('INSERT INTO CUSTOMER_DATA (name, phone, email, '
-      'addr1, addr2, city, state, zip, truckplate, trailerplate) VALUES ('
-      '"Jack Smith", "3038018528", "dummy@gmail.com", "addr1", "addr2", "cstat", '
-      '"tx", "7777", "246zlf", "zlf246")');
-  
-  // Dummy Employee Data
-  dbHelper.executeRawQuery('INSERT INTO ADMIN_DATA (name, phone, email, pass, '
-      'moduleID, dealership, dealer_uuid) VALUES ("Christian Ledgard", '
-      '"7138983810", "christianledgard@tamu.edu", '
-      '"password", "HITCH001", "Helios", "lkjfAIFhjsfdY78325")');
+  // Only seed data once, if data exists do not write again
+  dbHelper.executeRawQuery("SELECT count(id) FROM CUSTOMER_DATA").then(
+    (onValue){
+      if(onValue[0].values.toList()[0].toString() == "0"){
+        SeedDatabase();
+      }
+    }
+  );
 
   runApp(HeliosApp());
 }
@@ -107,3 +83,30 @@ class HeliosAppStateful extends State<HeliosApp> {
     );
   } // Build
 } // Class
+
+void SeedDatabase(){
+  final DatabaseHelper dbHelper = GetIt.instance<DatabaseHelper>();
+  // Dummy Truck Test Data
+  dbHelper.executeRawQuery('INSERT INTO TRUCK_TEST_DATA '
+      '(test1_result, test1_current, test2_result, test2_current, '
+      'test3_result, test3_current, test4_result, test4_current) '
+      'VALUES (0, 21.0, 1, 1.24, 0, 13.9, 1, .98)');
+
+  // Dummy Trailer Test Data
+  dbHelper.executeRawQuery('INSERT INTO TRAILER_TEST_DATA '
+      '(test1_result, test1_current, test2_result, test2_current, '
+      'test3_result, test3_current, test4_result, test4_current) '
+      'VALUES (0, 21.0, 1, 1.24, 0, 13.9, 1, .98)');
+
+  // Dummy Customer Data
+  dbHelper.executeRawQuery('INSERT INTO CUSTOMER_DATA (name, phone, email, '
+      'addr1, addr2, city, state, zip, truckplate, trailerplate) VALUES ('
+      '"Jack Smith", "3038018528", "dummy@gmail.com", "addr1", "addr2", "cstat", '
+      '"tx", "7777", "246-ZLF", "ZLF-246")');
+
+  // Dummy Employee Data
+  dbHelper.executeRawQuery('INSERT INTO ADMIN_DATA (name, phone, email, pass, '
+      'moduleID, dealership, dealer_uuid) VALUES ("Christian Ledgard", '
+      '"7138983810", "christianledgard@tamu.edu", '
+      '"password", "HITCH001", "Helios", "lkjfAIFhjsfdY78325")');
+}

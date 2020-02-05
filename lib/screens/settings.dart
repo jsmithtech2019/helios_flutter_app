@@ -79,6 +79,7 @@ class SettingsPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     new EmployeeForm(),
+                    SizedBox(height: 20),
                   ]
               )
             ),
