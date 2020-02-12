@@ -31,13 +31,14 @@ class ResultsPageState extends State<ResultsPage> {
   // Pass customer data into this state
   final CustomerData custData;
 
-  String dropDownNameValue, dropDownTestNum;
+  String dropDownNameValue, dropDownTruckTestNum, dropDownTrailerTestNum;
   ResultsPageState(this.custData);
 
   @override
   void initState() {
     dropDownNameValue = "Choose Customer";
-    dropDownTestNum = "Choose Test";
+    dropDownTruckTestNum = "Choose Test";
+    dropDownTrailerTestNum = "Choose Test";
     super.initState();
   }
 
@@ -51,6 +52,7 @@ class ResultsPageState extends State<ResultsPage> {
         child: Column(
           children: <Widget>[
             new SeparatorBox("Showing test result for"),
+            SizedBox(height: 20),
             Container(
               margin: EdgeInsets.fromLTRB(24, 0, 24, 0),
               child: Column(
@@ -96,9 +98,9 @@ class ResultsPageState extends State<ResultsPage> {
                             }
                           }
                       ),
-                      SizedBox(width: 40),
+                      Spacer(),
                       new FutureBuilder<List<String>>(
-                          future: dbHelper.getCustomerNamesList(),
+                          future: dbHelper.getCustomerTruckTestList(dropDownTruckTestNum),
                           builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
                             switch (snapshot.connectionState) {
                               case ConnectionState.none: return new Text("Database Connection Failed!");
@@ -109,14 +111,14 @@ class ResultsPageState extends State<ResultsPage> {
                                   return new Text("Error: ${snapshot.error}");
                                 } else {
 
-                                  if (dropDownTestNum == "Choose Test"){
-                                    snapshot.data.add(dropDownTestNum);
+                                  if (dropDownTruckTestNum == "Choose Test"){
+                                    snapshot.data.add(dropDownTruckTestNum);
                                   }
                                   return Container(
                                     color: Colors.grey[800],
                                     padding: EdgeInsets.fromLTRB(13,3,10,3),
                                     child:DropdownButton<String>(
-                                      value: dropDownTestNum,
+                                      value: dropDownTruckTestNum,
                                       items: snapshot.data.map((String val) {
                                         return new DropdownMenuItem<String>(
                                           value: val,
@@ -126,7 +128,7 @@ class ResultsPageState extends State<ResultsPage> {
                                       onChanged: (String newVal){
                                         // TODO: update the admin configuration to use selected profile
                                         setState(() {
-                                          dropDownTestNum = newVal;
+                                          dropDownTruckTestNum = newVal;
                                         });
                                       },
                                     )
@@ -137,6 +139,66 @@ class ResultsPageState extends State<ResultsPage> {
                       ),
                     ],
                   ),
+                  SizedBox(height: 20),
+                  Row(
+                    children: <Widget>[
+                      SizedBox(
+                        height: 55,
+                        child: RaisedButton(
+                          color: Colors.grey[800],
+                          onPressed: () { print("Tapped");},
+                          child: Text("Show Last Test"),
+                        ),
+                      ),
+                      Spacer(),
+                      new FutureBuilder<List<String>>(
+                          future: dbHelper.getCustomerTruckTestList(dropDownTrailerTestNum),
+                          builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
+                            switch (snapshot.connectionState) {
+                              case ConnectionState.none: return new Text("Database Connection Failed!");
+                              case ConnectionState.waiting: return new CircularProgressIndicator();
+                              case ConnectionState.active: return new CircularProgressIndicator();
+                              default:
+                                if(snapshot.hasError){
+                                  return new Text("Error: ${snapshot.error}");
+                                } else {
+
+                                  if (dropDownTrailerTestNum == "Choose Test"){
+                                    snapshot.data.add(dropDownTrailerTestNum);
+                                  }
+                                  return Container(
+                                      color: Colors.grey[800],
+                                      padding: EdgeInsets.fromLTRB(13,3,10,3),
+                                      child:DropdownButton<String>(
+                                        value: dropDownTrailerTestNum,
+                                        items: snapshot.data.map((String val) {
+                                          return new DropdownMenuItem<String>(
+                                            value: val,
+                                            child: new Text(val),
+                                          );
+                                        }).toList(),
+                                        onChanged: (String newVal){
+                                          // TODO: update the admin configuration to use selected profile
+                                          setState(() {
+                                            dropDownTrailerTestNum = newVal;
+                                          });
+                                        },
+                                      )
+                                  );
+                                }
+                            }
+                          }
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20),
+                ]),
+              ),
+            new SeparatorBox("Showing test result for"),
+            Container(
+              margin: EdgeInsets.fromLTRB(24, 0, 24, 0),
+              child: Column(
+                children: <Widget>[
                   SizedBox(height: 20),
                   Align(
                     alignment: Alignment.centerLeft,

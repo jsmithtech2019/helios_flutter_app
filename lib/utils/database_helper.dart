@@ -253,12 +253,48 @@ class DatabaseHelper {
     var res = await db.rawQuery("SELECT DISTINCT name FROM CUSTOMER_DATA ORDER BY timestamp DESC");
 
     int i = 0;
-
     for (i = 0; i < int.parse(countRes[0].values.toList()[0].toString()); i++){
       realNames.add(res[i].values.toList()[0]);
     }
 
     return realNames;
+  }
+
+  Future<List<String>> getCustomerTrailerTestList(String cust) async {
+    List<String> tests = List<String>();
+    Database db = await this.database;
+    if (cust != "Choose Customer"){
+      var countRes = await db.rawQuery("SELECT count(DISTINCT timestamp) FROM TRAILER_TEST_DATA WHERE customerid = $cust");
+      var res = await db.rawQuery("SELECT id FROM TRAILER_TEST_DATA WHERE customerid = $cust ORDER BY timestamp DESC");
+
+      int i = 0;
+      for (i = 0; i < int.parse(countRes[0].values.toList()[0].toString()); i++){
+        tests.add(res[i].values.toList()[0]);
+      }
+
+      return tests;
+    } else {
+      return [];
+    }
+  }
+
+
+  Future<List<String>> getCustomerTruckTestList(String cust) async {
+    List<String> tests = List<String>();
+    Database db = await this.database;
+    if (cust != "Choose Customer"){
+      var countRes = await db.rawQuery("SELECT count(DISTINCT timestamp) FROM TRUCK_TEST_DATA WHERE customerid = 1");
+      var res = await db.rawQuery("SELECT id FROM TRUCK_TEST_DATA WHERE customerid = 1 ORDER BY timestamp DESC");
+
+      int i = 0;
+      for (i = 0; i < int.parse(countRes[0].values.toList()[0].toString()); i++){
+        tests.add(res[i].values.toList()[0].toString());
+      }
+
+      return tests;
+    } else {
+      return [];
+    }
   }
 
   Future<List<String>> getEmployeeNamesList() async {
