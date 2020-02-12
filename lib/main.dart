@@ -37,15 +37,28 @@ void main() {
 
   // Generated and register Singletons into GetIt instance
   sl.registerSingleton<DatabaseHelper>(DatabaseHelper());
-  sl.registerSingleton<Logger>(Logger());
+  sl.registerSingleton<Logger>(Logger(
+      printer: PrettyPrinter(
+        methodCount: 0,
+        errorMethodCount: 8,
+        lineLength: 100,
+        colors: true,
+        printEmojis: false,
+      )
+  ));
   // TODO: enable the bluetooth singleton
   //getIt.registerSingleton<BluetoothHelper>(BluetoothHelper());
 
   // Get DatabaseHelper Singleton
   var dbHelper = GetIt.instance<DatabaseHelper>();
+  var logHelper = GetIt.instance<Logger>();
 
   // Initialize the database on the device
-  dbHelper.initializeDatabase().then((onValue){print("Done initializing");});
+  dbHelper.initializeDatabase().then(
+    (onValue){
+      logHelper.d("Database has been initialized!");
+    }
+  );
 
   // TODO: remove test data insertion lines
   // Insert test data for debugging development
@@ -55,7 +68,7 @@ void main() {
   dbHelper.executeRawQuery("SELECT count(id) FROM CUSTOMER_DATA").then(
     (onValue){
       if(onValue[0].values.toList()[0].toString() == "0"){
-        SeedDatabase();
+        seedDatabase();
       }
     }
   );
@@ -84,7 +97,7 @@ class HeliosAppStateful extends State<HeliosApp> {
   } // Build
 } // Class
 
-void SeedDatabase(){
+void seedDatabase(){
   final DatabaseHelper dbHelper = GetIt.instance<DatabaseHelper>();
   // Dummy Truck Test Data
   dbHelper.executeRawQuery('INSERT INTO TRUCK_TEST_DATA '
@@ -109,4 +122,6 @@ void SeedDatabase(){
       'moduleID, dealership, dealer_uuid) VALUES ("Christian Ledgard", '
       '"7138983810", "christianledgard@tamu.edu", '
       '"password", "HITCH001", "Helios", "lkjfAIFhjsfdY78325")');
+  
+  logHelper.d("Database has been seeded with test data.");
 }

@@ -1,6 +1,8 @@
 // Flutter Packages
-import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'dart:io';
+import 'package:logger/logger.dart';
+import 'package:flutter/material.dart';
 
 // Models
 import 'package:HITCH/models/database.dart';
@@ -17,43 +19,29 @@ import 'package:HITCH/utils/home_widget.dart';
 class TestingCompletePage extends StatelessWidget {
   // Pull GetIt Singleton and create pointers to Singleton Helpers
   final DatabaseHelper dbHelper = GetIt.instance<DatabaseHelper>();
-
+  var logHelper = GetIt.instance<Logger>();
   final CustomerData custData;
+  final List<Map<String, dynamic>> nameList;
 
-  TestingCompletePage({this.custData});
+  TestingCompletePage({this.custData, this.nameList});
 
   @override
   Widget build (BuildContext context) {
-    //helper.initializeDatabase().then((onValue){print("Done initializing");});
-    //String oldCount = helper.getCount().toString();
-    //helper.insertTestData(customerData);
-    //testData.ID = 2;
-
-    //testData.custEmail = "john.d.smitherton@tamu.edu";
-    //testData.custState = "Colorado";
-    //helper.insertTestData(custData);
-    //helper.updateTestData(testData);
-    //helper.deleteTestData(5);
-    //testData.ID = null;
-    //helper.updateTestData(custData);
-
-    //helper.deleteTestData(25);
-
     return new Scaffold(
       appBar: new AppBar(
         title: new Text("Testing Complete!"),
       ),
-      body: Center(
+      body: SingleChildScrollView(
         child: Container(
           margin: EdgeInsets.all(20),
           child: Column(
-
             children: <Widget>[
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text('Testing completed successfully, please move to the results'
-                      ' tab to view test results.',
+                  Text(
+                    'Testing completed successfully, please move to the results'
+                        ' tab to view test results.',
                     style: TextStyle(fontSize: 25),
                   ),
                   SizedBox(height: 15),
@@ -67,17 +55,48 @@ class TestingCompletePage extends StatelessWidget {
                    *
                    * Context: https://stackoverflow.com/questions/49930180/flutter-render-widget-after-async-call
                    */
-                  PrintDatabaseResponses(dbHelper, 'SELECT name FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1', 'Name from Database', 20),
-                  PrintDatabaseResponses(dbHelper, 'SELECT email FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1', 'Email from Database', 20),
+                  PrintDatabaseResponses(dbHelper,
+                      'SELECT name FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1',
+                      'Name from Database', 20),
+                  PrintDatabaseResponses(dbHelper,
+                      'SELECT email FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1',
+                      'Email from Database', 20),
                 ],
               ),
               RaisedButton(
                 onPressed: () {
                   Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (context) => Home(0)),
-                    (Route<dynamic> route) => false);
+                      MaterialPageRoute(
+                          builder: (context) => Home(0)),
+                          (Route<dynamic> route) => false);
                 }, // onPressed
                 child: Text('Return to Home Page'),
+              ),
+              new FutureBuilder<List<String>>(
+                  future: dbHelper.getCustomerNamesList(),
+                  initialData: List<String>(),
+                  builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.none: return new Text("Database Connection Failed!");
+                      case ConnectionState.waiting: return new CircularProgressIndicator();
+                      case ConnectionState.active: return new CircularProgressIndicator();
+                      default:
+                        if(snapshot.hasError){
+                          return new Text("Error: ${snapshot.error}");
+                        } else {
+                          //return CircularProgressIndicator();
+                          return DropdownButton<String>(
+                            items: snapshot.data.map((String val) {
+                              return new DropdownMenuItem<String>(
+                                value: val,
+                                child: new Text(val),
+                              );
+                            }).toList(),
+                            onChanged: (_){},
+                          );
+                        }
+                    }
+                  }
               ),
             ],
           ),

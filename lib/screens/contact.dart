@@ -34,6 +34,12 @@ class ContactPage extends StatelessWidget {
               new NamePlates("Kenley Pang", "Hardware Engineer", "(979) 571-5010", "kenleypang@tamu.edu", "kenley_header.jpg", "9795715010"),
               new NamePlates("Jonathan Smith", "Software Engineer", "(303) 801-8528", "john.d.smitherton@tamu.edu", "jack_header.jpg", "3038018528"),
               new NamePlates("Diego Espina", "Test/Integration Engineer", "(979) 574-7193", "diegoespina7@tamu.edu", "diego_header.jpg", "9795747193"),
+              RaisedButton(
+                onPressed: () {
+                  SeedDatabase();
+                }, // onPressed
+                child: Text('Init Test Data'),
+              ),
             ],
           )
         ),
@@ -124,4 +130,31 @@ class NamePlates extends StatelessWidget {
       throw 'Could not email $uri';
     }
   }
+}
+
+void SeedDatabase(){
+  final DatabaseHelper dbHelper = GetIt.instance<DatabaseHelper>();
+  // Dummy Truck Test Data
+  dbHelper.executeRawQuery('INSERT INTO TRUCK_TEST_DATA '
+      '(test1_result, test1_current, test2_result, test2_current, '
+      'test3_result, test3_current, test4_result, test4_current) '
+      'VALUES (0, 21.0, 1, 1.24, 0, 13.9, 1, .98)');
+
+  // Dummy Trailer Test Data
+  dbHelper.executeRawQuery('INSERT INTO TRAILER_TEST_DATA '
+      '(test1_result, test1_current, test2_result, test2_current, '
+      'test3_result, test3_current, test4_result, test4_current) '
+      'VALUES (0, 21.0, 1, 1.24, 0, 13.9, 1, .98)');
+
+  // Dummy Customer Data
+  dbHelper.executeRawQuery('INSERT INTO CUSTOMER_DATA (name, phone, email, '
+      'addr1, addr2, city, state, zip, truckplate, trailerplate) VALUES ('
+      '"Jack Smith", "3038018528", "dummy@gmail.com", "addr1", "addr2", "cstat", '
+      '"tx", "7777", "246-ZLF", "ZLF-246")');
+
+  // Dummy Employee Data
+  dbHelper.executeRawQuery('INSERT INTO ADMIN_DATA (name, phone, email, pass, '
+      'moduleID, dealership, dealer_uuid) VALUES ("Christian Ledgard", '
+      '"7138983810", "christianledgard@tamu.edu", '
+      '"password", "HITCH001", "Helios", "lkjfAIFhjsfdY78325")');
 }

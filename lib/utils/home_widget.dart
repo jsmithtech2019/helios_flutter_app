@@ -1,7 +1,7 @@
 // Flutter Packages
 import 'package:flutter/material.dart';
-// TODO: remove get it
 import 'package:get_it/get_it.dart';
+import 'package:logger/logger.dart';
 
 // Models
 import 'package:HITCH/models/database.dart';
@@ -13,8 +13,6 @@ import 'package:HITCH/screens/settings.dart';
 import 'package:HITCH/screens/testing_init.dart';
 
 // Utils
-//TODO: remove db helper
-import 'package:HITCH/utils/database_helper.dart';
 
 ///#############################################################################
 ///                            home_widget.dart
@@ -34,6 +32,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  var logHelper = GetIt.instance<Logger>();
   int _currentIndex = 0;
   final List<Widget> _children = [
     CustomerPage(),
@@ -81,6 +80,7 @@ class _HomeState extends State<Home> {
   void onTabTapped(int index) {
     setState(() {
       _currentIndex = index;
+      logHelper.d('Navigation Tab Tapped, Current index: $_currentIndex ');
     });
   }
 
@@ -88,6 +88,7 @@ class _HomeState extends State<Home> {
     setState(() {
       widget.setIndex = 0;
       _currentIndex = index;
+      logHelper.d('Navigation Index Set, Current index: $_currentIndex ');
     });
   }
 }

@@ -13,9 +13,26 @@ import 'package:HITCH/models/seperator.dart';
 ///                            settings.dart
 ///#############################################################################
 
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends StatefulWidget{
+
+  @override
+  State<StatefulWidget> createState() {
+    return SettingsPageState();
+  }
+}
+
+class SettingsPageState extends State<SettingsPage> {
   // Pull GetIt Singleton and create pointers to Singleton Helpers
   final DatabaseHelper dbHelper = GetIt.instance<DatabaseHelper>();
+  List<DropdownMenuItem<String>> menuItems = new List<DropdownMenuItem<String>>();
+  List<String> names = new List<String>();
+  String dropDownValue;
+
+  @override
+  void initState() {
+    dropDownValue = "Choose Employee";
+    super.initState();
+  }
 
   @override
   Widget build (BuildContext context) {
@@ -72,7 +89,44 @@ class SettingsPage extends StatelessWidget {
                 ],
               ),
             ),
-            new SeparatorBox("Update Configuration"),
+            new SeparatorBox("Choose Existing Configuration"),
+            new FutureBuilder<List<String>>(
+                future: dbHelper.getEmployeeNamesList(),
+                builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.none: return new Text("Database Connection Failed!");
+                    case ConnectionState.waiting: return new CircularProgressIndicator();
+                    case ConnectionState.active: return new CircularProgressIndicator();
+                    default:
+                      if(snapshot.hasError){
+                        return new Text("Error: ${snapshot.error}");
+                      } else {
+                        this.names = snapshot.data;
+
+                        if (dropDownValue == "Choose Employee"){
+                          this.names.add(dropDownValue);
+                        }
+                        return DropdownButton<String>(
+                          value: dropDownValue,
+                          items: this.names.map((String val) {
+                            return new DropdownMenuItem<String>(
+                              value: val,
+                              child: new Text(val),
+                            );
+                          }).toList(),
+                          onChanged: (String newVal){
+                            // TODO: update the admin configuration to use selected profile
+                            setState(() {
+                              dropDownValue = newVal;
+                            });
+                          },
+                        );
+                      }
+                  }
+                }
+            ),
+            SizedBox(height: 20),
+            new SeparatorBox("Add Configuration"),
             Container(
               margin: EdgeInsets.fromLTRB(24, 0, 24, 0),
               child: Column(

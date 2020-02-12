@@ -30,16 +30,19 @@ class ResultsPageState extends State<ResultsPage> {
 
   // Pass customer data into this state
   final CustomerData custData;
+
+  String dropDownNameValue, dropDownTestNum;
   ResultsPageState(this.custData);
 
   @override
+  void initState() {
+    dropDownNameValue = "Choose Customer";
+    dropDownTestNum = "Choose Test";
+    super.initState();
+  }
+
+  @override
   Widget build (BuildContext context) {
-    // TESTING
-//    helper.initializeDatabase();
-//    helper.getCount();
-//    //helper.insertTestData(customerData);
-//    helper.insertTestData(testData);
-//    helper.getCount();
     return new Scaffold(
       appBar: new AppBar(
         title: new Text("Test Results"),
@@ -52,6 +55,88 @@ class ResultsPageState extends State<ResultsPage> {
               margin: EdgeInsets.fromLTRB(24, 0, 24, 0),
               child: Column(
                 children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      new FutureBuilder<List<String>>(
+                          future: dbHelper.getCustomerNamesList(),
+                          builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
+                            switch (snapshot.connectionState) {
+                              case ConnectionState.none: return new Text("Database Connection Failed!");
+                              case ConnectionState.waiting: return new CircularProgressIndicator();
+                              case ConnectionState.active: return new CircularProgressIndicator();
+                              default:
+                                if(snapshot.hasError){
+                                  return new Text("Error: ${snapshot.error}");
+                                } else {
+
+                                  if (dropDownNameValue == "Choose Customer"){
+                                    snapshot.data.add(dropDownNameValue);
+                                  }
+                                  return Container(
+                                    color: Colors.grey[800],
+                                    padding: EdgeInsets.fromLTRB(13,3,10,3),
+                                    child: DropdownButton<String>(
+                                      value: dropDownNameValue,
+                                      items: snapshot.data.map((String val) {
+                                        return new DropdownMenuItem<String>(
+                                          value: val,
+                                          child: new Text(val),
+                                        );
+                                      }).toList(),
+                                      onChanged: (String newVal){
+                                        // TODO: update the admin configuration to use selected profile
+                                        setState(() {
+                                          dropDownNameValue = newVal;
+                                        });
+                                      },
+                                    ),
+                                  );
+                                }
+                            }
+                          }
+                      ),
+                      SizedBox(width: 40),
+                      new FutureBuilder<List<String>>(
+                          future: dbHelper.getCustomerNamesList(),
+                          builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
+                            switch (snapshot.connectionState) {
+                              case ConnectionState.none: return new Text("Database Connection Failed!");
+                              case ConnectionState.waiting: return new CircularProgressIndicator();
+                              case ConnectionState.active: return new CircularProgressIndicator();
+                              default:
+                                if(snapshot.hasError){
+                                  return new Text("Error: ${snapshot.error}");
+                                } else {
+
+                                  if (dropDownTestNum == "Choose Test"){
+                                    snapshot.data.add(dropDownTestNum);
+                                  }
+                                  return Container(
+                                    color: Colors.grey[800],
+                                    padding: EdgeInsets.fromLTRB(13,3,10,3),
+                                    child:DropdownButton<String>(
+                                      value: dropDownTestNum,
+                                      items: snapshot.data.map((String val) {
+                                        return new DropdownMenuItem<String>(
+                                          value: val,
+                                          child: new Text(val),
+                                        );
+                                      }).toList(),
+                                      onChanged: (String newVal){
+                                        // TODO: update the admin configuration to use selected profile
+                                        setState(() {
+                                          dropDownTestNum = newVal;
+                                        });
+                                      },
+                                    )
+                                  );
+                                }
+                            }
+                          }
+                      ),
+                    ],
+                  ),
                   SizedBox(height: 20),
                   Align(
                     alignment: Alignment.centerLeft,

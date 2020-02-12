@@ -1,8 +1,11 @@
 // Flutter Packages
 import 'dart:async';
 import 'dart:io';
+import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:logger/logger.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -14,9 +17,9 @@ import 'package:HITCH/models/database.dart';
 ///#############################################################################
 ///                            database_helper.dart
 ///#############################################################################
+var logHelper = GetIt.instance<Logger>();
 
 class DatabaseHelper {
-
   static DatabaseHelper _databaseHelper;    // Singleton DatabaseHelper
   static Database _database;                // Singleton Database
 
@@ -95,7 +98,7 @@ class DatabaseHelper {
     String path = '/Users/mars/Desktop/HitchDatabase.db';
 
     // Log the database path for debugging purposes
-    print(path);
+    logHelper.d('Using path: $path');
 
     // Open/create the database at a given path
     return await openDatabase(path, version: 1, onCreate: _createTables);
@@ -122,6 +125,7 @@ class DatabaseHelper {
         '$colTruckLicensePlate TEXT NOT NULL, '
         '$colTrailerLicensePlate TEXT NOT NULL,'
         '$colTimestamp DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL)');
+    logHelper.d('Customer table created!');
   }
 
   void _createAdminDb(Database db, int newVersion) async {
@@ -134,6 +138,7 @@ class DatabaseHelper {
         '$colModuleID TEXT, '
         '$colDealership TEXT, '
         '$colDealershipUUID TEXT NOT NULL)');
+    logHelper.d('Admin table created!');
   }
 
   void _createTruckDb(Database db, int newVersion) async {
@@ -150,6 +155,8 @@ class DatabaseHelper {
         '$colTruckTest4Current REAL, '
         '$colTimestamp DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL, '
         'FOREIGN KEY($colCustomerId) REFERENCES $custTable($colId))');
+
+    logHelper.d('Truck table created!');
   }
 
   void _createTrailerDb(Database db, int newVersion) async {
@@ -166,6 +173,8 @@ class DatabaseHelper {
         '$colTrailerTest4Current REAL, '
         '$colTimestamp DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL, '
         'FOREIGN KEY($colCustomerId) REFERENCES $custTable($colId))');
+
+    logHelper.d('Trailer table created!');
   }
 
   // Fetch Operation: Get all testData objects from database
@@ -208,17 +217,16 @@ class DatabaseHelper {
   Future<int> getCount(String db) async {
     Database db = await this.database;
     List<Map<String, dynamic>> x = await db.rawQuery('SELECT COUNT (*) from $db');
-    int result = Sqflite.firstIntValue(x);
-    return result;
+    return Sqflite.firstIntValue(x);
   }
 
   // Get the 'Map List' [ List<Map> ] and convert it to 'TestData List' [ List<TestData> ]
   Future<List<CustomerData>> getCustomerDataList() async {
-
     var testDataMapList = await getTestDataMapList(); // Get 'Map List' from database
     int count = testDataMapList.length;         // Count the number of map entries in db table
 
     List<CustomerData> testDataList = List<CustomerData>();
+
     // For loop to create a 'TestData List' from a 'Map List'
     for (int i = 0; i < count; i++) {
       testDataList.add(CustomerData.fromMapObject(testDataMapList[i]));
@@ -236,6 +244,36 @@ class DatabaseHelper {
   Future<List<Map<dynamic, dynamic>>> executeFormattedQuery(String param, String database) async {
     Database db = await this.database;
     return await db.rawQuery("SELECT $param FROM $database ORDER BY id DESC LIMIT 1");
+  }
+
+  Future<List<String>> getCustomerNamesList() async {
+    List<String> realNames = List<String>();
+    Database db = await this.database;
+    var countRes = await db.rawQuery("SELECT count(DISTINCT name) FROM CUSTOMER_DATA");
+    var res = await db.rawQuery("SELECT DISTINCT name FROM CUSTOMER_DATA ORDER BY timestamp DESC");
+
+    int i = 0;
+
+    for (i = 0; i < int.parse(countRes[0].values.toList()[0].toString()); i++){
+      realNames.add(res[i].values.toList()[0]);
+    }
+
+    return realNames;
+  }
+
+  Future<List<String>> getEmployeeNamesList() async {
+    List<String> realNames = List<String>();
+    Database db = await this.database;
+    var countRes = await db.rawQuery("SELECT count(DISTINCT name) FROM ADMIN_DATA");
+    var res = await db.rawQuery("SELECT DISTINCT name FROM ADMIN_DATA ORDER BY id DESC");
+
+    int i = 0;
+
+    for (i = 0; i < int.parse(countRes[0].values.toList()[0].toString()); i++){
+      realNames.add(res[i].values.toList()[0]);
+    }
+
+    return realNames;
   }
 }
 
