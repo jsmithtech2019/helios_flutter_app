@@ -1,0 +1,7 @@
+android/
+ios/
+test/
+build/
+.DS_Store
+.idea/
+.vscode/

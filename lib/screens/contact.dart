@@ -36,7 +36,7 @@ class ContactPage extends StatelessWidget {
               new NamePlates("Diego Espina", "Test/Integration Engineer", "(979) 574-7193", "diegoespina7@tamu.edu", "diego_header.jpg", "9795747193"),
               RaisedButton(
                 onPressed: () {
-                  SeedDatabase();
+                  seedDatabase();
                 }, // onPressed
                 child: Text('Init Test Data'),
               ),
@@ -132,7 +132,7 @@ class NamePlates extends StatelessWidget {
   }
 }
 
-void SeedDatabase(){
+void seedDatabase(){
   final DatabaseHelper dbHelper = GetIt.instance<DatabaseHelper>();
   // Dummy Truck Test Data
   dbHelper.executeRawQuery('INSERT INTO TRUCK_TEST_DATA '

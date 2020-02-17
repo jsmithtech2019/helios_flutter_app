@@ -4,7 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
 
 // Models
-import 'package:HITCH/models/database.dart';
+//import 'package:HITCH/models/database.dart';
 
 // Screens
 import 'package:HITCH/screens/help.dart';
@@ -19,15 +19,26 @@ import 'package:HITCH/screens/testing_init.dart';
 ///#############################################################################
 
 class Home extends StatefulWidget {
-  int setIndex = 0;
+  static int _setIndex = 0;
 
   Home(int index){
-    this.setIndex = index;
+    _setIndex = index;
+    //this.setIndex = index;
   }
 
   @override
-  State<StatefulWidget> createState() {
+  State<StatefulWidget> createState() 
+  {
     return _HomeState();
+  }
+
+  // Getters
+  int get getIndex => _setIndex;
+
+  // Setters
+  set setIndex(int index) 
+  {
+    _setIndex = index;
   }
 }
 
@@ -42,8 +53,8 @@ class _HomeState extends State<Home> {
   ];
   @override
   Widget build(BuildContext context) {
-    if(widget.setIndex != 0){
-      setIndex(widget.setIndex);
+    if(widget.getIndex != 0){
+      setIndex(widget.getIndex);
     }
     //_currentIndex = widget.setIndex;
     return Scaffold(

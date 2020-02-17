@@ -1,6 +1,6 @@
 // Flutter Packages
 import 'package:get_it/get_it.dart';
-import 'dart:io';
+//import 'dart:io';
 import 'package:logger/logger.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +19,7 @@ import 'package:HITCH/utils/home_widget.dart';
 class TestingCompletePage extends StatelessWidget {
   // Pull GetIt Singleton and create pointers to Singleton Helpers
   final DatabaseHelper dbHelper = GetIt.instance<DatabaseHelper>();
-  var logHelper = GetIt.instance<Logger>();
+  final Logger logHelper = GetIt.instance<Logger>();
   final CustomerData custData;
   final List<Map<String, dynamic>> nameList;
 
