@@ -1,5 +1,5 @@
 // Flutter Packages
-import 'dart:io';
+//import 'dart:io';
 
 import 'package:HITCH/screens/settings.dart';
 import 'package:flutter/material.dart';
@@ -232,7 +232,6 @@ class CustomerFormState extends State<CustomerForm> {
                         truckLicensePlateController.text,
                         trailerLicensePlateController.text
                     );
-                    //dbHelper.initializeDatabase().then((onValue){print("Done initializing");});
                     dbHelper.insertCustomerData(custData);
                     Scaffold.of(context)
                         .showSnackBar(SnackBar(content: Text('Processing Data')));

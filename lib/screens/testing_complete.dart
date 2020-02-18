@@ -10,6 +10,7 @@ import 'package:HITCH/models/database.dart';
 // Utils
 import 'package:HITCH/utils/database_helper.dart';
 import 'package:HITCH/utils/home_widget.dart';
+import 'package:HITCH/utils/api_helper.dart';
 
 
 ///#############################################################################
@@ -27,6 +28,7 @@ class TestingCompletePage extends StatelessWidget {
 
   @override
   Widget build (BuildContext context) {
+    getRequest(custData);
     return new Scaffold(
       appBar: new AppBar(
         title: new Text("Testing Complete!"),

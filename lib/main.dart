@@ -1,4 +1,5 @@
 // Flutter Packages
+import 'package:HITCH/utils/api_helper.dart';
 import 'package:flutter/material.dart';
 //import 'package:flutter_blue/flutter_blue.dart';
 import 'package:get_it/get_it.dart';
@@ -11,7 +12,6 @@ import 'package:logger/logger.dart';
 // Utils
 import 'package:HITCH/utils/database_helper.dart';
 import 'package:HITCH/utils/home_widget.dart';
-
 
 ///#############################################################################
 ///                            MAIN.dart
@@ -70,6 +70,7 @@ void main() {
       if(onValue[0].values.toList()[0].toString() == "0"){
         seedDatabase();
       }
+      testDuet();
     }
   );
 
