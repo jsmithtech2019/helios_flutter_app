@@ -16,7 +16,7 @@ class CustomerData {
   String _customerAddressLine2; // needs to accept blank
   String _customerCity;
   String _customerState;
-  int _customerZipCode;
+  int _customerZipCode = 0;
   String _truckLicensePlate;
   String _trailerLicensePlate;
 

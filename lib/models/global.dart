@@ -1,7 +1,7 @@
 /**
  * Global Singleton for all information that is needed in the application?
  */
-import 'package:package_info/package_info.dart';
+
 
 class GlobalHelper {
   // Dealership Values
@@ -10,6 +10,7 @@ class GlobalHelper {
 
   // Employee Values
   String _employeeUUID = '';
+  String _employeeName = '';
   String _employeeEmail = '';
   String _employeePhone = '';
   String _moduleUUID = '';
@@ -21,6 +22,7 @@ class GlobalHelper {
   get employeeEmail => _employeeEmail;
   get employeePhone => _employeePhone;
   get moduleUUID => _moduleUUID;
+  get employeeName => _employeeName;
 
   // Setters
   set dealership(String dealership){
@@ -45,5 +47,9 @@ class GlobalHelper {
 
   set moduleUUID(String uuid){
     _moduleUUID = uuid;
+  }
+
+  set employeeName(String name){
+    _employeeName = name;
   }
 }

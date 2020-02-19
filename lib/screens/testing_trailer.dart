@@ -48,9 +48,7 @@ class TrailerTestingPage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => TestingCompletePage(
-                        custData: custData,
-                      ),
+                      builder: (context) => TestingCompletePage(custData),
                     ),
                   );
                 }, // onPressed

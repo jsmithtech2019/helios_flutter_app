@@ -44,6 +44,7 @@ class DatabaseHelper {
   // ADMIN_DATA Database
   String adminTable = "ADMIN_DATA";
   String colEmployeeName = 'name';
+  String colEmployeeUUID = 'employee_uuid';
   String colEmployeePhoneNumber = 'phone';
   String colEmployeeEmail = 'email';
   String colEmployeePass = 'pass'; // THIS NEEDS TO BE SALTED AND HASHED
@@ -92,10 +93,10 @@ class DatabaseHelper {
   Future<Database> initializeDatabase() async {
     // Get the directory path for both Android and iOS to store database.
     // TODO: re enable this for on device runs
-    Directory directory = await getApplicationDocumentsDirectory();
-    String path = p.join(directory.toString(), 'HitchDatabase.db');
+    //Directory directory = await getApplicationDocumentsDirectory();
+    //String path = p.join(directory.toString(), 'HitchDatabase.db');
     // TODO: use the following path for local debugging
-    //String path = '/Users/mars/Desktop/HitchDatabase.db';
+    String path = '/Users/mars/Desktop/HitchDatabase.db';
 
     // Log the database path for debugging purposes
     logHelper.d('Using path: $path');
@@ -131,6 +132,7 @@ class DatabaseHelper {
   void _createAdminDb(Database db, int newVersion) async {
     await db.execute('CREATE TABLE $adminTable('
         '$colId INTEGER PRIMARY KEY AUTOINCREMENT,'
+        '$colEmployeeUUID TEXT, '
         '$colEmployeeName TEXT, '
         '$colEmployeePhoneNumber TEXT, '
         '$colEmployeeEmail TEXT, '
@@ -253,8 +255,8 @@ class DatabaseHelper {
     var res = await db.rawQuery("SELECT DISTINCT name FROM CUSTOMER_DATA ORDER BY timestamp DESC");
 
     int i = 0;
-    for (i = 0; i < int.parse(countRes[0].values.toList()[0].toString()); i++){
-      realNames.add(res[i].values.toList()[0]);
+    for (i = 0; i < countRes[0]['count(DISTINCT name)']; i++){
+      realNames.add(res[i]['name']);
     }
 
     return realNames;
@@ -268,8 +270,8 @@ class DatabaseHelper {
       var res = await db.rawQuery("SELECT id FROM TRAILER_TEST_DATA WHERE customerid = $cust ORDER BY timestamp DESC");
 
       int i = 0;
-      for (i = 0; i < int.parse(countRes[0].values.toList()[0].toString()); i++){
-        tests.add(res[i].values.toList()[0]);
+      for (i = 0; i < int.parse(countRes[0]['count(DISTINCT timestamp)']); i++){
+        tests.add(res[i][0]);
       }
 
       return tests;
@@ -287,8 +289,8 @@ class DatabaseHelper {
       var res = await db.rawQuery("SELECT id FROM TRUCK_TEST_DATA WHERE customerid = 1 ORDER BY timestamp DESC");
 
       int i = 0;
-      for (i = 0; i < int.parse(countRes[0].values.toList()[0].toString()); i++){
-        tests.add(res[i].values.toList()[0].toString());
+      for (i = 0; i < countRes[0]['count(DISTINCT timestamp)']; i++){
+        tests.add(res[i]['id'].toString());
       }
 
       return tests;
@@ -304,9 +306,9 @@ class DatabaseHelper {
     var res = await db.rawQuery("SELECT DISTINCT name FROM ADMIN_DATA ORDER BY id DESC");
 
     int i = 0;
-
-    for (i = 0; i < int.parse(countRes[0].values.toList()[0].toString()); i++){
-      realNames.add(res[i].values.toList()[0]);
+    print(countRes[0]['count(DISTINCT name)']);
+    for (i = 0; i < countRes[0]['count(DISTINCT name)']; i++){
+      realNames.add(res[i]['name']);
     }
 
     return realNames;

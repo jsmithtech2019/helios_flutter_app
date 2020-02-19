@@ -1,6 +1,7 @@
 // Flutter Packages
 //import 'dart:io';
 
+import 'package:HITCH/models/global.dart';
 import 'package:HITCH/screens/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -41,6 +42,7 @@ class CustomerFormState extends State<CustomerForm> {
 
   // Pull GetIt Singleton and create pointers to Singleton Helpers
   final DatabaseHelper dbHelper = GetIt.instance<DatabaseHelper>();
+  final GlobalHelper globalHelper = GetIt.instance<GlobalHelper>();
 
   @override
   Widget build(BuildContext context) {
@@ -232,7 +234,7 @@ class CustomerFormState extends State<CustomerForm> {
                         truckLicensePlateController.text,
                         trailerLicensePlateController.text
                     );
-                    dbHelper.insertCustomerData(custData);
+                    // dbHelper.insertCustomerData(custData);
                     Scaffold.of(context)
                         .showSnackBar(SnackBar(content: Text('Processing Data')));
                     Navigator.push(
@@ -319,6 +321,7 @@ class EmployeeFormState extends State<EmployeeForm> {
     TextEditingController moduleID = new TextEditingController();
     TextEditingController dealership = new TextEditingController();
     TextEditingController dealershipUUID = new TextEditingController();
+    TextEditingController employeeUUIDController = new TextEditingController();
 
     return Form(
         key: _formKey,
@@ -431,6 +434,21 @@ class EmployeeFormState extends State<EmployeeForm> {
               hintStyle: TextStyle(color: Colors.grey),
             ),
           ),
+          new TextFormField(
+            controller: employeeUUIDController,
+            textAlign: TextAlign.left,
+//            validator: (value) {
+//              if (value.isEmpty) {
+//                return 'Please provide Trailer License Plate';
+//              }
+//              return null;
+//            },
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.all(20),
+              hintText: 'Employee UUID',
+              hintStyle: TextStyle(color: Colors.grey),
+            ),
+          ),
           RaisedButton(
             onPressed: () {
               // Validate returns true if the form is valid, or false
@@ -446,6 +464,16 @@ class EmployeeFormState extends State<EmployeeForm> {
                   dealership.text,
                   dealershipUUID.text,
                 );
+
+                // Update global singleton
+                GlobalHelper globalHelper = GetIt.instance<GlobalHelper>();
+                globalHelper.dealership = dealership.text;
+                globalHelper.dealershipUUID = dealershipUUID.text;
+                globalHelper.employeeEmail = employeeEmailController.text;
+                globalHelper.employeePhone = employeePhoneNumberController.text;
+                globalHelper.employeeName = employeeNameController.text;
+                globalHelper.employeeUUID = employeeUUIDController.text;
+
                 //dbHelper.initializeDatabase().then((onValue){print("Done initializing");});
                 dbHelper.insertAdminData(adminData);
                 Scaffold.of(context).showSnackBar(SnackBar(content: Text('Processing Data')));

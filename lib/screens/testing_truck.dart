@@ -1,4 +1,5 @@
 // Flutter Packages
+import 'package:HITCH/models/global.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
@@ -26,7 +27,7 @@ class TruckTestingPage extends StatelessWidget {
   TruckTestingPage({this.custData});
 
   @override
-  Widget build (BuildContext context) {
+  Widget build (BuildContext context) {    
     return new Scaffold(
       appBar: new AppBar(
         title: new Text("Truck Testing"),
@@ -62,9 +63,7 @@ class TruckTestingPage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => TestingCompletePage(
-                            custData: custData,
-                          ),
+                          builder: (context) => TestingCompletePage(custData),
                         ),
                       );
                     }, // onPressed

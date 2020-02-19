@@ -43,7 +43,6 @@ class TextEntryField extends StatelessWidget {
 
   Widget build(BuildContext context){
     return TextFormField(
-      //controller: ,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.all(20),
         hintText: '$text',
