@@ -313,6 +313,15 @@ class DatabaseHelper {
     return values;
   }
 
+  /// Retrieve two values from the CUSTOMER_DATA table.
+  /// 
+  /// This function selects values [one] and [two] from the customer table
+  /// by running a select query that groups by [one] and then returns a list of
+  /// maps that map {[one]: [two]} for usage in a FutureBuilder.
+  /// 
+  /// This is implemented heavily in the Results page for selecting a list of
+  /// tests (by linked column customerid) for a specific customer provided by
+  /// the user.
   Future<List<Map<String, dynamic>>> getCustomerListTwo(String one, String two) async {
     List<Map<String, dynamic>> values = List<Map<String, dynamic>>();
     Database db = await this.database;
@@ -320,7 +329,7 @@ class DatabaseHelper {
     var res = await db.rawQuery("SELECT $one, $two FROM CUSTOMER_DATA GROUP BY $one");
 
     int i = 0;
-    for (i = 0; i < countRes[0]['count(DISTINCT $one)']; i++){
+    for (i = 0; i < countRes[0]["count(DISTINCT $one)"]; i++){
       values.add({res[i]['$one']: res[i]['$two']});
     }
     return values;

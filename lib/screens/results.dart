@@ -102,6 +102,8 @@ class ResultsPageState extends State<ResultsPage> {
                                               custNameIDmap = snapshot.data[i];
                                             }
                                           }
+                                          dropDownTruckTestNum = null;
+                                          dropDownTrailerTestNum = null;
                                           dropDownNameValue = newVal;
                                         });
                                       },

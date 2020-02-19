@@ -33,8 +33,13 @@ class TestingCompletePage extends StatelessWidget {
 
   Future<Set<Object>> syncData(CustomerData custData, [TruckTestData truckData, TrailerTestData trailerData]) async {
     TestingCompletePage td = new TestingCompletePage(custData, truckData, trailerData);
-    // Send cust data to the database
-    var custInsert = await dbHelper.insertCustomerData(custData);
+    // Check if customer exists
+    // TODO: remove limit 1
+    var checkCust = await dbHelper.executeRawQuery('SELECT id FROM CUSTOMER_DATA WHERE name="${custData.customerName}" AND phone="${custData.customerPhoneNumber}" LIMIT 1');
+    if (checkCust[0].length < 1){
+      // Send cust data to the database only if it does not already exist
+      await dbHelper.insertCustomerData(custData);
+    };
 
     // Get cust data ID from database
     var custID = await dbHelper.executeRawQuery('SELECT id FROM CUSTOMER_DATA WHERE name="${custData.customerName}" ORDER BY timestamp DESC LIMIT 1');
