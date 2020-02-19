@@ -1,4 +1,5 @@
 // Flutter Packages
+import 'package:HITCH/models/print.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
@@ -31,14 +32,17 @@ class ResultsPageState extends State<ResultsPage> {
   // Pass customer data into this state
   final CustomerData custData;
 
-  String dropDownNameValue, dropDownTruckTestNum, dropDownTrailerTestNum;
+  String dropDownNameValue, dropDownTruckTestNum, dropDownTrailerTestNum, custid;
+  Map<String, dynamic> custNameIDmap = {'key': -1};
+
+  // Default constructor
   ResultsPageState(this.custData);
 
   @override
   void initState() {
-    dropDownNameValue = "Choose Customer";
-    dropDownTruckTestNum = "Choose Test";
-    dropDownTrailerTestNum = "Choose Test";
+    dropDownNameValue = null;
+    dropDownTruckTestNum = null;
+    dropDownTrailerTestNum = null;
     super.initState();
   }
 
@@ -60,9 +64,9 @@ class ResultsPageState extends State<ResultsPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      new FutureBuilder<List<String>>(
-                          future: dbHelper.getCustomerList('name'),
-                          builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
+                      new FutureBuilder<List<Map<String, dynamic>>>(
+                          future: dbHelper.getCustomerListTwo('name', 'id'),
+                          builder: (BuildContext context, AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
                             switch (snapshot.connectionState) {
                               case ConnectionState.none: return new Text("Database Connection Failed!");
                               case ConnectionState.waiting: return new CircularProgressIndicator();
@@ -71,24 +75,33 @@ class ResultsPageState extends State<ResultsPage> {
                                 if(snapshot.hasError){
                                   return new Text("Error: ${snapshot.error}");
                                 } else {
+                                  // Convert map to list, drop second value (id)
+                                  List<String> l = [];
 
-                                  if (dropDownNameValue == "Choose Customer"){
-                                    snapshot.data.add(dropDownNameValue);
+                                  int i;
+                                  for(i = 0; i < snapshot.data.length; i++){
+                                    snapshot.data[i].forEach((k, v) => l.add(k));
                                   }
                                   return Container(
                                     color: Colors.grey[800],
                                     padding: EdgeInsets.fromLTRB(13,3,10,3),
                                     child: DropdownButton<String>(
                                       value: dropDownNameValue,
-                                      items: snapshot.data.map((String val) {
+                                      hint: Text('Choose Customer'),
+                                      items: l.map((String val){
                                         return new DropdownMenuItem<String>(
-                                          value: val,
-                                          child: new Text(val),
+                                          value: val.toString(),
+                                          child: new Text(val.toString()),
                                         );
                                       }).toList(),
                                       onChanged: (String newVal){
-                                        // TODO: update the admin configuration to use selected profile
                                         setState(() {
+                                          int i;
+                                          for(i = 0; i < snapshot.data.length; i++){
+                                            if(snapshot.data[i].keys.contains(newVal)){
+                                              custNameIDmap = snapshot.data[i];
+                                            }
+                                          }
                                           dropDownNameValue = newVal;
                                         });
                                       },
@@ -100,7 +113,7 @@ class ResultsPageState extends State<ResultsPage> {
                       ),
                       Spacer(),
                       new FutureBuilder<List<String>>(
-                          future: dbHelper.getCustomerTestList(dropDownTruckTestNum, 'TRUCK_TEST_DATA'),
+                          future: dbHelper.getCustomerTestList(custNameIDmap[dropDownNameValue], 'TRUCK_TEST_DATA'),
                           builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
                             switch (snapshot.connectionState) {
                               case ConnectionState.none: return new Text("Database Connection Failed!");
@@ -110,14 +123,11 @@ class ResultsPageState extends State<ResultsPage> {
                                 if(snapshot.hasError){
                                   return new Text("Error: ${snapshot.error}");
                                 } else {
-
-                                  if (dropDownTruckTestNum == "Choose Test"){
-                                    snapshot.data.add(dropDownTruckTestNum);
-                                  }
                                   return Container(
                                     color: Colors.grey[800],
                                     padding: EdgeInsets.fromLTRB(13,3,10,3),
                                     child:DropdownButton<String>(
+                                      hint: Text('Choose Truck'),
                                       value: dropDownTruckTestNum,
                                       items: snapshot.data.map((String val) {
                                         return new DropdownMenuItem<String>(
@@ -126,7 +136,6 @@ class ResultsPageState extends State<ResultsPage> {
                                         );
                                       }).toList(),
                                       onChanged: (String newVal){
-                                        // TODO: update the admin configuration to use selected profile
                                         setState(() {
                                           dropDownTruckTestNum = newVal;
                                         });
@@ -152,7 +161,7 @@ class ResultsPageState extends State<ResultsPage> {
                       ),
                       Spacer(),
                       new FutureBuilder<List<String>>(
-                          future: dbHelper.getCustomerTestList(dropDownTrailerTestNum, 'TRAILER_TEST_DATA'),
+                          future: dbHelper.getCustomerTestList(custNameIDmap[dropDownNameValue], 'TRAILER_TEST_DATA'),
                           builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
                             switch (snapshot.connectionState) {
                               case ConnectionState.none: return new Text("Database Connection Failed!");
@@ -162,14 +171,11 @@ class ResultsPageState extends State<ResultsPage> {
                                 if(snapshot.hasError){
                                   return new Text("Error: ${snapshot.error}");
                                 } else {
-
-                                  if (dropDownTrailerTestNum == "Choose Test"){
-                                    snapshot.data.add(dropDownTrailerTestNum);
-                                  }
                                   return Container(
                                       color: Colors.grey[800],
                                       padding: EdgeInsets.fromLTRB(13,3,10,3),
                                       child:DropdownButton<String>(
+                                        hint: Text('Choose Trailer'),
                                         value: dropDownTrailerTestNum,
                                         items: snapshot.data.map((String val) {
                                           return new DropdownMenuItem<String>(
@@ -178,7 +184,6 @@ class ResultsPageState extends State<ResultsPage> {
                                           );
                                         }).toList(),
                                         onChanged: (String newVal){
-                                          // TODO: update the admin configuration to use selected profile
                                           setState(() {
                                             dropDownTrailerTestNum = newVal;
                                           });
@@ -202,19 +207,19 @@ class ResultsPageState extends State<ResultsPage> {
                   SizedBox(height: 20),
                   Align(
                     alignment: Alignment.centerLeft,
-                    child:  PrintDatabaseResponses(dbHelper,
+                    child:  PrintDatabaseResponses(
                         'SELECT name FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1',
                         'Customer', 20),
                   ),
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: PrintDatabaseResponses(dbHelper,
+                    child: PrintDatabaseResponses(
                         'SELECT truckplate FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1',
                         'Truck License Plate', 20),
                   ),
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: PrintDatabaseResponses(dbHelper,
+                    child: PrintDatabaseResponses(
                         'SELECT trailerplate FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1',
                         'Trailer License Plate', 20),
                   ),
@@ -235,7 +240,7 @@ class TruckResults extends StatelessWidget {
   static GetIt sl = GetIt.instance;
   final DatabaseHelper dbHelper = sl.get<DatabaseHelper>();
 
-  Widget build(BuildContext context){
+  Widget build(BuildContext context, [String customer]){
     return new Align(
       alignment: Alignment.centerLeft,
       child: Container(
@@ -246,26 +251,26 @@ class TruckResults extends StatelessWidget {
           children: <Widget>[
             // Truck test result 1
             Text('Truck Test 1:', style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5)),
-            PrintDatabaseCurrentResult(dbHelper, 'SELECT test1_current FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
-            PrintDatabaseResponses(dbHelper, 'SELECT test1_result FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 14),
+            PrintDatabaseCurrentResult('SELECT test1_current FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
+            PrintDatabaseResponses('SELECT test1_result FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 14),
 
             // Truck test result 2
             SizedBox(height: 15),
             Text('Truck Test 2:', style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5)),
-            PrintDatabaseCurrentResult(dbHelper, 'SELECT test2_current FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
-            PrintDatabaseResponses(dbHelper, 'SELECT test2_result FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 14),
+            PrintDatabaseCurrentResult('SELECT test2_current FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
+            PrintDatabaseResponses('SELECT test2_result FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 14),
 
             // Truck test result 3
             SizedBox(height: 15),
             Text('Truck Test 3:', style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5)),
-            PrintDatabaseCurrentResult(dbHelper, 'SELECT test3_current FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
-            PrintDatabaseResponses(dbHelper, 'SELECT test3_result FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 14),
+            PrintDatabaseCurrentResult('SELECT test3_current FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
+            PrintDatabaseResponses('SELECT test3_result FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 14),
 
             // Truck test result 4
             SizedBox(height: 15),
             Text('Truck Test 4:', style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5)),
-            PrintDatabaseCurrentResult(dbHelper, 'SELECT test4_current FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
-            PrintDatabaseResponses(dbHelper, 'SELECT test4_result FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 14),
+            PrintDatabaseCurrentResult('SELECT test4_current FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
+            PrintDatabaseResponses('SELECT test4_result FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 14),
           ],
         ),
       ),
@@ -289,26 +294,26 @@ class TrailerResults extends StatelessWidget {
           children: <Widget>[
             // Truck test result 1
             Text('Trailer Test 1:', style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5)),
-            PrintDatabaseCurrentResult(dbHelper, 'SELECT test1_current FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
-            PrintDatabaseResponses(dbHelper, 'SELECT test1_result FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 14),
+            PrintDatabaseCurrentResult('SELECT test1_current FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
+            PrintDatabaseResponses('SELECT test1_result FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 14),
 
             // Truck test result 2
             SizedBox(height: 15),
             Text('Trailer Test 2:', style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5)),
-            PrintDatabaseCurrentResult(dbHelper, 'SELECT test2_current FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
-            PrintDatabaseResponses(dbHelper, 'SELECT test2_result FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 14),
+            PrintDatabaseCurrentResult('SELECT test2_current FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
+            PrintDatabaseResponses('SELECT test2_result FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 14),
 
             // Truck test result 3
             SizedBox(height: 15),
             Text('Trailer Test 3:', style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5)),
-            PrintDatabaseCurrentResult(dbHelper, 'SELECT test3_current FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
-            PrintDatabaseResponses(dbHelper, 'SELECT test3_result FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 14),
+            PrintDatabaseCurrentResult('SELECT test3_current FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
+            PrintDatabaseResponses('SELECT test3_result FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 14),
 
             // Truck test result 4
             SizedBox(height: 15),
             Text('Trailer Test 4:', style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5)),
-            PrintDatabaseCurrentResult(dbHelper, 'SELECT test4_current FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
-            PrintDatabaseResponses(dbHelper, 'SELECT test4_result FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 14),
+            PrintDatabaseCurrentResult('SELECT test4_current FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
+            PrintDatabaseResponses('SELECT test4_result FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 14),
           ],
         ),
       ),

@@ -1,5 +1,6 @@
 // Flutter Packages
 import 'package:HITCH/models/global.dart';
+import 'package:HITCH/models/print.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
@@ -38,8 +39,8 @@ class TruckTestingPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              PrintDatabaseResponses(dbHelper, 'SELECT name FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1', 'Testing for customer', 20),
-              PrintDatabaseResponses(dbHelper, 'SELECT phone FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1', 'Phone number from db', 20),
+              PrintDatabaseResponses('SELECT name FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1', 'Testing for customer', 20),
+              PrintDatabaseResponses('SELECT phone FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1', 'Phone number from db', 20),
               SizedBox(height: 15),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,

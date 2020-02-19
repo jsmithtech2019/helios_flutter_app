@@ -1,4 +1,5 @@
 // Flutter Packages
+import 'package:HITCH/models/print.dart';
 import 'package:get_it/get_it.dart';
 //import 'dart:io';
 import 'package:logger/logger.dart';
@@ -11,11 +12,6 @@ import 'package:HITCH/models/database.dart';
 import 'package:HITCH/utils/database_helper.dart';
 import 'package:HITCH/utils/home_widget.dart';
 import 'package:HITCH/utils/api_helper.dart';
-
-
-///#############################################################################
-///
-///#############################################################################
 
 class TestingCompletePage extends StatelessWidget {
   // Pull GetIt Singleton and create pointers to Singleton Helpers
@@ -87,10 +83,10 @@ class TestingCompletePage extends StatelessWidget {
                    *
                    * Context: https://stackoverflow.com/questions/49930180/flutter-render-widget-after-async-call
                    */
-                  PrintDatabaseResponses(dbHelper,
+                  PrintDatabaseResponses(
                       'SELECT name FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1',
                       'Name from Database', 20),
-                  PrintDatabaseResponses(dbHelper,
+                  PrintDatabaseResponses(
                       'SELECT email FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1',
                       'Email from Database', 20),
                 ],

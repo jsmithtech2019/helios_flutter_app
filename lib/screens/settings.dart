@@ -1,4 +1,5 @@
 // Flutter Packages
+import 'package:HITCH/models/print.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:HITCH/models/forms.dart';
@@ -30,7 +31,7 @@ class SettingsPageState extends State<SettingsPage> {
 
   @override
   void initState() {
-    dropDownValue = "Choose Employee";
+    dropDownValue = null;
     super.initState();
   }
 
@@ -53,35 +54,35 @@ class SettingsPageState extends State<SettingsPage> {
                   SizedBox(height: 15),
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: PrintDatabaseResponses(dbHelper,
+                    child: PrintDatabaseResponses(
                         'SELECT name FROM ADMIN_DATA ORDER BY id DESC LIMIT 1',
                         'Employee Name', 17),
                   ),
                   SizedBox(height: 5),
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: PrintDatabaseResponses(dbHelper,
+                    child: PrintDatabaseResponses(
                         'SELECT email FROM ADMIN_DATA ORDER BY id DESC LIMIT 1',
                         'Employee Name', 17),
                   ),
                   SizedBox(height: 5),
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: PrintDatabaseResponses(dbHelper,
+                    child: PrintDatabaseResponses(
                         'SELECT dealership FROM ADMIN_DATA ORDER BY id DESC LIMIT 1',
                         'Dealership', 17),
                   ),
                   SizedBox(height: 5),
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: PrintDatabaseResponses(dbHelper,
+                    child: PrintDatabaseResponses(
                         'SELECT dealer_uuid FROM ADMIN_DATA ORDER BY id DESC LIMIT 1',
                         'Dealership UUID', 17),
                   ),
                   SizedBox(height: 5),
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: PrintDatabaseResponses(dbHelper,
+                    child: PrintDatabaseResponses(
                         'SELECT moduleID FROM ADMIN_DATA ORDER BY id DESC LIMIT 1',
                         'Paired Module', 17),
                   ),
@@ -103,11 +104,9 @@ class SettingsPageState extends State<SettingsPage> {
                       } else {
                         this.names = snapshot.data;
 
-                        if (dropDownValue == "Choose Employee"){
-                          this.names.add(dropDownValue);
-                        }
                         return DropdownButton<String>(
                           value: dropDownValue,
+                          hint: Text('Choose Employee'),
                           items: this.names.map((String val) {
                             return new DropdownMenuItem<String>(
                               value: val,

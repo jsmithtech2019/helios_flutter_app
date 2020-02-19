@@ -1,6 +1,4 @@
 // Flutter Packages
-import 'package:HITCH/models/global.dart';
-import 'package:HITCH/utils/api_helper.dart';
 import 'package:flutter/material.dart';
 //import 'package:flutter_blue/flutter_blue.dart';
 import 'package:get_it/get_it.dart';
@@ -38,7 +36,6 @@ void main() async {
   GetIt.asNewInstance();
 
   // Generated and register Singletons into GetIt instance
-  sl.registerSingleton<DatabaseHelper>(DatabaseHelper());
   sl.registerSingleton<Logger>(Logger(
       printer: PrettyPrinter(
         methodCount: 0,
@@ -48,6 +45,7 @@ void main() async {
         printEmojis: false,
       )
   ));
+  sl.registerSingleton<DatabaseHelper>(DatabaseHelper());
   sl.registerSingleton<GlobalHelper>(GlobalHelper());
   // TODO: enable the bluetooth singleton
   //getIt.registerSingleton<BluetoothHelper>(BluetoothHelper());
@@ -64,7 +62,7 @@ void main() async {
   //     logHelper.d("Database has been initialized!");
   //   }
   // );
-  var init = await dbHelper.initializeDatabase();
+  await dbHelper.initializeDatabase();
   logHelper.d("Database has been initialized!");
 
   // TODO: remove test data insertion lines

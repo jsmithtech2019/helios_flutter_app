@@ -2,7 +2,6 @@
 //import 'dart:io';
 
 import 'package:HITCH/models/global.dart';
-import 'package:HITCH/screens/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
@@ -16,11 +15,6 @@ import 'package:HITCH/screens/testing_truck.dart';
 // Utils
 import 'package:HITCH/utils/database_helper.dart';
 import 'package:HITCH/utils/home_widget.dart';
-
-
-///#############################################################################
-///
-///#############################################################################
 
 // Define a custom Form widget.
 class CustomerForm extends StatefulWidget {

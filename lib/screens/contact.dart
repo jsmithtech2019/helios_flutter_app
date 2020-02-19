@@ -9,10 +9,6 @@ import 'package:HITCH/utils/database_helper.dart';
 // Models
 import 'package:HITCH/models/seperator.dart';
 
-///#############################################################################
-///
-///#############################################################################
-
 class ContactPage extends StatelessWidget {
   // Pull GetIt Singleton and create pointers to Singleton Helpers
   final DatabaseHelper dbHelper = GetIt.instance<DatabaseHelper>();
@@ -71,7 +67,7 @@ class NamePlates extends StatelessWidget {
             children: <Widget>[
               new Text(name,
                 style: TextStyle(
-                  fontSize: 23,
+                  fontSize: 22,
                   fontWeight: FontWeight.bold,
                 ),
               ),

@@ -2,8 +2,6 @@
 import 'dart:async';
 import 'dart:io';
 //import 'dart:math';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
 import 'package:path/path.dart' as p;
@@ -13,8 +11,7 @@ import 'package:sqflite/sqflite.dart';
 // Models
 import 'package:HITCH/models/database.dart';
 
-/// # Database Helper Class
-/// ## Boilerplate for SQLite Database
+/// # Boilerplate for SQLite Database
 ///
 /// This class contains the means to boilerplate the SQLite database that
 /// is relied on for the controller to function correctly and store data
@@ -38,55 +35,23 @@ class DatabaseHelper {
   /// Declarations of the columns that are shared between some (or all)
   /// of the tables. These allow for no variable naming issues when
   /// designing and modifying schemas.
-  String colId = 'id';
-  String colTimestamp = 'timestamp';
-  String colCustomerId = 'customerid';
 
-  // TESTING_DATA Database
+  // CUSTOMER_DATA Table
   String custTable = 'CUSTOMER_DATA';
-  String colCustName = 'name';
-  String colCustPhoneNumber = 'phone';
-  String colCustEmail = 'email';
-  String colCustAddressLine1 = 'addr1';
-  String colCustAddressLine2 = 'addr2';
-  String colCustCity = 'city';
-  String colCustState = 'state';
-  String colCustZipCode = 'zip';
-  String colTruckLicensePlate = 'truckplate';
-  String colTrailerLicensePlate = 'trailerplate';
+  List customerColumns = ['id', 'name', 'phone', 'email', 'addr1', 'addr2',
+    'city', 'state', 'zip', 'truckplate', 'trailerplate', 'timestamp'];
 
-  // ADMIN_DATA Database
+  // ADMIN_DATA Table
   String adminTable = "ADMIN_DATA";
-  String colEmployeeName = 'name';
-  String colEmployeeUUID = 'employee_uuid';
-  String colEmployeePhoneNumber = 'phone';
-  String colEmployeeEmail = 'email';
-  String colEmployeePass = 'pass'; // THIS NEEDS TO BE SALTED AND HASHED
-  String colModuleID = 'moduleID';
-  String colDealership = 'dealership';
-  String colDealershipUUID = 'dealer_uuid'; // THIS NEEDS TO BE SALTED AND HASHED
+  List adminColumns = ['id', 'name', 'phone', 'email', 'pass', 'employee_uuid',
+    'moduleID', 'dealership', 'dealer_uuid'];
 
-  // TRUCK_TEST_DATA
+  // TRUCK_TEST_DATA and TRAILER_TEST_DATA
   String truckTable = 'TRUCK_TEST_DATA';
-  String colTruckTest1Result = 'test1_result';
-  String colTruckTest2Result = 'test2_result';
-  String colTruckTest3Result = 'test3_result';
-  String colTruckTest4Result = 'test4_result';
-  String colTruckTest1Current = 'test1_current';
-  String colTruckTest2Current = 'test2_current';
-  String colTruckTest3Current = 'test3_current';
-  String colTruckTest4Current = 'test4_current';
-
-  // TRAILER_TEST_DATA
   String trailerTable = 'TRAILER_TEST_DATA';
-  String colTrailerTest1Result = 'test1_result';
-  String colTrailerTest2Result = 'test2_result';
-  String colTrailerTest3Result = 'test3_result';
-  String colTrailerTest4Result = 'test4_result';
-  String colTrailerTest1Current = 'test1_current';
-  String colTrailerTest2Current = 'test2_current';
-  String colTrailerTest3Current = 'test3_current';
-  String colTrailerTest4Current = 'test4_current';
+  List testColumns = ['id', 'customerid', 'test1_result', 'test2_result', 
+    'test3_result', 'test4_result', 'test1_current', 'test2_current', 
+    'test3_current', 'test4_current', 'timestamp'];
 
   /// Logger singleton for logging functionality.
   ///
@@ -157,15 +122,15 @@ class DatabaseHelper {
   /// as starts the generation of the schemas outlined in this classes local
   /// variables.
   Future<Database> initializeDatabase() async {
-    /// Get the directory path for both Android and iOS to store database. Must
-    /// be enabled for application functionality on a physical device.
-    //Directory directory = await getApplicationDocumentsDirectory();
-    //String path = p.join(directory.toString(), 'HitchDatabase.db');
+    // Get the directory path for both Android and iOS to store database. Must
+    // be enabled for application functionality on a physical device.
+    Directory directory = await getApplicationDocumentsDirectory();
+    String path = p.join(directory.toString(), 'HitchDatabase.db');
 
-    /// Using a static path on the host machine can be useful for debugging
-    /// errors or writing additional functionality for the controller. The path
-    /// specified is an absolute path from the root directory of the dev machine.
-    String path = '/Users/mars/Desktop/HitchDatabase.db';
+    // Using a static path on the host machine can be useful for debugging
+    // errors or writing additional functionality for the controller. The path
+    // specified is an absolute path from the root directory of the dev machine.
+    //String path = '/Users/mars/Desktop/HitchDatabase.db';
 
     // Log the database path for debugging purposes
     logHelper.d('Using path: $path');
@@ -192,18 +157,18 @@ class DatabaseHelper {
   /// then generates the specified tables within the given [db] database.
   void _createCustomerDb(Database db, int newVersion) async {
     await db.execute('CREATE TABLE $custTable('
-        '$colId INTEGER PRIMARY KEY AUTOINCREMENT,'
-        '$colCustName TEXT NOT NULL, '
-        '$colCustPhoneNumber TEXT NOT NULL, '
-        '$colCustEmail TEXT, '
-        '$colCustAddressLine1 TEXT, '
-        '$colCustAddressLine2 TEXT, '
-        '$colCustCity TEXT, '
-        '$colCustState TEXT, '
-        '$colCustZipCode INTEGER, '
-        '$colTruckLicensePlate TEXT NOT NULL, '
-        '$colTrailerLicensePlate TEXT NOT NULL,'
-        '$colTimestamp DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL)');
+        '${customerColumns[0]} INTEGER PRIMARY KEY AUTOINCREMENT,'
+        '${customerColumns[1]} TEXT NOT NULL, '
+        '${customerColumns[2]} TEXT NOT NULL, '
+        '${customerColumns[3]} TEXT, '
+        '${customerColumns[4]} TEXT, '
+        '${customerColumns[5]} TEXT, '
+        '${customerColumns[6]} TEXT, '
+        '${customerColumns[7]} TEXT, '
+        '${customerColumns[8]} INTEGER, '
+        '${customerColumns[9]} TEXT NOT NULL, '
+        '${customerColumns[10]} TEXT NOT NULL,'
+        '${customerColumns[11]} DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL)');
     logHelper.d('Customer table created!');
   }
 
@@ -212,59 +177,63 @@ class DatabaseHelper {
   /// Using the schemas outlined at the beginning of the class this function
   /// then generates the specified tables within the given [db] database.
   void _createAdminDb(Database db, int newVersion) async {
+
     await db.execute('CREATE TABLE $adminTable('
-        '$colId INTEGER PRIMARY KEY AUTOINCREMENT,'
-        '$colEmployeeUUID TEXT, '
-        '$colEmployeeName TEXT, '
-        '$colEmployeePhoneNumber TEXT, '
-        '$colEmployeeEmail TEXT, '
-        '$colEmployeePass TEXT, '
-        '$colModuleID TEXT, '
-        '$colDealership TEXT, '
-        '$colDealershipUUID TEXT NOT NULL)');
+        '${adminColumns[0]} INTEGER PRIMARY KEY AUTOINCREMENT,'
+        '${adminColumns[1]} TEXT, '
+        '${adminColumns[2]} TEXT, '
+        '${adminColumns[3]} TEXT, '
+        '${adminColumns[4]} TEXT, '
+        '${adminColumns[5]} TEXT, '
+        '${adminColumns[6]} TEXT, '
+        '${adminColumns[7]} TEXT, '
+        '${adminColumns[8]} TEXT NOT NULL)');
     logHelper.d('Admin table created!');
   }
 
   /// Create the TRUCK_TEST_DATA SQLite table.
   ///
   /// Using the schemas outlined at the beginning of the class this function
-  /// then generates the specified tables within the given [db] database.
+  /// then generates the specified tables within the given [db] database. This
+  /// table also references the [custTable] at customerid.
   void _createTruckDb(Database db, int newVersion) async {
+
     await db.execute('CREATE TABLE $truckTable('
-        '$colId INTEGER PRIMARY KEY NOT NULL, '
-        '$colCustomerId INTEGER, '
-        '$colTruckTest1Result INTEGER, '
-        '$colTruckTest1Current REAL, '
-        '$colTruckTest2Result INTEGER, '
-        '$colTruckTest2Current REAL, '
-        '$colTruckTest3Result INTEGER, '
-        '$colTruckTest3Current REAL, '
-        '$colTruckTest4Result INTEGER, '
-        '$colTruckTest4Current REAL, '
-        '$colTimestamp DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL, '
-        'FOREIGN KEY($colCustomerId) REFERENCES $custTable($colId))');
+        '${testColumns[0]} INTEGER PRIMARY KEY NOT NULL, '
+        '${testColumns[1]} INTEGER, '
+        '${testColumns[2]} INTEGER, '
+        '${testColumns[3]} REAL, '
+        '${testColumns[4]} INTEGER, '
+        '${testColumns[5]} REAL, '
+        '${testColumns[6]} INTEGER, '
+        '${testColumns[7]} REAL, '
+        '${testColumns[8]} INTEGER, '
+        '${testColumns[9]} REAL, '
+        '${testColumns[10]} DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL, '
+        'FOREIGN KEY(${testColumns[1]}) REFERENCES $custTable(id))');
 
     logHelper.d('Truck table created!');
   }
 
-  /// Create the CUSTOMER_DATA SQLite table.
+  /// Create the TRAILER_TEST_DATA SQLite table.
   ///
   /// Using the schemas outlined at the beginning of the class this function
-  /// then generates the specified tables within the given [db] database.
+  /// then generates the specified tables within the given [db] database. This
+  /// table also references the [custTable] at customerid.
   void _createTrailerDb(Database db, int newVersion) async {
     await db.execute('CREATE TABLE $trailerTable('
-        '$colId INTEGER PRIMARY KEY NOT NULL, '
-        '$colCustomerId INTEGER, '
-        '$colTrailerTest1Result INTEGER, '
-        '$colTrailerTest1Current REAL, '
-        '$colTrailerTest2Result INTEGER, '
-        '$colTrailerTest2Current REAL, '
-        '$colTrailerTest3Result INTEGER, '
-        '$colTrailerTest3Current REAL, '
-        '$colTrailerTest4Result INTEGER, '
-        '$colTrailerTest4Current REAL, '
-        '$colTimestamp DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL, '
-        'FOREIGN KEY($colCustomerId) REFERENCES $custTable($colId))');
+        '${testColumns[0]} INTEGER PRIMARY KEY NOT NULL, '
+        '${testColumns[1]} INTEGER, '
+        '${testColumns[2]} INTEGER, '
+        '${testColumns[3]} REAL, '
+        '${testColumns[4]} INTEGER, '
+        '${testColumns[5]} REAL, '
+        '${testColumns[6]} INTEGER, '
+        '${testColumns[7]} REAL, '
+        '${testColumns[8]} INTEGER, '
+        '${testColumns[9]} REAL, '
+        '${testColumns[10]} DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL, '
+        'FOREIGN KEY(${testColumns[1]}) REFERENCES $custTable(id))');
 
     logHelper.d('Trailer table created!');
   }
@@ -344,6 +313,19 @@ class DatabaseHelper {
     return values;
   }
 
+  Future<List<Map<String, dynamic>>> getCustomerListTwo(String one, String two) async {
+    List<Map<String, dynamic>> values = List<Map<String, dynamic>>();
+    Database db = await this.database;
+    var countRes = await db.rawQuery("SELECT count(DISTINCT $one) FROM CUSTOMER_DATA");
+    var res = await db.rawQuery("SELECT $one, $two FROM CUSTOMER_DATA GROUP BY $one");
+
+    int i = 0;
+    for (i = 0; i < countRes[0]['count(DISTINCT $one)']; i++){
+      values.add({res[i]['$one']: res[i]['$two']});
+    }
+    return values;
+  }
+
   /// Retrieves a list of employee names from the ADMIN_DATA table by filter.
   ///
   /// This function can be used to create drop down menus from which an employee
@@ -374,116 +356,16 @@ class DatabaseHelper {
   /// exists (such as 'Choose Customer').
   ///
   /// A list of the distinct customers will then be returned for usage.
-  Future<List<String>> getCustomerTestList(String cust, String table) async {
+  Future<List<String>> getCustomerTestList(int custID, String table) async {
     List<String> tests = List<String>();
     Database db = await this.database;
-    if (cust != "Choose Customer"){
-      var countRes = await db.rawQuery("SELECT count(DISTINCT timestamp) FROM $table WHERE customerid = $cust");
-      var res = await db.rawQuery("SELECT id FROM $table WHERE customerid='$cust' ORDER BY timestamp DESC");
+    var countRes = await db.rawQuery("SELECT count(DISTINCT timestamp) FROM $table WHERE customerid='$custID'");
+    var res = await db.rawQuery("SELECT id FROM $table WHERE customerid='$custID' ORDER BY timestamp DESC");
 
-      int i = 0;
-      for (i = 0; i < int.parse(countRes[0]['count(DISTINCT timestamp)']); i++){
-        tests.add(res[i][0]);
-      }
-
-      return tests;
-    } else {
-      return [];
+    int i = 0;
+    for (i = 0; i < countRes[0]['count(DISTINCT timestamp)']; i++){
+      tests.add(res[i]['id'].toString());
     }
-  }
-}
-
-/// Widget that displays database responses.
-///
-/// This function is utilized to display the response from the database in a clean
-/// and well designed format. In the future this should be rolled into the
-/// database helper class.
-class PrintDatabaseResponses extends StatelessWidget {
-  final DatabaseHelper helper;
-  final String query;
-  final String successStatement;
-  final double size;
-
-  PrintDatabaseResponses(this.helper, this.query, this.successStatement, this.size);
-
-  Widget build(BuildContext context){
-    return FutureBuilder<String>(
-        future: helper.executeRawQuery(query)
-            .then((resp){return resp[0].values.toList()[0].toString();}),
-        builder: (BuildContext context, AsyncSnapshot<String> snapshot){
-          switch (snapshot.connectionState) {
-            case ConnectionState.none: return new Text('Didn\'t Work!');
-            case ConnectionState.waiting: return new Text('Awaiting result!');
-            default:
-              if(snapshot.hasError){
-                return new Text('Error: ${snapshot.error}');
-              } else {
-                return new Text('$successStatement: ${snapshot.data}',
-                  style: TextStyle(fontStyle: FontStyle.italic, fontSize: size)
-                );
-              }
-          }
-        }
-    );
-  }
-}
-
-class PrintDatabaseTestResult extends StatelessWidget {
-  final DatabaseHelper helper;
-  final String query;
-  final String successStatement;
-  final double size;
-
-  PrintDatabaseTestResult(this.helper, this.query, this.successStatement, this.size);
-
-  Widget build(BuildContext context){
-    return FutureBuilder<String>(
-        future: helper.executeRawQuery(query)
-            .then((resp){return resp[0].values.toList()[0].toString();}),
-        builder: (BuildContext context, AsyncSnapshot<String> snapshot){
-          switch (snapshot.connectionState) {
-            case ConnectionState.none: return new Text('Didn\'t Work!');
-            case ConnectionState.waiting: return new Text('Awaiting result!');
-            default:
-              if(snapshot.hasError){
-                return new Text('Error: ${snapshot.error}');
-              } else {
-                return new Text('$successStatement: ${snapshot.data}',
-                  style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: size),
-                );
-              }
-          }
-        }
-    );
-  }
-}
-
-class PrintDatabaseCurrentResult extends StatelessWidget {
-  final DatabaseHelper helper;
-  final String query;
-  final String successStatement;
-  final double size;
-
-  PrintDatabaseCurrentResult(this.helper, this.query, this.successStatement, this.size);
-
-  Widget build(BuildContext context){
-    return FutureBuilder<String>(
-        future: helper.executeRawQuery(query)
-            .then((resp){return resp[0].values.toList()[0].toString();}),
-        builder: (BuildContext context, AsyncSnapshot<String> snapshot){
-          switch (snapshot.connectionState) {
-            case ConnectionState.none: return new Text('Didn\'t Work!');
-            case ConnectionState.waiting: return new Text('Awaiting result!');
-            default:
-              if(snapshot.hasError){
-                return new Text('Error: ${snapshot.error}');
-              } else {
-                return new Text('$successStatement: ${snapshot.data} A',
-                  style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: size),
-                );
-              }
-          }
-        }
-    );
+    return tests;
   }
 }
