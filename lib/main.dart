@@ -113,6 +113,7 @@ class HeliosAppStateful extends State<HeliosApp> {
 } // Class
 
 void seedDatabase(){
+  Logger logHelper = GetIt.instance<Logger>();
   final DatabaseHelper dbHelper = GetIt.instance<DatabaseHelper>();
   // Dummy Truck Test Data
   dbHelper.executeRawQuery('INSERT INTO TRUCK_TEST_DATA '

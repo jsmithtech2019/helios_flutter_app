@@ -61,7 +61,7 @@ class ResultsPageState extends State<ResultsPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       new FutureBuilder<List<String>>(
-                          future: dbHelper.getCustomerNamesList(),
+                          future: dbHelper.getCustomerList('name'),
                           builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
                             switch (snapshot.connectionState) {
                               case ConnectionState.none: return new Text("Database Connection Failed!");
@@ -100,7 +100,7 @@ class ResultsPageState extends State<ResultsPage> {
                       ),
                       Spacer(),
                       new FutureBuilder<List<String>>(
-                          future: dbHelper.getCustomerTruckTestList(dropDownTruckTestNum),
+                          future: dbHelper.getCustomerTestList(dropDownTruckTestNum, 'TRUCK_TEST_DATA'),
                           builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
                             switch (snapshot.connectionState) {
                               case ConnectionState.none: return new Text("Database Connection Failed!");
@@ -152,7 +152,7 @@ class ResultsPageState extends State<ResultsPage> {
                       ),
                       Spacer(),
                       new FutureBuilder<List<String>>(
-                          future: dbHelper.getCustomerTruckTestList(dropDownTrailerTestNum),
+                          future: dbHelper.getCustomerTestList(dropDownTrailerTestNum, 'TRAILER_TEST_DATA'),
                           builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
                             switch (snapshot.connectionState) {
                               case ConnectionState.none: return new Text("Database Connection Failed!");

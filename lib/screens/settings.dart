@@ -91,7 +91,7 @@ class SettingsPageState extends State<SettingsPage> {
             ),
             new SeparatorBox("Choose Existing Configuration"),
             new FutureBuilder<List<String>>(
-                future: dbHelper.getEmployeeNamesList(),
+                future: dbHelper.getEmployeesList('name'),
                 builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.none: return new Text("Database Connection Failed!");

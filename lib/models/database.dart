@@ -6,7 +6,10 @@ import 'dart:core';
 ///
 ///#############################################################################
 
-// Customer Data
+/// # Customer Table Schema
+/// 
+/// This class is used to design the CUSTOMER_DATA table by setting the columns
+/// 
 class CustomerData {
   int _customerId;
   String _customerName;

@@ -44,10 +44,10 @@ class TestingCompletePage extends StatelessWidget {
     var custID = await dbHelper.executeRawQuery('SELECT id FROM CUSTOMER_DATA WHERE name="${custData.customerName}" ORDER BY timestamp DESC LIMIT 1');
     
     // Send truck data to db with custID
-    var truckInsert = await dbHelper.executeRawQuery('INSERT INTO TRUCK_TEST_DATA (customerid, test1_result, test1_current, test2_result, test2_current, test3_result, test3_current, test4_result, test4_current) VALUES (${custID[0]['id']}, ${td.truckData.truckTest1Result}, ${td.truckData.truckTest1Current}, ${td.truckData.truckTest2Result}, ${td.truckData.truckTest2Current}, ${td.truckData.truckTest3Result}, ${td.truckData.truckTest3Current}, ${td.truckData.truckTest4Result}, ${td.truckData.truckTest4Current})');
+    await dbHelper.executeRawQuery('INSERT INTO TRUCK_TEST_DATA (customerid, test1_result, test1_current, test2_result, test2_current, test3_result, test3_current, test4_result, test4_current) VALUES (${custID[0]['id']}, ${td.truckData.truckTest1Result}, ${td.truckData.truckTest1Current}, ${td.truckData.truckTest2Result}, ${td.truckData.truckTest2Current}, ${td.truckData.truckTest3Result}, ${td.truckData.truckTest3Current}, ${td.truckData.truckTest4Result}, ${td.truckData.truckTest4Current})');
 
     // Send trailer data to DB with custID
-    var trailerInsert = await dbHelper.executeRawQuery('INSERT INTO TRAILER_TEST_DATA (customerid, test1_result, test1_current, test2_result, test2_current, test3_result, test3_current, test4_result, test4_current) VALUES (${custID[0]['id']}, ${td.trailerData.trailerTest1Result}, ${td.trailerData.trailerTest1Current}, ${td.trailerData.trailerTest2Result}, ${td.trailerData.trailerTest2Current}, ${td.trailerData.trailerTest3Result}, ${td.trailerData.trailerTest3Current}, ${td.trailerData.trailerTest4Result}, ${td.trailerData.trailerTest4Current})');
+    await dbHelper.executeRawQuery('INSERT INTO TRAILER_TEST_DATA (customerid, test1_result, test1_current, test2_result, test2_current, test3_result, test3_current, test4_result, test4_current) VALUES (${custID[0]['id']}, ${td.trailerData.trailerTest1Result}, ${td.trailerData.trailerTest1Current}, ${td.trailerData.trailerTest2Result}, ${td.trailerData.trailerTest2Current}, ${td.trailerData.trailerTest3Result}, ${td.trailerData.trailerTest3Current}, ${td.trailerData.trailerTest4Result}, ${td.trailerData.trailerTest4Current})');
 
     // Call the server sync function (postRequest())
     var postResponse = await postRequest(custData);

@@ -1,7 +1,4 @@
-/**
- * Global Singleton for all information that is needed in the application?
- */
-
+///Global Singleton for all information that is needed in the application?
 
 class GlobalHelper {
   // Dealership Values

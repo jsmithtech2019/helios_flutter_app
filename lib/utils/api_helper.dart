@@ -41,6 +41,7 @@ Future<http.Response> postRequest (CustomerData cust) async {
   var url ='http://duet.helioscapstone.com/upload/';
 
   var globalHelper = GetIt.instance<GlobalHelper>();
+  Logger logHelper = GetIt.instance<Logger>();
   var dbHelper = GetIt.instance<DatabaseHelper>();
 
   // Get Application information
