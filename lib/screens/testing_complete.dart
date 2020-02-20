@@ -1,4 +1,5 @@
 // Flutter Packages
+import 'package:HITCH/models/global.dart';
 import 'package:HITCH/models/print.dart';
 import 'package:get_it/get_it.dart';
 //import 'dart:io';
@@ -32,23 +33,31 @@ class TestingCompletePage extends StatelessWidget {
   }
 
   Future<Set<Object>> syncData(CustomerData custData, [TruckTestData truckData, TrailerTestData trailerData]) async {
-    TestingCompletePage td = new TestingCompletePage(custData, truckData, trailerData);
+    GlobalHelper gbHelper = GetIt.instance<GlobalHelper>();
     // Check if customer exists
     // TODO: remove limit 1
     var checkCust = await dbHelper.executeRawQuery('SELECT id FROM CUSTOMER_DATA WHERE name="${custData.customerName}" AND phone="${custData.customerPhoneNumber}" LIMIT 1');
-    if (checkCust[0].length < 1){
+    if (checkCust == null){
       // Send cust data to the database only if it does not already exist
       await dbHelper.insertCustomerData(custData);
     };
 
     // Get cust data ID from database
-    var custID = await dbHelper.executeRawQuery('SELECT id FROM CUSTOMER_DATA WHERE name="${custData.customerName}" ORDER BY timestamp DESC LIMIT 1');
+    //var custid = await dbHelper.executeRawQuery('SELECT id FROM CUSTOMER_DATA WHERE name="${custData.customerName}"');
     
-    // Send truck data to db with custID
-    await dbHelper.executeRawQuery('INSERT INTO TRUCK_TEST_DATA (customerid, test1_result, test1_current, test2_result, test2_current, test3_result, test3_current, test4_result, test4_current) VALUES (${custID[0]['id']}, ${td.truckData.truckTest1Result}, ${td.truckData.truckTest1Current}, ${td.truckData.truckTest2Result}, ${td.truckData.truckTest2Current}, ${td.truckData.truckTest3Result}, ${td.truckData.truckTest3Current}, ${td.truckData.truckTest4Result}, ${td.truckData.truckTest4Current})');
+    await dbHelper.executeRawQuery('SELECT id FROM CUSTOMER_DATA WHERE name="${custData.customerName}"').then((custID) async {
+      // Send truck data to db with custID
+      await dbHelper.executeRawQuery('INSERT INTO TRUCK_TEST_DATA (customerid, test1_result, test1_current, test2_result, test2_current, test3_result, test3_current, test4_result, test4_current) VALUES (${custID[0]['id']}, ${this.truckData.truckTest1Result}, ${truckData.truckTest1Current}, ${truckData.truckTest2Result}, ${truckData.truckTest2Current}, ${truckData.truckTest3Result}, ${truckData.truckTest3Current}, ${truckData.truckTest4Result}, ${truckData.truckTest4Current})');
 
-    // Send trailer data to DB with custID
-    await dbHelper.executeRawQuery('INSERT INTO TRAILER_TEST_DATA (customerid, test1_result, test1_current, test2_result, test2_current, test3_result, test3_current, test4_result, test4_current) VALUES (${custID[0]['id']}, ${td.trailerData.trailerTest1Result}, ${td.trailerData.trailerTest1Current}, ${td.trailerData.trailerTest2Result}, ${td.trailerData.trailerTest2Current}, ${td.trailerData.trailerTest3Result}, ${td.trailerData.trailerTest3Current}, ${td.trailerData.trailerTest4Result}, ${td.trailerData.trailerTest4Current})');
+      // Send trailer data to DB with custID
+      await dbHelper.executeRawQuery('INSERT INTO TRAILER_TEST_DATA (customerid, test1_result, test1_current, test2_result, test2_current, test3_result, test3_current, test4_result, test4_current) VALUES (${custID[0]['id']}, ${trailerData.trailerTest1Result}, ${trailerData.trailerTest1Current}, ${trailerData.trailerTest2Result}, ${trailerData.trailerTest2Current}, ${trailerData.trailerTest3Result}, ${trailerData.trailerTest3Current}, ${trailerData.trailerTest4Result}, ${trailerData.trailerTest4Current})');
+
+      // Update global helper
+      gbHelper.customerName = custData.customerName;
+      gbHelper.customerID = custData.customerId.toString();
+      gbHelper.customerTruckPlate = custData.truckLicensePlate;
+      gbHelper.customerTrailerPlate = custData.trailerLicensePlate;
+    });
 
     // Call the server sync function (postRequest())
     var postResponse = await postRequest(custData);
@@ -59,7 +68,6 @@ class TestingCompletePage extends StatelessWidget {
 
   @override
   Widget build (BuildContext context) {
-    var page = TestingCompletePage(custData);
     return new Scaffold(
       appBar: new AppBar(
         title: new Text("Testing Complete!"),
@@ -106,7 +114,7 @@ class TestingCompletePage extends StatelessWidget {
                 child: Text('Return to Home Page'),
               ),
               new FutureBuilder<Set<Object>>(
-                future: page.syncData(custData),
+                future: syncData(custData),
                 builder: (BuildContext context, AsyncSnapshot<Set<Object>> snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.none: return new Text("Database Connection Failed!");

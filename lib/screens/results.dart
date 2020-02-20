@@ -1,4 +1,5 @@
 // Flutter Packages
+import 'package:HITCH/models/global.dart';
 import 'package:HITCH/models/print.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -28,6 +29,7 @@ class ResultsPage extends StatefulWidget {
 class ResultsPageState extends State<ResultsPage> {
   // Pull GetIt Singleton and create pointers to Singleton Helpers
   final DatabaseHelper dbHelper = GetIt.instance<DatabaseHelper>();
+  final GlobalHelper gbHelper = GetIt.instance<GlobalHelper>();
 
   // Pass customer data into this state
   final CustomerData custData;
@@ -114,6 +116,35 @@ class ResultsPageState extends State<ResultsPage> {
                           }
                       ),
                       Spacer(),
+                      SizedBox(
+                        height: 55,
+                        child: RaisedButton(
+                          color: Colors.grey[800],
+                          onPressed: () {
+                            // Get last test from db
+                            dbHelper.executeRawQuery('SELECT id, name, truckplate, trailerplate FROM CUSTOMER_DATA ORDER BY timestamp DESC LIMIT 1').then((onValue){
+                              // Set the customer, truck plate and trailer plate
+                              gbHelper.customerID = onValue[0]['id'].toString();
+                              gbHelper.customerName = onValue[0]['name'];
+                              gbHelper.customerTruckPlate = onValue[0]['truckplate'];
+                              gbHelper.customerTrailerPlate = onValue[0]['trailerplate'];
+                              dropDownNameValue = gbHelper.customerName;
+                              dbHelper.executeRawQuery('SELECT id FROM TRUCK_TEST_DATA WHERE customerid="${gbHelper.customerID}"').then((truckVal){
+                                dropDownTruckTestNum = truckVal[0]['id'].toString();
+                                dbHelper.executeRawQuery('SELECT id FROM TRAILER_TEST_DATA WHERE customerid="${gbHelper.customerID}"').then((trailerVal){
+                                  dropDownTrailerTestNum = trailerVal[0]['id'].toString();
+                                });
+                              });
+                            });
+                          },
+                          child: Text("Show Last Test"),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20),
+                  Row(
+                    children: <Widget>[
                       new FutureBuilder<List<String>>(
                           future: dbHelper.getCustomerTestList(custNameIDmap[dropDownNameValue], 'TRUCK_TEST_DATA'),
                           builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
@@ -147,19 +178,6 @@ class ResultsPageState extends State<ResultsPage> {
                                 }
                             }
                           }
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 20),
-                  Row(
-                    children: <Widget>[
-                      SizedBox(
-                        height: 55,
-                        child: RaisedButton(
-                          color: Colors.grey[800],
-                          onPressed: () { print("Tapped");},
-                          child: Text("Show Last Test"),
-                        ),
                       ),
                       Spacer(),
                       new FutureBuilder<List<String>>(
@@ -210,19 +228,19 @@ class ResultsPageState extends State<ResultsPage> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child:  PrintDatabaseResponses(
-                        'SELECT name FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1',
+                        'SELECT name FROM CUSTOMER_DATA WHERE id="${gbHelper.customerID}" LIMIT 1',
                         'Customer', 20),
                   ),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: PrintDatabaseResponses(
-                        'SELECT truckplate FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1',
+                        'SELECT truckplate FROM CUSTOMER_DATA WHERE id="${gbHelper.customerID}" LIMIT 1',
                         'Truck License Plate', 20),
                   ),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: PrintDatabaseResponses(
-                        'SELECT trailerplate FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1',
+                        'SELECT trailerplate FROM CUSTOMER_DATA WHERE id="${gbHelper.customerID}" LIMIT 1',
                         'Trailer License Plate', 20),
                   ),
                   TruckResults(),

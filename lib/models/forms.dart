@@ -75,12 +75,12 @@ class CustomerFormState extends State<CustomerForm> {
           new TextFormField(
             controller: custPhoneController,
             textAlign: TextAlign.left,
-//            validator: (value) {
-//              if (value.isEmpty) {
-//                return 'Please provide Customer Phone Number';
-//              }
-//              return null;
-//            },
+           validator: (value) {
+             if (value.isEmpty) {
+               return 'Please provide Customer Phone Number';
+             }
+             return null;
+           },
             decoration: InputDecoration(
               contentPadding: EdgeInsets.all(20),
               hintText: 'Customer Phone Number',
