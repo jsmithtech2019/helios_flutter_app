@@ -229,6 +229,7 @@ class CustomerFormState extends State<CustomerForm> {
                         trailerLicensePlateController.text
                     );
                     // dbHelper.insertCustomerData(custData);
+                    globalHelper.customerName = custNameController.text;
                     Scaffold.of(context)
                         .showSnackBar(SnackBar(content: Text('Processing Data')));
                     Navigator.push(

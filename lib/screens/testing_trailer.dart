@@ -1,4 +1,5 @@
 // Flutter Packages
+import 'package:HITCH/models/global.dart';
 import 'package:HITCH/models/print.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -21,7 +22,7 @@ import 'package:HITCH/utils/database_helper.dart';
 class TrailerTestingPage extends StatelessWidget {
   // Pull GetIt Singleton and create pointers to Singleton Helpers
   final DatabaseHelper dbHelper = GetIt.instance<DatabaseHelper>();
-
+  final GlobalHelper globalHelper = GetIt.instance<GlobalHelper>();
   final CustomerData custData;
 
   TrailerTestingPage({this.custData});
@@ -40,7 +41,13 @@ class TrailerTestingPage extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  PrintDatabaseResponses('SELECT name FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1', 'Running test for Customer', 20),
+                  //PrintDatabaseResponses('SELECT name FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1', 'Running test for Customer', 20),
+                  Text("Testing for customer: ${globalHelper.customerName}", 
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontStyle: FontStyle.italic
+                    )
+                  ),
                 ],
               ),
               SizedBox(height: 15),

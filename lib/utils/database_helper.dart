@@ -124,13 +124,13 @@ class DatabaseHelper {
   Future<Database> initializeDatabase() async {
     // Get the directory path for both Android and iOS to store database. Must
     // be enabled for application functionality on a physical device.
-    Directory directory = await getApplicationDocumentsDirectory();
-    String path = p.join(directory.toString(), 'HitchDatabase.db');
+    //Directory directory = await getApplicationDocumentsDirectory();
+    //String path = p.join(directory.toString(), 'HitchDatabase.db');
 
     // Using a static path on the host machine can be useful for debugging
     // errors or writing additional functionality for the controller. The path
     // specified is an absolute path from the root directory of the dev machine.
-    //String path = '/Users/mars/Desktop/HitchDatabase.db';
+    String path = '/Users/mars/Desktop/HitchDatabase.db';
 
     // Log the database path for debugging purposes
     logHelper.d('Using path: $path');

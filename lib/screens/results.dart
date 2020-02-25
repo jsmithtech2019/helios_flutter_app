@@ -228,19 +228,22 @@ class ResultsPageState extends State<ResultsPage> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child:  PrintDatabaseResponses(
-                        'SELECT name FROM CUSTOMER_DATA WHERE id="${gbHelper.customerID}" LIMIT 1',
+                        //'SELECT name FROM CUSTOMER_DATA WHERE id="${gbHelper.customerID}" LIMIT 1',
+                        'SELECT name FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1',
                         'Customer', 20),
                   ),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: PrintDatabaseResponses(
-                        'SELECT truckplate FROM CUSTOMER_DATA WHERE id="${gbHelper.customerID}" LIMIT 1',
+                        //'SELECT truckplate FROM CUSTOMER_DATA WHERE id="${gbHelper.customerID}" LIMIT 1',
+                        'SELECT truckplate FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1',
                         'Truck License Plate', 20),
                   ),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: PrintDatabaseResponses(
-                        'SELECT trailerplate FROM CUSTOMER_DATA WHERE id="${gbHelper.customerID}" LIMIT 1',
+                        //'SELECT trailerplate FROM CUSTOMER_DATA WHERE id="${gbHelper.customerID}" LIMIT 1',
+                        'SELECT trailerplate FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1',
                         'Trailer License Plate', 20),
                   ),
                   TruckResults(),

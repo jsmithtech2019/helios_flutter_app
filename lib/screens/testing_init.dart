@@ -9,11 +9,6 @@ import 'package:HITCH/models/seperator.dart';
 // Utils
 import 'package:HITCH/utils/database_helper.dart';
 
-
-///#############################################################################
-///                            testing_init.dart
-///#############################################################################
-
 class CustomerPage extends StatelessWidget {
   // Pull GetIt Singleton and create pointers to Singleton Helpers
   final DatabaseHelper dbHelper = GetIt.instance<DatabaseHelper>();

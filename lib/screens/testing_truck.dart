@@ -22,6 +22,7 @@ import 'package:HITCH/utils/database_helper.dart';
 class TruckTestingPage extends StatelessWidget {
   // Pull GetIt Singleton and create pointers to Singleton Helpers
   final DatabaseHelper dbHelper = GetIt.instance<DatabaseHelper>();
+  final GlobalHelper globalHelper = GetIt.instance<GlobalHelper>();
 
   final CustomerData custData;
 
@@ -39,8 +40,14 @@ class TruckTestingPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              PrintDatabaseResponses('SELECT name FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1', 'Testing for customer', 20),
-              PrintDatabaseResponses('SELECT phone FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1', 'Phone number from db', 20),
+              //PrintDatabaseResponses('SELECT name FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1', 'Testing for customer', 20),
+              Text("Testing for customer: ${globalHelper.customerName}", 
+                style: TextStyle(
+                  fontSize: 20,
+                  fontStyle: FontStyle.italic
+                )
+              ),
+              //PrintDatabaseResponses('SELECT phone FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1', 'Phone number from db', 20),
               SizedBox(height: 15),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
