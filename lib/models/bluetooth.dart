@@ -1,26 +1,29 @@
 import 'dart:math';
 
+import 'package:HITCH/models/global.dart';
+import 'package:HITCH/utils/database_helper.dart';
+import 'package:HITCH/utils/home_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:HITCH/models/bt_widgets.dart';
+import 'package:get_it/get_it.dart';
 
+
+final GlobalHelper globalHelper = GetIt.instance<GlobalHelper>();
 
 class FlutterBlueApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      color: Colors.lightBlue,
-      home: StreamBuilder<BluetoothState>(
-          stream: FlutterBlue.instance.state,
-          initialData: BluetoothState.unknown,
-          builder: (c, snapshot) {
-            final state = snapshot.data;
-            if (state == BluetoothState.on) {
-              return FindDevicesScreen();
-            }
-            return Text("Bluetooth is off!");
-          }),
-    );
+    return StreamBuilder<BluetoothState>(
+      stream: FlutterBlue.instance.state,
+      initialData: BluetoothState.unknown,
+      builder: (c, snapshot) {
+        final state = snapshot.data;
+        if (state == BluetoothState.on) {
+          return FindDevicesScreen();
+        }
+        return Text("Bluetooth is off!");
+      });
   }
 }
 
@@ -127,33 +130,24 @@ class DeviceScreen extends StatelessWidget {
   }
 
   List<Widget> _buildServiceTiles(List<BluetoothService> services) {
-    return services
-        .map(
-          (s) => ServiceTile(
-            service: s,
-            characteristicTiles: s.characteristics
-                .map(
-                  (c) => CharacteristicTile(
-                    characteristic: c,
-                    onReadPressed: () => c.read(),
-                    onWritePressed: () => c.write(_getRandomBytes()),
-                    onNotificationPressed: () =>
-                        c.setNotifyValue(!c.isNotifying),
-                    descriptorTiles: c.descriptors
-                        .map(
-                          (d) => DescriptorTile(
-                            descriptor: d,
-                            onReadPressed: () => d.read(),
-                            onWritePressed: () => d.write(_getRandomBytes()),
-                          ),
-                        )
-                        .toList(),
-                  ),
-                )
-                .toList(),
+    return services.map((s) => ServiceTile(
+        service: s,
+        characteristicTiles: s.characteristics.map((c) => CharacteristicTile(
+            characteristic: c,
+            onReadPressed: () => c.read(),
+            onWritePressed: () => c.write(_getRandomBytes()),
+            onNotificationPressed: () =>
+                c.setNotifyValue(!c.isNotifying),
+            descriptorTiles: c.descriptors.map((d) => DescriptorTile(
+                descriptor: d,
+                onReadPressed: () => d.read(),
+                onWritePressed: () => d.write(_getRandomBytes()),
+              ),
+            ).toList(),
           ),
-        )
-        .toList();
+        ).toList(),
+      ),
+    ).toList();
   }
 
   @override
@@ -254,6 +248,17 @@ class DeviceScreen extends StatelessWidget {
                 );
               },
             ),
+            RaisedButton(
+                onPressed: () {
+                  globalHelper.moduleUUID = device.id.toString();
+                  globalHelper.bluetoothDevice = device;
+                  Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                      builder: (context) => Home(0)),
+                      (Route<dynamic> route) => false);
+                }, // onPressed
+                child: Text('Return to Home Page'),
+              ),
           ],
         ),
       ),

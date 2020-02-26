@@ -127,17 +127,45 @@ class SettingsPageState extends State<SettingsPage> {
             ),
             SizedBox(height: 20),
             new SeparatorBox("Pair Device"),
-            RaisedButton(
-              child: Text('Find Available Devices'),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => FlutterBlueApp(),
+            (globalHelper.bluetoothDevice == null) ? 
+              Column(
+                children: <Widget>[
+                  SizedBox(height: 10),
+                  RaisedButton(
+                    child: Text('Find Available Devices'),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => FlutterBlueApp(),
+                        ),
+                      );
+                    },
+                  )
+                ],
+              ) : Column(
+                children: <Widget>[
+                  SizedBox(height: 10),
+                  new Text('Paired Module: ',
+                    style: TextStyle(fontSize: 20),
                   ),
-                );
-              },
-            ),
+                  new Text('${globalHelper.moduleUUID}',
+                    style: TextStyle(fontSize: 15),
+                  ),
+                  SizedBox(height: 10),
+                  RaisedButton(
+                    child: Text('Pair Another Devices'),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => FlutterBlueApp(),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
             SizedBox(height: 20),
             new SeparatorBox("Add Configuration"),
             Container(
