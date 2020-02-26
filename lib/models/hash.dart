@@ -9,7 +9,4 @@ import 'package:logger/logger.dart';
 // Utils
 
 
-///#############################################################################
-///
-///#############################################################################
-// TODO: THIS FILE WILL BE USED TO HASH AND ENCRYPT THE PASSWORDS/UUID ETC FOR THE SERVER
+/// TODO: THIS FILE WILL BE USED TO HASH AND ENCRYPT THE PASSWORDS/UUID ETC FOR THE SERVER

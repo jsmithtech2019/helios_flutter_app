@@ -228,8 +228,13 @@ class CustomerFormState extends State<CustomerForm> {
                         truckLicensePlateController.text,
                         trailerLicensePlateController.text
                     );
-                    // dbHelper.insertCustomerData(custData);
+
+                    // Update global singleton
                     globalHelper.customerName = custNameController.text;
+                    globalHelper.customerPhone = custPhoneController.text;
+                    globalHelper.customerTruckPlate = truckLicensePlateController.text;
+                    globalHelper.customerTrailerPlate = trailerLicensePlateController.text;
+
                     Scaffold.of(context)
                         .showSnackBar(SnackBar(content: Text('Processing Data')));
                     Navigator.push(
@@ -262,7 +267,14 @@ class CustomerFormState extends State<CustomerForm> {
                         truckLicensePlateController.text,
                         trailerLicensePlateController.text
                     );
-                    dbHelper.insertCustomerData(custData);
+                    
+                    // Update global singleton
+                    globalHelper.customerName = custNameController.text;
+                    globalHelper.customerPhone = custPhoneController.text;
+                    globalHelper.customerTruckPlate = truckLicensePlateController.text;
+                    globalHelper.customerTrailerPlate = trailerLicensePlateController.text;
+
+                    // dbHelper.insertCustomerData(custData);
                     Scaffold.of(context)
                         .showSnackBar(SnackBar(content: Text('Processing Data')));
                     Navigator.push(

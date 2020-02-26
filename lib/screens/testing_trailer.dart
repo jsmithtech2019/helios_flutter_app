@@ -14,11 +14,6 @@ import 'package:HITCH/screens/testing_complete.dart';
 // Utils
 import 'package:HITCH/utils/database_helper.dart';
 
-
-///#############################################################################
-///
-///#############################################################################
-
 class TrailerTestingPage extends StatelessWidget {
   // Pull GetIt Singleton and create pointers to Singleton Helpers
   final DatabaseHelper dbHelper = GetIt.instance<DatabaseHelper>();
@@ -41,7 +36,6 @@ class TrailerTestingPage extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  //PrintDatabaseResponses('SELECT name FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1', 'Running test for Customer', 20),
                   Text("Testing for customer: ${globalHelper.customerName}", 
                     style: TextStyle(
                       fontSize: 20,

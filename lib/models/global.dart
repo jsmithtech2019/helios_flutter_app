@@ -15,6 +15,7 @@ class GlobalHelper {
   // Customer Values
   String _customerName = '';
   String _customerID = '';
+  String _customerPhone = '';
   String _customerTruckPlate = '';
   String _customerTrailerPlate = '';
 
@@ -27,9 +28,10 @@ class GlobalHelper {
   get employeePhone => _employeePhone;
   get moduleUUID => _moduleUUID;
   get customerName => _customerName;
-  get customerID=> _customerID;
-  get customerTruckPlate=> _customerTruckPlate;
-  get customerTrailerPlate=> _customerTrailerPlate;
+  get customerID => _customerID;
+  get customerPhone => _customerPhone;
+  get customerTruckPlate => _customerTruckPlate;
+  get customerTrailerPlate => _customerTrailerPlate;
 
   // Setters
   set dealership(String dealership){
@@ -74,5 +76,9 @@ class GlobalHelper {
 
   set customerTrailerPlate(String plate){
     _customerTrailerPlate = plate;
+  }
+
+  set customerPhone(String phone){
+    _customerPhone = phone;
   }
 }

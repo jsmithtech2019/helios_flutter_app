@@ -1,4 +1,5 @@
 // Flutter Packages
+import 'package:HITCH/models/bluetooth.dart';
 import 'package:HITCH/models/print.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -123,6 +124,19 @@ class SettingsPageState extends State<SettingsPage> {
                       }
                   }
                 }
+            ),
+            SizedBox(height: 20),
+            new SeparatorBox("Pair Device"),
+            RaisedButton(
+              child: Text('Find Available Devices'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => FlutterBlueApp(),
+                  ),
+                );
+              },
             ),
             SizedBox(height: 20),
             new SeparatorBox("Add Configuration"),

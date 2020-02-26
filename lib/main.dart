@@ -13,8 +13,7 @@ import 'package:HITCH/models/global.dart';
 import 'package:HITCH/utils/database_helper.dart';
 import 'package:HITCH/utils/home_widget.dart';
 
-///#############################################################################
-///                            MAIN.dart
+/// MAIN.dart
 /// Boilerplate page that initializes the entire application, is called on
 /// application opening and then passes all navigation and drawing to the
 /// Home widget from home_widget.dart.
@@ -24,7 +23,6 @@ import 'package:HITCH/utils/home_widget.dart';
 /// - DatabaseHelper Singleton
 /// - BluetoothHelper Singleton
 /// - Logger Singleton
-///#############################################################################
 
 GetIt sl = GetIt.instance;
 
