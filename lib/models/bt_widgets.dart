@@ -192,7 +192,7 @@ class ScanResultTile extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(title, style: Theme.of(context).textTheme.caption),
+          Text(title, style: Theme.of(context).textTheme.caption.apply(color: Colors.white)),
           SizedBox(
             width: 12.0,
           ),
@@ -202,7 +202,7 @@ class ScanResultTile extends StatelessWidget {
               style: Theme.of(context)
                   .textTheme
                   .caption
-                  .apply(color: Colors.black),
+                  .apply(color: Colors.grey),
               softWrap: true,
             ),
           ),

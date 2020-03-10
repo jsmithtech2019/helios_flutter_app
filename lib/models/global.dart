@@ -1,4 +1,5 @@
 import 'package:flutter_blue/flutter_blue.dart';
+import 'package:get_it/get_it.dart';
 
 ///Global Singleton for all information that is needed in the application?
 
@@ -21,6 +22,9 @@ class GlobalHelper {
   String _customerTruckPlate = '';
   String _customerTrailerPlate = '';
 
+  // GetIt Instance
+  GetIt _getIt;
+
   // Bluetooth Values
   BluetoothDevice _bluetoothDevice;
 
@@ -37,6 +41,7 @@ class GlobalHelper {
   get customerPhone => _customerPhone;
   get customerTruckPlate => _customerTruckPlate;
   get customerTrailerPlate => _customerTrailerPlate;
+  get getIt => _getIt;
   get bluetoothDevice => _bluetoothDevice;
 
   // Setters
@@ -86,6 +91,10 @@ class GlobalHelper {
 
   set customerPhone(String phone){
     _customerPhone = phone;
+  }
+
+  set getIt(GetIt i){
+    _getIt = i;
   }
 
   set bluetoothDevice(BluetoothDevice d){

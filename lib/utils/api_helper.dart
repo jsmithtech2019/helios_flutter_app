@@ -36,7 +36,7 @@ Future<http.Response> getRequest (Map body) async {
   return response;
 }
 
-Future<http.Response> postRequest (CustomerData cust) async {
+Future<http.Response> postRequest (CustomerData cust, TruckTestData truckd, TrailerTestData trailerd) async {
   // TODO: update from HTTP to HTTPS
   var url ='http://duet.helioscapstone.com/upload/';
 
@@ -48,9 +48,9 @@ Future<http.Response> postRequest (CustomerData cust) async {
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
   var employeePass = await dbHelper.executeRawQuery('SELECT pass FROM ADMIN_DATA WHERE phone="${globalHelper.employeePhone}" AND email="${globalHelper.employeeEmail}"');
 
-  var customerID = await dbHelper.executeRawQuery('SELECT id FROM CUSTOMER_DATA WHERE phone="${cust.customerPhoneNumber}" ORDER BY timestamp DESC LIMIT 1');
-  var truckDB = await dbHelper.executeRawQuery('SELECT * FROM TRUCK_TEST_DATA WHERE customerid="${customerID[0]['id']}"');
-  var trailerDB = await dbHelper.executeRawQuery('SELECT * FROM TRAILER_TEST_DATA WHERE customerid="${customerID[0]['id']}"');
+  //var customerID = await dbHelper.executeRawQuery('SELECT id FROM CUSTOMER_DATA WHERE phone="${cust.customerPhoneNumber}" ORDER BY timestamp DESC LIMIT 1');
+  //var truckDB = await dbHelper.executeRawQuery('SELECT * FROM TRUCK_TEST_DATA WHERE customerid="${customerID[0]['id']}" ORDER BY timestamp DESC LIMIT 1');
+  //var trailerDB = await dbHelper.executeRawQuery('SELECT * FROM TRAILER_TEST_DATA WHERE customerid="${customerID[0]['id']}" ORDER BY timestamp DESC LIMIT 1');
 
   Map testData = {
     'truck':[
@@ -99,42 +99,39 @@ Future<http.Response> postRequest (CustomerData cust) async {
     ]
   };
 
-  // Insert received values from Truck database
-  if(truckDB.length > 0){
-    // Test 1
-    testData['truck'][0]['value'] = truckDB[0]['test1_result'];
-    testData['truck'][0]['current'] = truckDB[0]['test1_current'];
+  // Insert received values from TruckTestData object
+  // Test 1
+  testData['truck'][0]['value'] = truckd.truckTest1Result;
+  testData['truck'][0]['current'] = truckd.truckTest1Current;
 
-    // Test 2
-    testData['truck'][1]['value'] = truckDB[0]['test2_result'];
-    testData['truck'][1]['current'] = truckDB[0]['test2_current'];
+  // Test 2
+  testData['truck'][1]['value'] = truckd.truckTest2Result;
+  testData['truck'][1]['current'] = truckd.truckTest2Current;
 
-    // Test 3
-    testData['truck'][2]['value'] = truckDB[0]['test3_result'];
-    testData['truck'][2]['current'] = truckDB[0]['test3_current'];
+  // Test 3
+  testData['truck'][2]['value'] = truckd.truckTest3Result;
+  testData['truck'][2]['current'] = truckd.truckTest3Current;
 
-    // Test 4
-    testData['truck'][3]['value'] = truckDB[0]['test4_result'];
-    testData['truck'][3]['current'] = truckDB[0]['test4_current'];
-  }
+  // Test 4
+  testData['truck'][3]['value'] = truckd.truckTest4Result;
+  testData['truck'][3]['current'] = truckd.truckTest4Current;
 
-  if(trailerDB.length > 0){
-    // Test 1
-    testData['trailer'][0]['value'] = trailerDB[0]['test1_result'];
-    testData['trailer'][0]['current'] = trailerDB[0]['test1_current'];
+  // Insert received values from TrailerTestData object
+  // Test 1
+  testData['trailer'][0]['value'] = trailerd.trailerTest1Result;
+  testData['trailer'][0]['current'] = trailerd.trailerTest1Current;
 
-    // Test 2
-    testData['trailer'][1]['value'] = trailerDB[0]['test2_result'];
-    testData['trailer'][1]['current'] = trailerDB[0]['test2_current'];
+  // Test 2
+  testData['trailer'][1]['value'] = trailerd.trailerTest2Result;
+  testData['trailer'][1]['current'] = trailerd.trailerTest2Current;
 
-    // Test 3
-    testData['trailer'][2]['value'] = trailerDB[0]['test3_result'];
-    testData['trailer'][2]['current'] = trailerDB[0]['test3_current'];
+  // Test 3
+  testData['trailer'][2]['value'] = trailerd.trailerTest3Result;
+  testData['trailer'][2]['current'] = trailerd.trailerTest3Current;
 
-    // Test 4
-    testData['trailer'][3]['value'] = trailerDB[0]['test4_result'];
-    testData['trailer'][3]['current'] = trailerDB[0]['test4_current'];
-  }
+  // Test 4
+  testData['trailer'][3]['value'] = trailerd.trailerTest4Result;
+  testData['trailer'][3]['current'] = trailerd.trailerTest4Current;
 
   if(cust.customerZipCode == null){
     cust.customerZipCode = 0;
@@ -151,6 +148,7 @@ Future<http.Response> postRequest (CustomerData cust) async {
       'dealership': globalHelper.dealership,
     },
     'employee': {
+      // TODO: wtf is going on
       "employee_uuid": globalHelper.employeeUUID,
       "email": globalHelper.employeeEmail,
       "password": employeePass[0]['pass'],

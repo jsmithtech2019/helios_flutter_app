@@ -10,6 +10,9 @@ dependencies:
   flutter:
     sdk: flutter
 
+  # Lock assets to prevent accessing BLE at same time
+  synchronized: ^2.2.0
+
   # Add SQLite database support.
   sqflite: ^1.2.0
   path: any

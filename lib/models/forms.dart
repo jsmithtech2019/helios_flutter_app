@@ -281,7 +281,7 @@ class CustomerFormState extends State<CustomerForm> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => TrailerTestingPage(
-                            custData: custData,
+                            custData,
                           )
                       ),
                     );
@@ -473,6 +473,7 @@ class EmployeeFormState extends State<EmployeeForm> {
                 );
 
                 // Update global singleton
+                print('WTF IS GOING ON HERE employee: ${employeeUUIDController.text}');
                 GlobalHelper globalHelper = GetIt.instance<GlobalHelper>();
                 globalHelper.dealership = dealership.text;
                 globalHelper.dealershipUUID = dealershipUUID.text;
@@ -480,6 +481,9 @@ class EmployeeFormState extends State<EmployeeForm> {
                 globalHelper.employeePhone = employeePhoneNumberController.text;
                 globalHelper.employeeName = employeeNameController.text;
                 globalHelper.employeeUUID = employeeUUIDController.text;
+                globalHelper.moduleUUID = moduleID.text;
+
+                print('Oh no: ${globalHelper.employeeUUID}');
 
                 //dbHelper.initializeDatabase().then((onValue){print("Done initializing");});
                 dbHelper.insertAdminData(adminData);

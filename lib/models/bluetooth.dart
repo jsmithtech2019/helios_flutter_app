@@ -22,7 +22,19 @@ class FlutterBlueApp extends StatelessWidget {
         if (state == BluetoothState.on) {
           return FindDevicesScreen();
         }
-        return Text("Bluetooth is off!");
+        return Container(
+          color: Colors.grey,
+          child: Center(
+            child: Container(
+              color: Colors.grey,
+              child: Text('Please Enable Bluetooth',
+                style: TextStyle(
+                  fontSize: 30,
+                ),
+              ),
+            ),
+          ),
+        );
       });
   }
 }
@@ -74,18 +86,16 @@ class FindDevicesScreen extends StatelessWidget {
                 stream: FlutterBlue.instance.scanResults,
                 initialData: [],
                 builder: (c, snapshot) => Column(
-                  children: snapshot.data
-                      .map(
-                        (r) => ScanResultTile(
-                          result: r,
-                          onTap: () => Navigator.of(context)
-                              .push(MaterialPageRoute(builder: (context) {
+                  children: snapshot.data.map((r) => ScanResultTile(
+                        result: r,
+                        onTap: () => Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) {
                             r.device.connect();
                             return DeviceScreen(device: r.device);
-                          })),
-                        ),
-                      )
-                      .toList(),
+                          }
+                        )),
+                      ),
+                  ).toList(),
                 ),
               ),
             ],
@@ -120,13 +130,16 @@ class DeviceScreen extends StatelessWidget {
   final BluetoothDevice device;
 
   List<int> _getRandomBytes() {
-    final math = Random();
-    return [
-      math.nextInt(255),
-      math.nextInt(255),
-      math.nextInt(255),
-      math.nextInt(255)
-    ];
+    //final math = Random();
+    var t = [Random().nextInt(255), Random().nextInt(255)];
+    return t; 
+    // [
+    //   t
+    //   //math.nextInt(255)
+    //   // math.nextInt(255),
+    //   // math.nextInt(255),
+    //   // math.nextInt(255)
+    // ];
   }
 
   List<Widget> _buildServiceTiles(List<BluetoothService> services) {
@@ -233,10 +246,10 @@ class DeviceScreen extends StatelessWidget {
               builder: (c, snapshot) => ListTile(
                 title: Text('MTU Size'),
                 subtitle: Text('${snapshot.data} bytes'),
-                trailing: IconButton(
-                  icon: Icon(Icons.edit),
-                  onPressed: () => device.requestMtu(223),
-                ),
+                // trailing: IconButton(
+                //   icon: Icon(Icons.edit),
+                //   onPressed: () => device.requestMtu(223),
+                // ),
               ),
             ),
             StreamBuilder<List<BluetoothService>>(
@@ -251,7 +264,18 @@ class DeviceScreen extends StatelessWidget {
             RaisedButton(
                 onPressed: () {
                   globalHelper.moduleUUID = device.id.toString();
+                  // Add only so it doesn't screw the settings page
                   globalHelper.bluetoothDevice = device;
+
+                  // Register device on GetIt instance
+                  GetIt sl = globalHelper.getIt;
+                  try {
+                    sl.registerSingleton<BluetoothDevice>(device);
+                  } catch (e) {
+                    BluetoothDevice bt = GetIt.instance<BluetoothDevice>();
+                    bt = device;
+                  }
+
                   Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
                       builder: (context) => Home(0)),

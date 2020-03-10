@@ -2,6 +2,7 @@
 import 'package:HITCH/models/bluetooth.dart';
 import 'package:HITCH/models/print.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_blue/flutter_blue.dart';
 import 'package:get_it/get_it.dart';
 import 'package:HITCH/models/forms.dart';
 
@@ -10,10 +11,6 @@ import 'package:HITCH/utils/database_helper.dart';
 
 // Models
 import 'package:HITCH/models/seperator.dart';
-
-///#############################################################################
-///                            settings.dart
-///#############################################################################
 
 class SettingsPage extends StatefulWidget{
 
@@ -133,7 +130,7 @@ class SettingsPageState extends State<SettingsPage> {
                   SizedBox(height: 10),
                   RaisedButton(
                     child: Text('Find Available Devices'),
-                    onPressed: () {
+                     onPressed: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(

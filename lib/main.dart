@@ -1,5 +1,6 @@
 // Flutter Packages
 import 'package:flutter/material.dart';
+import 'package:flutter_blue/flutter_blue.dart';
 //import 'package:flutter_blue/flutter_blue.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
@@ -24,14 +25,12 @@ import 'package:HITCH/utils/home_widget.dart';
 /// - BluetoothHelper Singleton
 /// - Logger Singleton
 
+// Generate Singleton GetIt for usage on all Sheets
 GetIt sl = GetIt.instance;
 
 void main() async {
   // Wait until ASYNC calls are completed before starting the application
   WidgetsFlutterBinding.ensureInitialized();
-
-  // Generate Singleton GetIt for usage on all Sheets
-  GetIt.asNewInstance();
 
   // Generated and register Singletons into GetIt instance
   sl.registerSingleton<Logger>(Logger(
@@ -45,21 +44,14 @@ void main() async {
   ));
   sl.registerSingleton<DatabaseHelper>(DatabaseHelper());
   sl.registerSingleton<GlobalHelper>(GlobalHelper());
-  // TODO: enable the bluetooth singleton
-  //getIt.registerSingleton<BluetoothHelper>(BluetoothHelper());
 
   // Get DatabaseHelper Singleton
   var dbHelper = GetIt.instance<DatabaseHelper>();
   var logHelper = GetIt.instance<Logger>();
   var globalHelper = GetIt.instance<GlobalHelper>();
 
-  // Initialize the database on the device
-  // Initialize the database on the device
-  // dbHelper.initializeDatabase().then(
-  //   (onValue){
-  //     logHelper.d("Database has been initialized!");
-  //   }
-  // );
+  globalHelper.getIt = sl;
+
   await dbHelper.initializeDatabase();
   logHelper.d("Database has been initialized!");
 
@@ -138,7 +130,7 @@ void seedDatabase(){
   dbHelper.executeRawQuery('INSERT INTO ADMIN_DATA (name, phone, email, pass, '
       'moduleID, dealership, dealer_uuid, employee_uuid) VALUES ("Christian Ledgard", '
       '"303", "test@mail", '
-      '"pass", "c1cde887-51e2-11ea-8777-0242c0a83004", "Helios", "c1cde81b-51e2-11ea-8777-0242c0a83004", "c1cde8fc-51e2-11ea-8777-0242c0a83004")');
+      '"pass", "34cdcaf4-5e2d-11ea-bd80-0242ac180004", "Helios", "34cdcad7-5e2d-11ea-bd80-0242ac180004", "34cdcb1a-5e2d-11ea-bd80-0242ac180004")');
   
   logHelper.d("Database has been seeded with test data.");
 }

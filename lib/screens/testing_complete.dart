@@ -32,78 +32,69 @@ class TestingCompletePage extends StatelessWidget {
     }
   }
 
-  Future<Set<Object>> syncData(CustomerData custData, [TruckTestData truckData, TrailerTestData trailerData]) async {
-    GlobalHelper gbHelper = GetIt.instance<GlobalHelper>();
+  Future<Set<Object>> syncData(CustomerData custData, [TruckTestData truckDataArg, TrailerTestData trailerDataArg]) async {
+    //GlobalHelper gbHelper = GetIt.instance<GlobalHelper>();
+
+    if(truckDataArg != null){
+      truckData = truckDataArg;
+    }
+
+    if(trailerDataArg != null){
+      trailerData = trailerDataArg;
+    }
+
+    // Call the server sync function (postRequest())
+    await postRequest(custData, truckData, trailerData).then((postResponse) {
+      // Validate response and return error and code or success and code
+      return {postResponse.statusCode.toString(), postResponse.body};
+    });
     // Check if customer exists
     // TODO: remove limit 1
-    await dbHelper.executeRawQuery('SELECT id FROM CUSTOMER_DATA WHERE name="${custData.customerName}" AND phone="${custData.customerPhoneNumber}" LIMIT 1').then((custID) async {
-      if(custID.isEmpty){
-        await dbHelper.insertCustomerData(custData).then((custID) async {
-          await dbHelper.executeRawQuery('SELECT id FROM CUSTOMER_DATA WHERE name="${custData.customerName}" AND phone="${custData.customerPhoneNumber}" LIMIT 1').then((custID) async {
-            // Send truck data to db with custID
-            await dbHelper.executeRawQuery('INSERT INTO TRUCK_TEST_DATA (customerid, test1_result, test1_current, test2_result, test2_current, test3_result, test3_current, test4_result, test4_current) VALUES (${custID[0]['id']}, ${this.truckData.truckTest1Result}, ${this.truckData.truckTest1Current}, ${this.truckData.truckTest2Result}, ${this.truckData.truckTest2Current}, ${this.truckData.truckTest3Result}, ${this.truckData.truckTest3Current}, ${this.truckData.truckTest4Result}, ${this.truckData.truckTest4Current})');
+    // await dbHelper.executeRawQuery('SELECT id FROM CUSTOMER_DATA WHERE name="${custData.customerName}" AND phone="${custData.customerPhoneNumber}" LIMIT 1').then((custID) async {
+    //   if(custID.isEmpty){
+    //     await dbHelper.insertCustomerData(custData).then((custID) async {
+    //       await dbHelper.executeRawQuery('SELECT id FROM CUSTOMER_DATA WHERE name="${custData.customerName}" AND phone="${custData.customerPhoneNumber}" LIMIT 1').then((custID) async {
+    //         // Send truck data to db with custID
+    //         //await dbHelper.executeRawQuery('INSERT INTO TRUCK_TEST_DATA (customerid, test1_result, test1_current, test2_result, test2_current, test3_result, test3_current, test4_result, test4_current) VALUES (${custID[0]['id']}, ${this.truckData.truckTest1Result}, ${this.truckData.truckTest1Current}, ${this.truckData.truckTest2Result}, ${this.truckData.truckTest2Current}, ${this.truckData.truckTest3Result}, ${this.truckData.truckTest3Current}, ${this.truckData.truckTest4Result}, ${this.truckData.truckTest4Current})');
 
-            // Send trailer data to DB with custID
-            await dbHelper.executeRawQuery('INSERT INTO TRAILER_TEST_DATA (customerid, test1_result, test1_current, test2_result, test2_current, test3_result, test3_current, test4_result, test4_current) VALUES (${custID[0]['id']}, ${this.trailerData.trailerTest1Result}, ${this.trailerData.trailerTest1Current}, ${this.trailerData.trailerTest2Result}, ${this.trailerData.trailerTest2Current}, ${this.trailerData.trailerTest3Result}, ${this.trailerData.trailerTest3Current}, ${this.trailerData.trailerTest4Result}, ${this.trailerData.trailerTest4Current})');
+    //         // Send trailer data to DB with custID
+    //         //await dbHelper.executeRawQuery('INSERT INTO TRAILER_TEST_DATA (customerid, test1_result, test1_current, test2_result, test2_current, test3_result, test3_current, test4_result, test4_current) VALUES (${custID[0]['id']}, ${this.trailerData.trailerTest1Result}, ${this.trailerData.trailerTest1Current}, ${this.trailerData.trailerTest2Result}, ${this.trailerData.trailerTest2Current}, ${this.trailerData.trailerTest3Result}, ${this.trailerData.trailerTest3Current}, ${this.trailerData.trailerTest4Result}, ${this.trailerData.trailerTest4Current})');
 
-            gbHelper.customerName = custData.customerName;
-            gbHelper.customerID = custData.customerId.toString();
-            gbHelper.customerTruckPlate = custData.truckLicensePlate;
-            gbHelper.customerTrailerPlate = custData.trailerLicensePlate;
+    //         if(truckDataArg != null){
+    //           truckData = truckDataArg;
+    //         }
 
-            // Call the server sync function (postRequest())
-            await postRequest(custData).then((postResponse) {
-              // Validate response and return error and code or success and code
-              return {postResponse.statusCode.toString(), postResponse.body};
-            });
-          });
-        });
-      } else {
-        // Send truck data to db with custID
-        await dbHelper.executeRawQuery('INSERT INTO TRUCK_TEST_DATA (customerid, test1_result, test1_current, test2_result, test2_current, test3_result, test3_current, test4_result, test4_current) VALUES (${custID[0]['id']}, ${this.truckData.truckTest1Result}, ${this.truckData.truckTest1Current}, ${this.truckData.truckTest2Result}, ${this.truckData.truckTest2Current}, ${this.truckData.truckTest3Result}, ${this.truckData.truckTest3Current}, ${this.truckData.truckTest4Result}, ${this.truckData.truckTest4Current})');
+    //         gbHelper.customerName = custData.customerName;
+    //         gbHelper.customerID = custData.customerId.toString();
+    //         gbHelper.customerTruckPlate = custData.truckLicensePlate;
+    //         gbHelper.customerTrailerPlate = custData.trailerLicensePlate;
 
-        // Send trailer data to DB with custID
-        await dbHelper.executeRawQuery('INSERT INTO TRAILER_TEST_DATA (customerid, test1_result, test1_current, test2_result, test2_current, test3_result, test3_current, test4_result, test4_current) VALUES (${custID[0]['id']}, ${this.trailerData.trailerTest1Result}, ${this.trailerData.trailerTest1Current}, ${this.trailerData.trailerTest2Result}, ${this.trailerData.trailerTest2Current}, ${this.trailerData.trailerTest3Result}, ${this.trailerData.trailerTest3Current}, ${this.trailerData.trailerTest4Result}, ${this.trailerData.trailerTest4Current})');
+    //         // Call the server sync function (postRequest())
+    //         await postRequest(custData, truckData, trailerData).then((postResponse) {
+    //           // Validate response and return error and code or success and code
+    //           return {postResponse.statusCode.toString(), postResponse.body};
+    //         });
+    //       });
+    //     });
+    //   } else {
+    //     // Send truck data to db with custID
+    //     await dbHelper.executeRawQuery('INSERT INTO TRUCK_TEST_DATA (customerid, test1_result, test1_current, test2_result, test2_current, test3_result, test3_current, test4_result, test4_current) VALUES (${custID[0]['id']}, ${this.truckData.truckTest1Result}, ${this.truckData.truckTest1Current}, ${this.truckData.truckTest2Result}, ${this.truckData.truckTest2Current}, ${this.truckData.truckTest3Result}, ${this.truckData.truckTest3Current}, ${this.truckData.truckTest4Result}, ${this.truckData.truckTest4Current})');
 
-        gbHelper.customerName = custData.customerName;
-        gbHelper.customerID = custData.customerId.toString();
-        gbHelper.customerTruckPlate = custData.truckLicensePlate;
-        gbHelper.customerTrailerPlate = custData.trailerLicensePlate;
+    //     // Send trailer data to DB with custID
+    //     await dbHelper.executeRawQuery('INSERT INTO TRAILER_TEST_DATA (customerid, test1_result, test1_current, test2_result, test2_current, test3_result, test3_current, test4_result, test4_current) VALUES (${custID[0]['id']}, ${this.trailerData.trailerTest1Result}, ${this.trailerData.trailerTest1Current}, ${this.trailerData.trailerTest2Result}, ${this.trailerData.trailerTest2Current}, ${this.trailerData.trailerTest3Result}, ${this.trailerData.trailerTest3Current}, ${this.trailerData.trailerTest4Result}, ${this.trailerData.trailerTest4Current})');
 
-        // Call the server sync function (postRequest())
-        await postRequest(custData).then((postResponse) {
-          // Validate response and return error and code or success and code
-          return {postResponse.statusCode.toString(), postResponse.body};
-        });
-      }
-    });
-    // var checkCust = await dbHelper.executeRawQuery('SELECT id FROM CUSTOMER_DATA WHERE name="${custData.customerName}" AND phone="${custData.customerPhoneNumber}" LIMIT 1');
-    // if (checkCust == null){
-    //   // Send cust data to the database only if it does not already exist
-    //   await dbHelper.insertCustomerData(custData);
-    // };
+    //     gbHelper.customerName = custData.customerName;
+    //     gbHelper.customerID = custData.customerId.toString();
+    //     gbHelper.customerTruckPlate = custData.truckLicensePlate;
+    //     gbHelper.customerTrailerPlate = custData.trailerLicensePlate;
 
-    // Get cust data ID from database
-    //var custid = await dbHelper.executeRawQuery('SELECT id FROM CUSTOMER_DATA WHERE name="${custData.customerName}"');
-    //await dbHelper.executeRawQuery('SELECT id FROM CUSTOMER_DATA WHERE name="${custData.customerName}"').then((custID) async {
-      // // Send truck data to db with custID
-      // await dbHelper.executeRawQuery('INSERT INTO TRUCK_TEST_DATA (customerid, test1_result, test1_current, test2_result, test2_current, test3_result, test3_current, test4_result, test4_current) VALUES (${custID[0]['id']}, ${this.truckData.truckTest1Result}, ${truckData.truckTest1Current}, ${truckData.truckTest2Result}, ${truckData.truckTest2Current}, ${truckData.truckTest3Result}, ${truckData.truckTest3Current}, ${truckData.truckTest4Result}, ${truckData.truckTest4Current})');
-
-      // // Send trailer data to DB with custID
-      // await dbHelper.executeRawQuery('INSERT INTO TRAILER_TEST_DATA (customerid, test1_result, test1_current, test2_result, test2_current, test3_result, test3_current, test4_result, test4_current) VALUES (${custID[0]['id']}, ${trailerData.trailerTest1Result}, ${trailerData.trailerTest1Current}, ${trailerData.trailerTest2Result}, ${trailerData.trailerTest2Current}, ${trailerData.trailerTest3Result}, ${trailerData.trailerTest3Current}, ${trailerData.trailerTest4Result}, ${trailerData.trailerTest4Current})');
-
-      // Update global helper
-    //   gbHelper.customerName = custData.customerName;
-    //   gbHelper.customerID = custData.customerId.toString();
-    //   gbHelper.customerTruckPlate = custData.truckLicensePlate;
-    //   gbHelper.customerTrailerPlate = custData.trailerLicensePlate;
+    //     // Call the server sync function (postRequest())
+    //     await postRequest(custData, truckData, trailerData).then((postResponse) {
+    //       // Validate response and return error and code or success and code
+    //       return {postResponse.statusCode.toString(), postResponse.body};
+    //     });
+    //   }
     // });
-
-    // // Call the server sync function (postRequest())
-    // var postResponse = await postRequest(custData);
-
-    // // Validate response and return error and code or success and code
-    // return {postResponse.statusCode.toString(), postResponse.body};
   }
 
   @override
@@ -155,7 +146,7 @@ class TestingCompletePage extends StatelessWidget {
                 child: Text('Return to Home Page'),
               ),
               new FutureBuilder<Set<Object>>(
-                future: syncData(custData),
+                future: syncData(custData, truckData, trailerData),
                 builder: (BuildContext context, AsyncSnapshot<Set<Object>> snapshot) {
                   switch (snapshot.connectionState) {
                     case ConnectionState.none: return new Text("Database Connection Failed!");
@@ -170,7 +161,7 @@ class TestingCompletePage extends StatelessWidget {
                       } else {
                         // Got good response
                         //return new Text("Server Response: ${snapshot.data.elementAt(1)} (${snapshot.data.elementAt(0)})");
-                        return new Text("");
+                        return new Text("DUET Upload Successful");
                       }
                   }
                 }
