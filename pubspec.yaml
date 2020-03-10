@@ -10,6 +10,9 @@ dependencies:
   flutter:
     sdk: flutter
 
+  # Lock assets to prevent accessing BLE at same time
+  synchronized: ^2.2.0
+
   # Add SQLite database support.
   sqflite: ^1.2.0
   path: any
@@ -26,7 +29,8 @@ dependencies:
   flutter_launcher_icons: "^0.7.0"
 
   # Add the bluetooth dependency from FlutterBlue
-  # flutter_blue: "^0.6.3"
+  #flutter_blue: "0.4.1"
+  flutter_blue: 0.6.3+1
 
   # Open links and other applications
   url_launcher: "^5.2.5"

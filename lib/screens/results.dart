@@ -11,34 +11,24 @@ import 'package:HITCH/models/seperator.dart';
 // Utils
 import 'package:HITCH/utils/database_helper.dart';
 
-
-///#############################################################################
-///
-///#############################################################################
-
 class ResultsPage extends StatefulWidget {
-  final CustomerData custData;
-  ResultsPage({this.custData});
-
-  @override
-  State<StatefulWidget> createState() {
-    return ResultsPageState(this.custData);
-  }
-}
-
-class ResultsPageState extends State<ResultsPage> {
   // Pull GetIt Singleton and create pointers to Singleton Helpers
   final DatabaseHelper dbHelper = GetIt.instance<DatabaseHelper>();
   final GlobalHelper gbHelper = GetIt.instance<GlobalHelper>();
 
   // Pass customer data into this state
   final CustomerData custData;
+  ResultsPage({this.custData});
 
+  @override
+  State<StatefulWidget> createState() {
+    return ResultsPageState();
+  }
+}
+
+class ResultsPageState extends State<ResultsPage> {
   String dropDownNameValue, dropDownTruckTestNum, dropDownTrailerTestNum, custid;
   Map<String, dynamic> custNameIDmap = {'key': -1};
-
-  // Default constructor
-  ResultsPageState(this.custData);
 
   @override
   void initState() {
@@ -66,54 +56,54 @@ class ResultsPageState extends State<ResultsPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      new FutureBuilder<List<Map<String, dynamic>>>(
-                          future: dbHelper.getCustomerListTwo('name', 'id'),
-                          builder: (BuildContext context, AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
-                            switch (snapshot.connectionState) {
-                              case ConnectionState.none: return new Text("Database Connection Failed!");
-                              case ConnectionState.waiting: return new CircularProgressIndicator();
-                              case ConnectionState.active: return new CircularProgressIndicator();
-                              default:
-                                if(snapshot.hasError){
-                                  return new Text("Error: ${snapshot.error}");
-                                } else {
-                                  // Convert map to list, drop second value (id)
-                                  List<String> l = [];
+                      FutureBuilder<List<Map<String, dynamic>>>(
+                        future: widget.dbHelper.getCustomerListTwo('name', 'id'),
+                        builder: (BuildContext context, AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
+                          switch (snapshot.connectionState) {
+                            case ConnectionState.none: return new Text("Database Connection Failed!");
+                            case ConnectionState.waiting: return new CircularProgressIndicator();
+                            case ConnectionState.active: return new CircularProgressIndicator();
+                            default:
+                              if(snapshot.hasError){
+                                return new Text("Error: ${snapshot.error}");
+                              } else {
+                                // Convert map to list, drop second value (id)
+                                List<String> l = [];
 
-                                  int i;
-                                  for(i = 0; i < snapshot.data.length; i++){
-                                    snapshot.data[i].forEach((k, v) => l.add(k));
-                                  }
-                                  return Container(
-                                    color: Colors.grey[800],
-                                    padding: EdgeInsets.fromLTRB(13,3,10,3),
-                                    child: DropdownButton<String>(
-                                      value: dropDownNameValue,
-                                      hint: Text('Choose Customer'),
-                                      items: l.map((String val){
-                                        return new DropdownMenuItem<String>(
-                                          value: val.toString(),
-                                          child: new Text(val.toString()),
-                                        );
-                                      }).toList(),
-                                      onChanged: (String newVal){
-                                        setState(() {
-                                          int i;
-                                          for(i = 0; i < snapshot.data.length; i++){
-                                            if(snapshot.data[i].keys.contains(newVal)){
-                                              custNameIDmap = snapshot.data[i];
-                                            }
-                                          }
-                                          dropDownTruckTestNum = null;
-                                          dropDownTrailerTestNum = null;
-                                          dropDownNameValue = newVal;
-                                        });
-                                      },
-                                    ),
-                                  );
+                                int i;
+                                for(i = 0; i < snapshot.data.length; i++){
+                                  snapshot.data[i].forEach((k, v) => l.add(k));
                                 }
-                            }
+                                return Container(
+                                  color: Colors.grey[800],
+                                  padding: EdgeInsets.fromLTRB(13,3,10,3),
+                                  child: DropdownButton<String>(
+                                    value: dropDownNameValue,
+                                    hint: Text('Choose Customer'),
+                                    items: l.map((String val){
+                                      return new DropdownMenuItem<String>(
+                                        value: val.toString(),
+                                        child: new Text(val.toString()),
+                                      );
+                                    }).toList(),
+                                    onChanged: (String newVal){
+                                      setState(() {
+                                        int i;
+                                        for(i = 0; i < snapshot.data.length; i++){
+                                          if(snapshot.data[i].keys.contains(newVal)){
+                                            custNameIDmap = snapshot.data[i];
+                                          }
+                                        }
+                                        dropDownTruckTestNum = null;
+                                        dropDownTrailerTestNum = null;
+                                        dropDownNameValue = newVal;
+                                      });
+                                    },
+                                  ),
+                                );
+                              }
                           }
+                        }
                       ),
                       Spacer(),
                       SizedBox(
@@ -122,16 +112,16 @@ class ResultsPageState extends State<ResultsPage> {
                           color: Colors.grey[800],
                           onPressed: () {
                             // Get last test from db
-                            dbHelper.executeRawQuery('SELECT id, name, truckplate, trailerplate FROM CUSTOMER_DATA ORDER BY timestamp DESC LIMIT 1').then((onValue){
+                            widget.dbHelper.executeRawQuery('SELECT id, name, truckplate, trailerplate FROM CUSTOMER_DATA ORDER BY timestamp DESC LIMIT 1').then((onValue){
                               // Set the customer, truck plate and trailer plate
-                              gbHelper.customerID = onValue[0]['id'].toString();
-                              gbHelper.customerName = onValue[0]['name'];
-                              gbHelper.customerTruckPlate = onValue[0]['truckplate'];
-                              gbHelper.customerTrailerPlate = onValue[0]['trailerplate'];
-                              dropDownNameValue = gbHelper.customerName;
-                              dbHelper.executeRawQuery('SELECT id FROM TRUCK_TEST_DATA WHERE customerid="${gbHelper.customerID}"').then((truckVal){
+                              widget.gbHelper.customerID = onValue[0]['id'].toString();
+                              widget.gbHelper.customerName = onValue[0]['name'];
+                              widget.gbHelper.customerTruckPlate = onValue[0]['truckplate'];
+                              widget.gbHelper.customerTrailerPlate = onValue[0]['trailerplate'];
+                              dropDownNameValue = widget.gbHelper.customerName;
+                              widget.dbHelper.executeRawQuery('SELECT id FROM TRUCK_TEST_DATA WHERE customerid="${widget.gbHelper.customerID}"').then((truckVal){
                                 dropDownTruckTestNum = truckVal[0]['id'].toString();
-                                dbHelper.executeRawQuery('SELECT id FROM TRAILER_TEST_DATA WHERE customerid="${gbHelper.customerID}"').then((trailerVal){
+                                widget.dbHelper.executeRawQuery('SELECT id FROM TRAILER_TEST_DATA WHERE customerid="${widget.gbHelper.customerID}"').then((trailerVal){
                                   dropDownTrailerTestNum = trailerVal[0]['id'].toString();
                                 });
                               });
@@ -146,7 +136,7 @@ class ResultsPageState extends State<ResultsPage> {
                   Row(
                     children: <Widget>[
                       new FutureBuilder<List<String>>(
-                          future: dbHelper.getCustomerTestList(custNameIDmap[dropDownNameValue], 'TRUCK_TEST_DATA'),
+                          future: widget.dbHelper.getCustomerTestList(custNameIDmap[dropDownNameValue], 'TRUCK_TEST_DATA'),
                           builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
                             switch (snapshot.connectionState) {
                               case ConnectionState.none: return new Text("Database Connection Failed!");
@@ -181,7 +171,7 @@ class ResultsPageState extends State<ResultsPage> {
                       ),
                       Spacer(),
                       new FutureBuilder<List<String>>(
-                          future: dbHelper.getCustomerTestList(custNameIDmap[dropDownNameValue], 'TRAILER_TEST_DATA'),
+                          future: widget.dbHelper.getCustomerTestList(custNameIDmap[dropDownNameValue], 'TRAILER_TEST_DATA'),
                           builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
                             switch (snapshot.connectionState) {
                               case ConnectionState.none: return new Text("Database Connection Failed!");
@@ -228,19 +218,22 @@ class ResultsPageState extends State<ResultsPage> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child:  PrintDatabaseResponses(
-                        'SELECT name FROM CUSTOMER_DATA WHERE id="${gbHelper.customerID}" LIMIT 1',
+                        //'SELECT name FROM CUSTOMER_DATA WHERE id="${gbHelper.customerID}" LIMIT 1',
+                        'SELECT name FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1',
                         'Customer', 20),
                   ),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: PrintDatabaseResponses(
-                        'SELECT truckplate FROM CUSTOMER_DATA WHERE id="${gbHelper.customerID}" LIMIT 1',
+                        //'SELECT truckplate FROM CUSTOMER_DATA WHERE id="${gbHelper.customerID}" LIMIT 1',
+                        'SELECT truckplate FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1',
                         'Truck License Plate', 20),
                   ),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: PrintDatabaseResponses(
-                        'SELECT trailerplate FROM CUSTOMER_DATA WHERE id="${gbHelper.customerID}" LIMIT 1',
+                        //'SELECT trailerplate FROM CUSTOMER_DATA WHERE id="${gbHelper.customerID}" LIMIT 1',
+                        'SELECT trailerplate FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1',
                         'Trailer License Plate', 20),
                   ),
                   TruckResults(),
