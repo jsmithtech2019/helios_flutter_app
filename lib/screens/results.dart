@@ -27,7 +27,6 @@ class ResultsPage extends StatefulWidget {
 }
 
 class ResultsPageState extends State<ResultsPage> {
-
   String dropDownNameValue, dropDownTruckTestNum, dropDownTrailerTestNum, custid;
   Map<String, dynamic> custNameIDmap = {'key': -1};
 
