@@ -1,13 +1,26 @@
+/*
+ * Texas A&M University
+ * Electronic Systems Engineering Technology
+ * ESET-420 Engineering Technology Senior Design II
+ * File: bluetooth.dart
+ * Author: Jack Smith (john.d.smitherton@tamu.edu)
+ */
+
+// Dart Packages
 import 'dart:math';
 
-import 'package:HITCH/models/global.dart';
-import 'package:HITCH/utils/database_helper.dart';
-import 'package:HITCH/utils/home_widget.dart';
+// Flutter Packages
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
-import 'package:HITCH/models/bt_widgets.dart';
 import 'package:get_it/get_it.dart';
 
+// Models
+import 'package:HITCH/models/global.dart';
+import 'package:HITCH/models/bt_widgets.dart';
+
+// Utils
+import 'package:HITCH/utils/database_helper.dart';
+import 'package:HITCH/utils/home_widget.dart';
 
 final GlobalHelper globalHelper = GetIt.instance<GlobalHelper>();
 
@@ -22,20 +35,20 @@ class FlutterBlueApp extends StatelessWidget {
         if (state == BluetoothState.on) {
           return FindDevicesScreen();
         }
-        return Container(
-          color: Colors.grey,
-          child: Center(
-            child: Container(
-              color: Colors.grey,
-              child: Text('Please Enable Bluetooth',
-                style: TextStyle(
-                  fontSize: 30,
-                ),
+      return Container(
+        color: Colors.grey,
+        child: Center(
+          child: Container(
+            color: Colors.grey,
+            child: Text('Please Enable Bluetooth',
+              style: TextStyle(
+                fontSize: 30,
               ),
             ),
           ),
-        );
-      });
+        ),
+      );
+    });
   }
 }
 
@@ -263,7 +276,7 @@ class DeviceScreen extends StatelessWidget {
             ),
             RaisedButton(
                 onPressed: () {
-                  globalHelper.moduleUUID = device.id.toString();
+                  globalHelper.adminData.moduleUUID = device.id.toString();
                   // Add only so it doesn't screw the settings page
                   globalHelper.bluetoothDevice = device;
 

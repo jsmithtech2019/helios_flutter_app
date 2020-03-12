@@ -1,15 +1,25 @@
+/*
+ * Texas A&M University
+ * Electronic Systems Engineering Technology
+ * ESET-420 Engineering Technology Senior Design II
+ * File: testing_truck.dart
+ * Author: Jack Smith (john.d.smitherton@tamu.edu)
+ */
+
 // Flutter Packages
 import 'dart:io';
 import 'dart:math';
 
+import 'package:HITCH/models/customer_data.dart';
 import 'package:HITCH/models/global.dart';
 import 'package:HITCH/models/print.dart';
+import 'package:HITCH/models/truck_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:get_it/get_it.dart';
 
 // Models
-import 'package:HITCH/models/database.dart';
+
 
 // Screens
 import 'package:HITCH/screens/testing_complete.dart';
@@ -27,7 +37,7 @@ class TruckTestingPage extends StatefulWidget{
   // final BluetoothHelper btHelper = GetIt.instance<BluetoothHelper>();
 
   final CustomerData custData;
-  TruckTestData truckData = new TruckTestData(-1, -1, -1, -1, 0, 0, 0, 0);
+  TruckTestData truckData = new TruckTestData.emptyConst();
 
   TruckTestingPage({this.custData});
 
@@ -178,7 +188,7 @@ class TruckTestingPageState extends State<TruckTestingPage>{
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text("Testing for customer: ${widget.globalHelper.customerName}", 
+                Text("Testing for customer: ${widget.globalHelper.customerData.customerName}", 
                   style: TextStyle(
                     fontSize: 20,
                     fontStyle: FontStyle.italic

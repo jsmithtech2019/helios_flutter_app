@@ -1,3 +1,12 @@
+/*
+ * Texas A&M University
+ * Electronic Systems Engineering Technology
+ * ESET-420 Engineering Technology Senior Design II
+ * File: bt_widgets.dart
+ * Author: Jack Smith (john.d.smitherton@tamu.edu)
+ */
+
+// Flutter Packages
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 

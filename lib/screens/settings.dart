@@ -1,3 +1,11 @@
+/*
+ * Texas A&M University
+ * Electronic Systems Engineering Technology
+ * ESET-420 Engineering Technology Senior Design II
+ * File: settings.dart
+ * Author: Jack Smith (john.d.smitherton@tamu.edu)
+ */
+
 // Flutter Packages
 import 'package:HITCH/models/bluetooth.dart';
 import 'package:HITCH/models/print.dart';
@@ -146,7 +154,7 @@ class SettingsPageState extends State<SettingsPage> {
                   new Text('Paired Module: ',
                     style: TextStyle(fontSize: 20),
                   ),
-                  new Text('${globalHelper.moduleUUID}',
+                  new Text('${globalHelper.adminData.moduleUUID}',
                     style: TextStyle(fontSize: 15),
                   ),
                   SizedBox(height: 10),

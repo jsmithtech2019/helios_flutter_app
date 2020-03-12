@@ -1,3 +1,11 @@
+/*
+ * Texas A&M University
+ * Electronic Systems Engineering Technology
+ * ESET-420 Engineering Technology Senior Design II
+ * File: home_widget.dart
+ * Author: Jack Smith (john.d.smitherton@tamu.edu)
+ */
+
 // Flutter Packages
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -10,20 +18,20 @@ import 'package:logger/logger.dart';
 import 'package:HITCH/screens/help.dart';
 import 'package:HITCH/screens/results.dart';
 import 'package:HITCH/screens/settings.dart';
-import 'package:HITCH/screens/testing_init.dart';
+import 'package:HITCH/screens/testing.dart';
 
-// Utils
-
-///#############################################################################
-///                            home_widget.dart
-///#############################################################################
-
+/// # Bottom Navigation Bar Controller
+/// 
+/// This class contains the bottom navigation widget that is drawn on the main
+/// pages of the application. This bar allows navigation between [TestingPage],
+/// [ResultsPage], [SettingsPage] and [HelpPage]. It allows for the user to
+/// select any of these pages and (memory permitting) retains the memory stack
+/// for each of these pages independently.
 class Home extends StatefulWidget {
   static int _setIndex = 0;
 
   Home(int index){
     _setIndex = index;
-    //this.setIndex = index;
   }
 
   @override
@@ -46,7 +54,7 @@ class _HomeState extends State<Home> {
   var logHelper = GetIt.instance<Logger>();
   int _currentIndex = 0;
   final List<Widget> _children = [
-    CustomerPage(),
+    TestingPage(),
     ResultsPage(),
     SettingsPage(),
     HelpPage(),

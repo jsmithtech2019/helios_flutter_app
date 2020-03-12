@@ -1,13 +1,24 @@
+/*
+ * Texas A&M University
+ * Electronic Systems Engineering Technology
+ * ESET-420 Engineering Technology Senior Design II
+ * File: testing_complete.dart
+ * Author: Jack Smith (john.d.smitherton@tamu.edu)
+ */
+
 // Flutter Packages
+import 'package:HITCH/models/customer_data.dart';
 import 'package:HITCH/models/global.dart';
 import 'package:HITCH/models/print.dart';
+import 'package:HITCH/models/trailer_data.dart';
+import 'package:HITCH/models/truck_data.dart';
 import 'package:get_it/get_it.dart';
 //import 'dart:io';
 import 'package:logger/logger.dart';
 import 'package:flutter/material.dart';
 
 // Models
-import 'package:HITCH/models/database.dart';
+
 
 // Utils
 import 'package:HITCH/utils/database_helper.dart';

@@ -1,11 +1,19 @@
+/*
+ * Texas A&M University
+ * Electronic Systems Engineering Technology
+ * ESET-420 Engineering Technology Senior Design II
+ * File: results.dart
+ * Author: Jack Smith (john.d.smitherton@tamu.edu)
+ */
+
 // Flutter Packages
-import 'package:HITCH/models/global.dart';
-import 'package:HITCH/models/print.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 // Models
-import 'package:HITCH/models/database.dart';
+import 'package:HITCH/models/customer_data.dart';
+import 'package:HITCH/models/global.dart';
+import 'package:HITCH/models/print.dart';
 import 'package:HITCH/models/seperator.dart';
 
 // Utils
@@ -114,14 +122,14 @@ class ResultsPageState extends State<ResultsPage> {
                             // Get last test from db
                             widget.dbHelper.executeRawQuery('SELECT id, name, truckplate, trailerplate FROM CUSTOMER_DATA ORDER BY timestamp DESC LIMIT 1').then((onValue){
                               // Set the customer, truck plate and trailer plate
-                              widget.gbHelper.customerID = onValue[0]['id'].toString();
-                              widget.gbHelper.customerName = onValue[0]['name'];
-                              widget.gbHelper.customerTruckPlate = onValue[0]['truckplate'];
-                              widget.gbHelper.customerTrailerPlate = onValue[0]['trailerplate'];
-                              dropDownNameValue = widget.gbHelper.customerName;
-                              widget.dbHelper.executeRawQuery('SELECT id FROM TRUCK_TEST_DATA WHERE customerid="${widget.gbHelper.customerID}"').then((truckVal){
+                              widget.gbHelper.customerData.customerID = onValue[0]['id'].toString();
+                              widget.gbHelper.customerData.customerName = onValue[0]['name'];
+                              widget.gbHelper.customerData.customerTruckPlate = onValue[0]['truckplate'];
+                              widget.gbHelper.customerData.customerTrailerPlate = onValue[0]['trailerplate'];
+                              dropDownNameValue = widget.gbHelper.customerData.customerName;
+                              widget.dbHelper.executeRawQuery('SELECT id FROM TRUCK_TEST_DATA WHERE customerid="${widget.gbHelper.customerData.customerID}"').then((truckVal){
                                 dropDownTruckTestNum = truckVal[0]['id'].toString();
-                                widget.dbHelper.executeRawQuery('SELECT id FROM TRAILER_TEST_DATA WHERE customerid="${widget.gbHelper.customerID}"').then((trailerVal){
+                                widget.dbHelper.executeRawQuery('SELECT id FROM TRAILER_TEST_DATA WHERE customerid="${widget.gbHelper.customerData.customerID}"').then((trailerVal){
                                   dropDownTrailerTestNum = trailerVal[0]['id'].toString();
                                 });
                               });

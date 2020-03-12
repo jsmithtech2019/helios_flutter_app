@@ -1,39 +1,51 @@
+/*
+ * Texas A&M University
+ * Electronic Systems Engineering Technology
+ * ESET-420 Engineering Technology Senior Design II
+ * File: main.dart
+ * Author: Jack Smith (john.d.smitherton@tamu.edu)
+ */
+
 // Flutter Packages
 import 'package:flutter/material.dart';
-import 'package:flutter_blue/flutter_blue.dart';
-//import 'package:flutter_blue/flutter_blue.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
 
 // Models
 import 'package:HITCH/models/global.dart';
 
-// Screens
-
 // Utils
 import 'package:HITCH/utils/database_helper.dart';
 import 'package:HITCH/utils/home_widget.dart';
 
-/// MAIN.dart
-/// Boilerplate page that initializes the entire application, is called on
+/// Provision a [GetIt] singleton for entire application stack
+/// 
+/// Used to add members to the singleton instances that can be accessed from
+/// every page without allowing [async] access to the same protected members
+/// or resources.
+GetIt sl = GetIt.instance;
+
+/// # Boilerplate page that initializes the entire application, is called on
 /// application opening and then passes all navigation and drawing to the
 /// Home widget from home_widget.dart.
+///
+/// This class starts all beginner singletons at instantiation, can be used to
+/// preload development data into the [SQLite] database and provisions the 
+/// database if one has not yet be generated.
 ///
 /// Initializes:
 /// - GetIt Singleton
 /// - DatabaseHelper Singleton
-/// - BluetoothHelper Singleton
+/// - GlobalHelper Singleton
 /// - Logger Singleton
-
-// Generate Singleton GetIt for usage on all Sheets
-GetIt sl = GetIt.instance;
-
+/// - Starts the application
 void main() async {
-  // Wait until ASYNC calls are completed before starting the application
+  /// Wait until ASYNC calls are completed before starting the application
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Generated and register Singletons into GetIt instance
-  sl.registerSingleton<Logger>(Logger(
+  /// Generated and register Singletons into GetIt instance
+  sl.registerSingleton<Logger>(
+    Logger(
       printer: PrettyPrinter(
         methodCount: 0,
         errorMethodCount: 8,
@@ -41,44 +53,48 @@ void main() async {
         colors: true,
         printEmojis: false,
       )
-  ));
+    )
+  );
   sl.registerSingleton<DatabaseHelper>(DatabaseHelper());
   sl.registerSingleton<GlobalHelper>(GlobalHelper());
+  // Write a default constructor for bluetooth device
+  //sl.registerSingleton<BluetoothDevice>(BluetoothDevice());
 
-  // Get DatabaseHelper Singleton
+  /// Get instances of [DatabaseHelper], [Logger] and [GlobalHelper] singletons
   var dbHelper = GetIt.instance<DatabaseHelper>();
   var logHelper = GetIt.instance<Logger>();
   var globalHelper = GetIt.instance<GlobalHelper>();
 
-  globalHelper.getIt = sl;
-
+  /// Initialize the application database. Does not recreate if one has been
+  /// provisioned previously by the application.
   await dbHelper.initializeDatabase();
   logHelper.d("Database has been initialized!");
 
-  // TODO: remove test data insertion lines
-  // Insert test data for debugging development
-  // Dummy Truck Test Data
-
-  // Only seed data once, if data exists do not write again
+  /// Only seed test data once, if data exists do not write again
   var coun = await dbHelper.executeRawQuery("SELECT count(id) FROM CUSTOMER_DATA");
   if (coun[0].values.toList()[0].toString() == "0"){
     seedDatabase();
   }
 
-  // Get the most recent employee from database
+  /// Get the most recent employee from database for usage
+  /// TODO: change to sort by timestamp rather than ID
   var employeeInfo = await dbHelper.executeRawQuery('SELECT * FROM ADMIN_DATA ORDER BY id DESC LIMIT 1');
 
-  // Seed Global with Admin values
-  globalHelper.dealership = employeeInfo[0]['dealership'];
-  globalHelper.dealershipUUID = employeeInfo[0]['dealer_uuid'];
-  globalHelper.employeeUUID = employeeInfo[0]['employee_uuid'];
-  globalHelper.employeePhone = employeeInfo[0]['phone'];
-  globalHelper.employeeEmail = employeeInfo[0]['email'];
-  globalHelper.moduleUUID = employeeInfo[0]['moduleID'];
+  /// Seed [GlobalHelper] singleton with Admin values
+  globalHelper.adminData.dealership = employeeInfo[0]['dealership'];
+  globalHelper.adminData.dealershipUUID = employeeInfo[0]['dealer_uuid'];
+  globalHelper.adminData.employeeUUID = employeeInfo[0]['employee_uuid'];
+  globalHelper.adminData.employeePhoneNumber = employeeInfo[0]['phone'];
+  globalHelper.adminData.employeeEmail = employeeInfo[0]['email'];
+  globalHelper.adminData.moduleUUID = employeeInfo[0]['moduleID'];
 
+  /// Start the application
   runApp(HeliosApp());
 }
 
+/// Stateful widget for the main framework of the application.
+/// 
+/// Generates a statebased application.
 class HeliosApp extends StatefulWidget{
   @override
   State<StatefulWidget> createState() {
@@ -86,6 +102,12 @@ class HeliosApp extends StatefulWidget{
   }
 }
 
+/// Initializes the main context of the application.
+/// 
+/// Sets the [ThemeData] to use dark theme and a [blueGrey] color scheme over
+/// the course of the application. Also titles the main name of the application
+/// and the home page in [Home] which is set as the [TestingPage] to allow for 
+/// immediate insertion of customer details.
 class HeliosAppStateful extends State<HeliosApp> {
   @override
   Widget build(BuildContext context) {
@@ -97,9 +119,16 @@ class HeliosAppStateful extends State<HeliosApp> {
         primarySwatch: Colors.blueGrey,
       ),
     );
-  } // Build
-} // Class
+  }
+}
 
+/// Used to seed testing data into the [SQLite] database
+/// 
+/// This creates dummy truck, trailer, customer and admin data that is then
+/// inserted into the database and used by the controller application for
+/// development purposes.
+/// 
+/// TODO: remove before becoming a release candidate.
 void seedDatabase(){
   Logger logHelper = GetIt.instance<Logger>();
   final DatabaseHelper dbHelper = GetIt.instance<DatabaseHelper>();

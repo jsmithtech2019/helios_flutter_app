@@ -1,7 +1,17 @@
+/*
+ * Texas A&M University
+ * Electronic Systems Engineering Technology
+ * ESET-420 Engineering Technology Senior Design II
+ * File: api_helper.dart
+ * Author: Jack Smith (john.d.smitherton@tamu.edu)
+ */
+
 import 'dart:async';
 import 'dart:convert';
 import 'dart:core';
-import 'package:HITCH/models/database.dart';
+import 'package:HITCH/models/customer_data.dart';
+import 'package:HITCH/models/trailer_data.dart';
+import 'package:HITCH/models/truck_data.dart';
 import 'package:intl/intl.dart';
 import 'package:HITCH/models/global.dart';
 import 'package:get_it/get_it.dart';
@@ -46,7 +56,7 @@ Future<http.Response> postRequest (CustomerData cust, TruckTestData truckd, Trai
 
   // Get Application information
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
-  var employeePass = await dbHelper.executeRawQuery('SELECT pass FROM ADMIN_DATA WHERE phone="${globalHelper.employeePhone}" AND email="${globalHelper.employeeEmail}"');
+  var employeePass = await dbHelper.executeRawQuery('SELECT pass FROM ADMIN_DATA WHERE phone="${globalHelper.adminData.employeePhone}" AND email="${globalHelper.adminData.employeeEmail}"');
 
   //var customerID = await dbHelper.executeRawQuery('SELECT id FROM CUSTOMER_DATA WHERE phone="${cust.customerPhoneNumber}" ORDER BY timestamp DESC LIMIT 1');
   //var truckDB = await dbHelper.executeRawQuery('SELECT * FROM TRUCK_TEST_DATA WHERE customerid="${customerID[0]['id']}" ORDER BY timestamp DESC LIMIT 1');
@@ -144,16 +154,16 @@ Future<http.Response> postRequest (CustomerData cust, TruckTestData truckd, Trai
     'date': DateFormat('yy-MM-dd').format(new DateTime.now()),
     'time': DateFormat('hh:mm:ss').format(new DateTime.now()),
     'dealership': {
-      'dealership_uuid': globalHelper.dealershipUUID,
-      'dealership': globalHelper.dealership,
+      'dealership_uuid': globalHelper.adminData.dealershipUUID,
+      'dealership': globalHelper.adminData.dealership,
     },
     'employee': {
       // TODO: wtf is going on
-      "employee_uuid": globalHelper.employeeUUID,
-      "email": globalHelper.employeeEmail,
+      "employee_uuid": globalHelper.adminData.employeeUUID,
+      "email": globalHelper.adminData.employeeEmail,
       "password": employeePass[0]['pass'],
-      "phone": globalHelper.employeePhone.toString(),
-      "module_uuid": globalHelper.moduleUUID,
+      "phone": globalHelper.adminData.employeePhone.toString(),
+      "module_uuid": globalHelper.adminData.moduleUUID,
     },
     "customer": {
       "name": cust.customerName,

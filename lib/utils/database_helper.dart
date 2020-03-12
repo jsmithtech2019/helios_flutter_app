@@ -1,3 +1,11 @@
+/*
+ * Texas A&M University
+ * Electronic Systems Engineering Technology
+ * ESET-420 Engineering Technology Senior Design II
+ * File: database_helper.dart
+ * Author: Jack Smith (john.d.smitherton@tamu.edu)
+ */
+
 // Flutter Packages
 import 'dart:async';
 import 'dart:io';
@@ -10,7 +18,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 // Models
-import 'package:HITCH/models/database.dart';
+import 'package:HITCH/models/admin_data.dart';
+import 'package:HITCH/models/customer_data.dart';
 
 /// # Boilerplate for SQLite Database
 ///
