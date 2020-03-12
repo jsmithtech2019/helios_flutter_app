@@ -310,10 +310,7 @@ class _TestingPageState extends State<TestingPage> {
                           // otherwise.
                           if (_formKey.currentState.validate()) {
                             // Update global singleton
-                            widget.globalHelper.customerData.customerName = _custNameController.text;
-                            widget.globalHelper.customerData.customerPhone = _custPhoneController.text;
-                            widget.globalHelper.customerData.customerTruckPlate = _truckLicensePlateController.text;
-                            widget.globalHelper.customerData.customerTrailerPlate = _trailerLicensePlateController.text;
+                            widget.globalHelper.customerData = widget.customerData;
 
                             Navigator.push(
                               context,
@@ -336,10 +333,7 @@ class _TestingPageState extends State<TestingPage> {
                           // otherwise.
                           if (_formKey.currentState.validate()) {
                             // Update global singleton
-                            widget.globalHelper.customerData.customerName = _custNameController.text;
-                            widget.globalHelper.customerData.customerPhone = _custPhoneController.text;
-                            widget.globalHelper.customerData.customerTruckPlate = _truckLicensePlateController.text;
-                            widget.globalHelper.customerData.customerTrailerPlate = _trailerLicensePlateController.text;
+                            widget.globalHelper.customerData = widget.customerData;
 
                             Navigator.push(
                               context,

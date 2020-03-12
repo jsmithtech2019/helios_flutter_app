@@ -337,7 +337,8 @@ class EmployeeFormState extends State<EmployeeForm> {
     TextEditingController dealershipUUID = new TextEditingController();
     TextEditingController employeeUUIDController = new TextEditingController();
 
-    return Form(
+    return 
+      Form(
         key: _formKey,
         child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,

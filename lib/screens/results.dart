@@ -158,7 +158,7 @@ class ResultsPageState extends State<ResultsPage> {
                                     color: Colors.grey[800],
                                     padding: EdgeInsets.fromLTRB(13,3,10,3),
                                     child:DropdownButton<String>(
-                                      hint: Text('Choose Truck'),
+                                      hint: Text('Truck Tests'),
                                       value: dropDownTruckTestNum,
                                       items: snapshot.data.map((String val) {
                                         return new DropdownMenuItem<String>(
@@ -169,6 +169,7 @@ class ResultsPageState extends State<ResultsPage> {
                                       onChanged: (String newVal){
                                         setState(() {
                                           dropDownTruckTestNum = newVal;
+                                          dropDownTrailerTestNum = null;
                                         });
                                       },
                                     )
@@ -193,7 +194,7 @@ class ResultsPageState extends State<ResultsPage> {
                                       color: Colors.grey[800],
                                       padding: EdgeInsets.fromLTRB(13,3,10,3),
                                       child:DropdownButton<String>(
-                                        hint: Text('Choose Trailer'),
+                                        hint: Text('Trailer Tests'),
                                         value: dropDownTrailerTestNum,
                                         items: snapshot.data.map((String val) {
                                           return new DropdownMenuItem<String>(
@@ -204,6 +205,7 @@ class ResultsPageState extends State<ResultsPage> {
                                         onChanged: (String newVal){
                                           setState(() {
                                             dropDownTrailerTestNum = newVal;
+                                            dropDownTruckTestNum = null;
                                           });
                                         },
                                       )
