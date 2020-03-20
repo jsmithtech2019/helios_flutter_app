@@ -35,17 +35,26 @@ class FlutterBlueApp extends StatelessWidget {
         if (state == BluetoothState.on) {
           return FindDevicesScreen();
         }
-      return Container(
-        color: Colors.grey,
-        child: Center(
-          child: Container(
-            color: Colors.grey,
-            child: Text('Please Enable Bluetooth',
-              style: TextStyle(
-                fontSize: 30,
-              ),
+      return Scaffold(
+        appBar: AppBar(
+          title: Text("Available Devices"),
+        ),
+        body: AlertDialog(
+          title: Text('Bluetooth not enabled!\n\nPlease enable bluetooth before '
+            'attempting to pair modules.'),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Ok'),
+              onPressed: () {
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                    builder: (context) => Home(2)
+                  ),
+                  (Route<dynamic> route) => false
+                );
+              },
             ),
-          ),
+          ],
         ),
       );
     });
@@ -57,7 +66,7 @@ class FindDevicesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Find Devices'),
+        title: Text('Available Devices'),
       ),
       body: RefreshIndicator(
         onRefresh: () =>

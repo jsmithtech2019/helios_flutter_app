@@ -88,7 +88,7 @@ class _TestingPageState extends State<TestingPage> {
           title: Text("H.I.T.C.H. Testing"),
         ),
         body: AlertDialog(
-          title: Text('Bluetooth not initialized! Please pair a HITCH module before'
+          title: Text('Bluetooth not initialized!\n\nPlease pair a HITCH module before'
           ' continuing with testing.'),
           actions: <Widget>[
             FlatButton(
