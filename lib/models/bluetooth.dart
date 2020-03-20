@@ -79,45 +79,48 @@ class FindDevicesScreen extends StatelessWidget {
                     .asyncMap((_) => FlutterBlue.instance.connectedDevices),
                 initialData: [],
                 builder: (c, snapshot) => Column(
-                  children: snapshot.data
-                      .map((d) => ListTile(
-                            title: Text(d.name),
-                            subtitle: Text(d.id.toString()),
-                            trailing: StreamBuilder<BluetoothDeviceState>(
-                              stream: d.state,
-                              initialData: BluetoothDeviceState.disconnected,
-                              builder: (c, snapshot) {
-                                if (snapshot.data ==
-                                    BluetoothDeviceState.connected) {
-                                  return RaisedButton(
-                                    child: Text('OPEN'),
-                                    onPressed: () => Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                DeviceScreen(device: d))),
-                                  );
-                                }
-                                return Text(snapshot.data.toString());
-                              },
-                            ),
-                          ))
-                      .toList(),
+                  children: snapshot.data.map((d) => ListTile(
+                    title: Text(d.name),
+                    subtitle: Text(d.id.toString()),
+                    trailing: StreamBuilder<BluetoothDeviceState>(
+                      stream: d.state,
+                      initialData: BluetoothDeviceState.disconnected,
+                      builder: (c, snapshot) {
+                        if (snapshot.data ==
+                            BluetoothDeviceState.connected) {
+                          return RaisedButton(
+                            child: Text('OPEN'),
+                            onPressed: () => Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        DeviceScreen(device: d))),
+                          );
+                        }
+                        return Text(snapshot.data.toString());
+                      },
+                    ),
+                  )).toList(),
                 ),
               ),
               StreamBuilder<List<ScanResult>>(
                 stream: FlutterBlue.instance.scanResults,
                 initialData: [],
                 builder: (c, snapshot) => Column(
-                  children: snapshot.data.map((r) => ScanResultTile(
+                  children: snapshot.data.map((r) {
+                    if(r.advertisementData.localName.contains('HELIOS') || r.advertisementData.localName.contains('HITCH')){
+                      return ScanResultTile(
                         result: r,
                         onTap: () => Navigator.of(context).push(
                           MaterialPageRoute(builder: (context) {
                             r.device.connect();
                             return DeviceScreen(device: r.device);
-                          }
-                        )),
-                      ),
-                  ).toList(),
+                          })
+                        ),
+                      );
+                    } else {
+                      return Container();
+                    }
+                  }).toList(),
                 ),
               ),
             ],
