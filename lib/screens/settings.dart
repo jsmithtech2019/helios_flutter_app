@@ -22,7 +22,9 @@ import 'package:HITCH/utils/database_helper.dart';
 // Models
 import 'package:HITCH/models/seperator.dart';
 
+/// Settings page stateful object
 class SettingsPage extends StatefulWidget{
+  /// [GetIt] instance of [GlobalHelper]
   final GlobalHelper globalHelper = GetIt.instance<GlobalHelper>();
 
   @override
@@ -31,26 +33,51 @@ class SettingsPage extends StatefulWidget{
   }
 }
 
+/// State of Settings Page
+/// 
+/// Used for display and update of settings page and [GlobalHelper] admin data
 class SettingsPageState extends State<SettingsPage> {
-  // Pull GetIt Singleton and create pointers to Singleton Helpers
+  /// Get [DatabaseHelper] singleton
   final DatabaseHelper dbHelper = GetIt.instance<DatabaseHelper>();
+  
+  /// Create list of menus that allow input
   List<DropdownMenuItem<String>> menuItems = new List<DropdownMenuItem<String>>();
+  
+  /// Initialize empty list of names
   List<String> names = new List<String>();
+  
+  /// String that stores the dropdown list selected name, initially null
   String dropDownValue;
 
   /// Create a global key that uniquely identifies the Form widget
   /// and allows validation of the form.
   final _formKey = GlobalKey<FormState>();
 
+  /// [TextEditingController] for Employee Name
   TextEditingController employeeNameController = new TextEditingController();
+
+  /// [TextEditingController] for Employee Phone Number
   TextEditingController employeePhoneNumberController = new TextEditingController();
+
+  /// [TextEditingController] for Employee Email
   TextEditingController employeeEmailController = new TextEditingController();
+
+  /// [TextEditingController] for Employee Pass
   TextEditingController employeePassController = new TextEditingController();
+
+  /// [TextEditingController] for Module UUID
   TextEditingController moduleID = new TextEditingController();
+
+  /// [TextEditingController] for Dealership
   TextEditingController dealership = new TextEditingController();
+
+  /// [TextEditingController] for Dealership UUID
   TextEditingController dealershipUUID = new TextEditingController();
+
+  /// [TextEditingController] for Employee UUID
   TextEditingController employeeUUIDController = new TextEditingController();
 
+  /// Initialize the state of the page to null
   @override
   void initState() {
     dropDownValue = null;
@@ -66,9 +93,9 @@ class SettingsPageState extends State<SettingsPage> {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            new SeparatorBox("General Inquiries"),
+            // Create current configuration block
+            new SeparatorBox("Current Configuration"),
             Container(
-              //margin: EdgeInsets.all(24),
               margin: EdgeInsets.fromLTRB(24, 0, 24, 0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -112,6 +139,7 @@ class SettingsPageState extends State<SettingsPage> {
                 ],
               ),
             ),
+            // Create dropdown for existing configurations
             new SeparatorBox("Choose Existing Configuration"),
             new FutureBuilder<List<String>>(
                 future: dbHelper.getEmployeesList('name'),
@@ -146,6 +174,7 @@ class SettingsPageState extends State<SettingsPage> {
                   }
                 }
             ),
+            // Create the device pair button
             SizedBox(height: 20),
             new SeparatorBox("Pair Device"),
             (widget.globalHelper.bluetoothDevice == null) ? 
@@ -158,7 +187,7 @@ class SettingsPageState extends State<SettingsPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => FlutterBlueApp(),
+                          builder: (context) => BluetoothPage(),
                         ),
                       );
                     },
@@ -180,7 +209,7 @@ class SettingsPageState extends State<SettingsPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => FlutterBlueApp(),
+                          builder: (context) => BluetoothPage(),
                         ),
                       );
                     },
@@ -188,6 +217,7 @@ class SettingsPageState extends State<SettingsPage> {
                 ],
               ),
             SizedBox(height: 20),
+            // Create the add config input step
             new SeparatorBox("Add Configuration"),
             Container(
               margin: EdgeInsets.fromLTRB(24, 0, 24, 0),
@@ -340,9 +370,6 @@ class SettingsPageState extends State<SettingsPage> {
                               // Update global singleton
                               widget.globalHelper.adminData = adminData;
 
-                              print('Oh no: ${widget.globalHelper.adminData.employeeUUID}');
-
-                              //dbHelper.initializeDatabase().then((onValue){print("Done initializing");});
                               dbHelper.insertAdminData(adminData);
                               Scaffold.of(context).showSnackBar(SnackBar(content: Text('Processing Data')));
                               Navigator.of(context).pushAndRemoveUntil(

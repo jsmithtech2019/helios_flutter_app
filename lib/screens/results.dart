@@ -19,13 +19,18 @@ import 'package:HITCH/models/seperator.dart';
 // Utils
 import 'package:HITCH/utils/database_helper.dart';
 
+/// Stateful results page widget
 class ResultsPage extends StatefulWidget {
-  // Pull GetIt Singleton and create pointers to Singleton Helpers
+  /// [GetIt] singleton for [DatabaseHelper]
   final DatabaseHelper dbHelper = GetIt.instance<DatabaseHelper>();
+
+  /// [GetIt] singleton for [GlobalHelper]
   final GlobalHelper gbHelper = GetIt.instance<GlobalHelper>();
 
-  // Pass customer data into this state
+  /// Initialize [CustomerData] object local variable
   final CustomerData custData;
+
+  /// Default constructor
   ResultsPage({this.custData});
 
   @override
@@ -34,10 +39,18 @@ class ResultsPage extends StatefulWidget {
   }
 }
 
+/// State of results page
+/// 
+/// Used to display test results as well as allow the technician the option to
+/// choose results other than the most recent test result
 class ResultsPageState extends State<ResultsPage> {
+  /// Initialize useful string variables
   String dropDownNameValue, dropDownTruckTestNum, dropDownTrailerTestNum, custid;
+  
+  /// Create a map of customer id's
   Map<String, dynamic> custNameIDmap = {'key': -1};
 
+  /// initialize the state (for dropdown menu items) to null
   @override
   void initState() {
     dropDownNameValue = null;
@@ -258,10 +271,10 @@ class ResultsPageState extends State<ResultsPage> {
   }
 }
 
+/// Results widgets for the truck
 class TruckResults extends StatelessWidget {
-  // Pull GetIt Singleton and create pointers to Singleton Helpers
-  static GetIt sl = GetIt.instance;
-  final DatabaseHelper dbHelper = sl.get<DatabaseHelper>();
+  /// [GetIt] singleton for [DatabaseHelper]
+  final DatabaseHelper dbHelper = GetIt.instance<DatabaseHelper>();
 
   Widget build(BuildContext context, [String customer]){
     return new Align(
@@ -301,10 +314,10 @@ class TruckResults extends StatelessWidget {
   }
 }
 
+/// Results widgets for the trailer
 class TrailerResults extends StatelessWidget {
-  // Pull GetIt Singleton and create pointers to Singleton Helpers
-  static GetIt sl = GetIt.instance;
-  final DatabaseHelper dbHelper = sl.get<DatabaseHelper>();
+  /// [GetIt] singleton for [DatabaseHelper]
+  final DatabaseHelper dbHelper = GetIt.instance<DatabaseHelper>();
 
   Widget build(BuildContext context){
     return new Align(

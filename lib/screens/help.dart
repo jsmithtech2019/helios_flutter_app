@@ -11,23 +11,25 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
-// Models
-
 // Screens
 import 'package:HITCH/screens/contact.dart';
 
 // Utils
 import 'package:HITCH/utils/database_helper.dart';
 
-
-///#############################################################################
+/// Shows help information and links to contact us page
+/// 
+/// Displays a series of expandable widgets with titles of what helpful information
+/// they contain as well as expanded info that is useful for debugging testing issues.
 ///
-///#############################################################################
-
+/// Also contains a link to the contact us page that has email/phone numbers
+/// of the application developers
 class HelpPage extends StatelessWidget {
-  // Pull GetIt Singleton and create pointers to Singleton Helpers
+  /// [GetIt] singleton for [DatabaseHelper]
   final DatabaseHelper dbHelper = GetIt.instance<DatabaseHelper>();
 
+  /// String for information into each help page
+  /// TODO: remove and replace with actual help data
   final String lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit,"
       " sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut "
       "enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut "
@@ -51,63 +53,42 @@ class HelpPage extends StatelessWidget {
                 header: Text("Setting up",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
                 expanded: Text(lorem, softWrap: true),
-                //tapHeaderToExpand: true,
-                //hasIcon: true,
-                //iconColor: Colors.white,
               ),
               SizedBox(height: 30),
               new ExpandablePanel(
                 header: Text("Bluetooth Pairing",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
                 expanded: Text(lorem, softWrap: true),
-                // tapHeaderToExpand: true,
-                // hasIcon: true,
-                // iconColor: Colors.white,
               ),
               SizedBox(height: 30),
               new ExpandablePanel(
                 header: Text("Testing",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
                 expanded: Text(lorem, softWrap: true),
-                // tapHeaderToExpand: true,
-                // hasIcon: true,
-                // iconColor: Colors.white,
               ),
               SizedBox(height: 30),
               new ExpandablePanel(
                 header: Text("Bad Test Readings",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
                 expanded: Text(lorem, softWrap: true),
-                // tapHeaderToExpand: true,
-                // hasIcon: true,
-                // iconColor: Colors.white,
               ),
               SizedBox(height: 30),
               new ExpandablePanel(
                 header: Text("Module Not Connecting",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
                 expanded: Text(lorem, softWrap: true),
-                // tapHeaderToExpand: true,
-                // hasIcon: true,
-                // iconColor: Colors.white,
               ),
               SizedBox(height: 30),
               new ExpandablePanel(
                 header: Text("Connecting to Main Server",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
                 expanded: Text(lorem, softWrap: true),
-                // tapHeaderToExpand: true,
-                // hasIcon: true,
-                // iconColor: Colors.white,
               ),
               SizedBox(height: 30),
               new ExpandablePanel(
                 header: Text("Searching Past Tests",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
                 expanded: Text(lorem, softWrap: true, ),
-                // tapHeaderToExpand: true,
-                // hasIcon: true,
-                // iconColor: Colors.white,
               ),
               SizedBox(height: 30),
               new SizedBox(

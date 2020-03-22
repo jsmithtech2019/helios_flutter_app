@@ -19,12 +19,20 @@ import 'package:HITCH/models/global.dart';
 import 'package:HITCH/models/bt_widgets.dart';
 
 // Utils
-import 'package:HITCH/utils/database_helper.dart';
+//import 'package:HITCH/utils/database_helper.dart';
 import 'package:HITCH/utils/home_widget.dart';
 
+/// Generate an instance of [GlobalHelper]
+/// 
+/// This is used throughout the bluetooth application
 final GlobalHelper globalHelper = GetIt.instance<GlobalHelper>();
 
-class FlutterBlueApp extends StatelessWidget {
+/// Class for the main Bluetooth page
+/// 
+/// Will either draw the [FindDevicesScreen] or an error message requesting the
+/// user to enable bluetooth on the device. The error popup routes back to
+/// the settings page.
+class BluetoothPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<BluetoothState>(
@@ -61,6 +69,16 @@ class FlutterBlueApp extends StatelessWidget {
   }
 }
 
+/// Screen used to display available devices in range
+/// 
+/// This screen searchs a stream of devices found by bluetooth and then displays
+/// them to the user in a series of [ScanResult] objects. There is filtering
+/// to only allow HITCH modules to appear in these results. Will also draw a 
+/// button (as well as pull down from top) to refresh results and search again.
+/// 
+/// These devices can then be paired to and used for testing, pairing to a device
+/// will draw a [DeviceScreen] for the selected device to gather information about
+/// it before returning to the main page.
 class FindDevicesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -74,6 +92,7 @@ class FindDevicesScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
+              // Generate stream of bluetooth devices found
               StreamBuilder<List<BluetoothDevice>>(
                 stream: Stream.periodic(Duration(seconds: 2))
                     .asyncMap((_) => FlutterBlue.instance.connectedDevices),
@@ -102,11 +121,13 @@ class FindDevicesScreen extends StatelessWidget {
                   )).toList(),
                 ),
               ),
+              // Generate list of scanned devices and display them in column
               StreamBuilder<List<ScanResult>>(
                 stream: FlutterBlue.instance.scanResults,
                 initialData: [],
                 builder: (c, snapshot) => Column(
                   children: snapshot.data.map((r) {
+                    // Only display HITCH modules
                     if(r.advertisementData.localName.contains('HELIOS') || r.advertisementData.localName.contains('HITCH')){
                       return ScanResultTile(
                         result: r,
@@ -118,6 +139,7 @@ class FindDevicesScreen extends StatelessWidget {
                         ),
                       );
                     } else {
+                      // Cannot return a null object so return empty container
                       return Container();
                     }
                   }).toList(),
@@ -149,24 +171,34 @@ class FindDevicesScreen extends StatelessWidget {
   }
 }
 
+/// Displays information about the selected HITCH module
+/// 
+/// Displays information such as characteristics and services for the paired
+/// module. These will likely be removed in the future to not confuse the 
+/// operator.
+/// 
+/// Also inserts a [BluetoothDevice] singleton into the [GetIt] handler to allow
+/// bluetooth to be accessed by all pages of the application (if one has not been
+/// created already).
 class DeviceScreen extends StatelessWidget {
+  /// Default constructor
   const DeviceScreen({Key key, this.device}) : super(key: key);
 
+  /// Generate the [BluetoothDevice] object for the paired device
   final BluetoothDevice device;
 
+  /// Testing function to change values and debug the TI-RTOS system
+  /// TODO: remove
   List<int> _getRandomBytes() {
     //final math = Random();
     var t = [Random().nextInt(255), Random().nextInt(255)];
     return t; 
-    // [
-    //   t
-    //   //math.nextInt(255)
-    //   // math.nextInt(255),
-    //   // math.nextInt(255),
-    //   // math.nextInt(255)
-    // ];
   }
 
+  /// Create a list of services that the device offers
+  /// 
+  /// Useful for developement
+  /// TODO: remove
   List<Widget> _buildServiceTiles(List<BluetoothService> services) {
     return services.map((s) => ServiceTile(
         service: s,
@@ -271,10 +303,6 @@ class DeviceScreen extends StatelessWidget {
               builder: (c, snapshot) => ListTile(
                 title: Text('MTU Size'),
                 subtitle: Text('${snapshot.data} bytes'),
-                // trailing: IconButton(
-                //   icon: Icon(Icons.edit),
-                //   onPressed: () => device.requestMtu(223),
-                // ),
               ),
             ),
             StreamBuilder<List<BluetoothService>>(
@@ -294,13 +322,17 @@ class DeviceScreen extends StatelessWidget {
 
                   // Register device on GetIt instance
                   GetIt sl = globalHelper.getIt;
+
+                  // Attempt to register singleton
                   try {
                     sl.registerSingleton<BluetoothDevice>(device);
                   } catch (e) {
+                    // BluetoothDevice is not registered, register it
                     BluetoothDevice bt = GetIt.instance<BluetoothDevice>();
                     bt = device;
                   }
 
+                  // Return to TestingPage
                   Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
                       builder: (context) => Home(0)),

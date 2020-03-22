@@ -10,11 +10,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 
+/// Descriptor widget for bluetooth devices
 class DescriptorTile extends StatelessWidget {
+  /// Local [BluetoothDescriptor] variable
   final BluetoothDescriptor descriptor;
-  final VoidCallback onReadPressed;
-  final VoidCallback onWritePressed;
 
+  /// Local [VoidCallbal] variables
+  final VoidCallback onReadPressed, onWritePressed;
+
+  /// Default contructor
   const DescriptorTile(
       {Key key, this.descriptor, this.onReadPressed, this.onWritePressed})
       : super(key: key);
@@ -62,10 +66,15 @@ class DescriptorTile extends StatelessWidget {
   }
 }
 
+/// List of services for each bluetooth device
 class ServiceTile extends StatelessWidget {
+  /// Local [BluetoothService] variable
   final BluetoothService service;
+  
+  /// List of [CharacteristicTile] for each service
   final List<CharacteristicTile> characteristicTiles;
 
+  /// Default constructor
   const ServiceTile({Key key, this.service, this.characteristicTiles})
       : super(key: key);
 
@@ -97,13 +106,18 @@ class ServiceTile extends StatelessWidget {
   }
 }
 
+/// Displays bluetooth characteristic information
 class CharacteristicTile extends StatelessWidget {
+  /// Local [BluetoothCharacteristic] variable
   final BluetoothCharacteristic characteristic;
-  final List<DescriptorTile> descriptorTiles;
-  final VoidCallback onReadPressed;
-  final VoidCallback onWritePressed;
-  final VoidCallback onNotificationPressed;
 
+  /// List of [DescriptorTile] objects for characteristic
+  final List<DescriptorTile> descriptorTiles;
+
+  /// Local [VoidCallback] variables
+  final VoidCallback onReadPressed, onWritePressed, onNotificationPressed;
+
+  /// Default constructor
   const CharacteristicTile(
       {Key key,
       this.characteristic,
@@ -168,12 +182,18 @@ class CharacteristicTile extends StatelessWidget {
   }
 }
 
+/// Display widgets for results of bluetooth scan
 class ScanResultTile extends StatelessWidget {
+  /// Default constructor
   const ScanResultTile({Key key, this.result, this.onTap}) : super(key: key);
 
+  /// Local [ScanResult] object
   final ScanResult result;
+
+  /// Local [VoidCallback] object
   final VoidCallback onTap;
 
+  /// Title row widget
   Widget _buildTitle(BuildContext context) {
     if (result.device.name.length > 0) {
       return Column(
@@ -195,6 +215,7 @@ class ScanResultTile extends StatelessWidget {
     }
   }
 
+  /// Advertisement data row widget
   Widget _buildAdvRow(BuildContext context, String title, String value) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
@@ -220,11 +241,18 @@ class ScanResultTile extends StatelessWidget {
     );
   }
 
+  /// Clean hex array generator
+  /// 
+  /// Takes a list of integers [bytes] and converts to a hex array in uppercase
   String getNiceHexArray(List<int> bytes) {
     return '[${bytes.map((i) => i.toRadixString(16).padLeft(2, '0')).join(', ')}]'
         .toUpperCase();
   }
 
+  /// Clean Manufacturer data
+  /// 
+  /// Takes a map of data and converts into a pretty to view manufacturer data
+  /// string [res].
   String getNiceManufacturerData(Map<int, List<int>> data) {
     if (data.isEmpty) {
       return null;
@@ -237,6 +265,10 @@ class ScanResultTile extends StatelessWidget {
     return res.join(', ');
   }
 
+  /// Clean Service data
+  /// 
+  /// Takes a map of data and converts into a pretty to view manufacturer data
+  /// string [res].
   String getNiceServiceData(Map<String, List<int>> data) {
     if (data.isEmpty) {
       return null;

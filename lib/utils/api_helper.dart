@@ -6,50 +6,40 @@
  * Author: Jack Smith (john.d.smitherton@tamu.edu)
  */
 
+// Flutter Packages
 import 'dart:async';
 import 'dart:convert';
 import 'dart:core';
-import 'package:HITCH/models/customer_data.dart';
-import 'package:HITCH/models/trailer_data.dart';
-import 'package:HITCH/models/truck_data.dart';
-import 'package:intl/intl.dart';
-import 'package:HITCH/models/global.dart';
 import 'package:get_it/get_it.dart';
-import 'package:logger/logger.dart';
 import 'package:http/http.dart' as http;
-import 'package:HITCH/utils/database_helper.dart';
+import 'package:intl/intl.dart';
+import 'package:logger/logger.dart';
 import 'package:package_info/package_info.dart';
 
-Future<http.Response> getRequest (Map body) async {
-  var logHelper = GetIt.instance<Logger>();
-  // TODO: update from HTTP to HTTPS
-  var url ='http://duet.helioscapstone.com/download/';
+// Models
+import 'package:HITCH/models/customer_data.dart';
+import 'package:HITCH/models/global.dart';
+import 'package:HITCH/models/trailer_data.dart';
+import 'package:HITCH/models/truck_data.dart';
 
-  // Expected body request format
-  //   "date": "current date",
-  //   "time": "time time that response was sent",
-  //   "recieved": "time that data request was received",
-  //   "customer": "which customer was requested",
-  //   "truckplate": "which truck license plate was requested",
-  //   "trailerplate": "which trailer license plate was requested",
-  //   "phone": "which phone number was requested"
+// Utils
+import 'package:HITCH/utils/database_helper.dart';
 
-  Map<String,String> headers = {'Content-Type':'application/json'};
-
-  var response = await http.post(url,
-      headers: headers,
-      body: jsonEncode(body)
-  );
-  
-  logHelper.d("${response.statusCode}");
-  logHelper.d("${response.body}");
-  return response;
-}
-
+/// Post request of data to DUET endpoint
+/// 
+/// Takes data objects of types [CustomerData], [TruckTestData], and [TrailerTestData]
+/// and serializes them along with the working admin profile into a JSON blob
+/// that is then sent via a post request to DUET. The response is then processed
+/// and returned. 
+/// 
+/// http.Response object [response] contains the status code and the message 
+/// returned by the server.
 Future<http.Response> postRequest (CustomerData cust, TruckTestData truckd, TrailerTestData trailerd) async {
   // TODO: update from HTTP to HTTPS
+  // TODO: create a dynamic URL that can change for different dealerships
   var url ='http://duet.helioscapstone.com/upload/';
 
+  // Various GetIt singletons
   var globalHelper = GetIt.instance<GlobalHelper>();
   Logger logHelper = GetIt.instance<Logger>();
   var dbHelper = GetIt.instance<DatabaseHelper>();
@@ -57,10 +47,6 @@ Future<http.Response> postRequest (CustomerData cust, TruckTestData truckd, Trai
   // Get Application information
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
   var employeePass = await dbHelper.executeRawQuery('SELECT pass FROM ADMIN_DATA WHERE phone="${globalHelper.adminData.employeePhone}" AND email="${globalHelper.adminData.employeeEmail}"');
-
-  //var customerID = await dbHelper.executeRawQuery('SELECT id FROM CUSTOMER_DATA WHERE phone="${cust.customerPhoneNumber}" ORDER BY timestamp DESC LIMIT 1');
-  //var truckDB = await dbHelper.executeRawQuery('SELECT * FROM TRUCK_TEST_DATA WHERE customerid="${customerID[0]['id']}" ORDER BY timestamp DESC LIMIT 1');
-  //var trailerDB = await dbHelper.executeRawQuery('SELECT * FROM TRAILER_TEST_DATA WHERE customerid="${customerID[0]['id']}" ORDER BY timestamp DESC LIMIT 1');
 
   Map testData = {
     'truck':[
@@ -158,7 +144,6 @@ Future<http.Response> postRequest (CustomerData cust, TruckTestData truckd, Trai
       'dealership': globalHelper.adminData.dealership,
     },
     'employee': {
-      // TODO: wtf is going on
       "employee_uuid": globalHelper.adminData.employeeUUID,
       "email": globalHelper.adminData.employeeEmail,
       "password": employeePass[0]['pass'],
@@ -183,9 +168,13 @@ Future<http.Response> postRequest (CustomerData cust, TruckTestData truckd, Trai
     }
   };
 
+  // Encode the map into a JSON object
   final body = jsonEncode(msg);
 
+  // Specify headers for the package
   Map<String,String> headers = {'Content-Type':'application/json'};
+
+  // Send message to DUET
   var response = await http.post(url,
       headers: headers,
       body: body
@@ -284,6 +273,32 @@ Future<http.Response> postRequest (CustomerData cust, TruckTestData truckd, Trai
 //   var response = await http.post(url,
 //       headers: {"Content-Type": "application/json"},
 //       body: body
+//   );
+  
+//   logHelper.d("${response.statusCode}");
+//   logHelper.d("${response.body}");
+//   return response;
+// }
+
+// Future<http.Response> getRequest (Map body) async {
+//   var logHelper = GetIt.instance<Logger>();
+//   // TODO: update from HTTP to HTTPS
+//   var url ='http://duet.helioscapstone.com/download/';
+
+//   // Expected body request format
+//   //   "date": "current date",
+//   //   "time": "time time that response was sent",
+//   //   "recieved": "time that data request was received",
+//   //   "customer": "which customer was requested",
+//   //   "truckplate": "which truck license plate was requested",
+//   //   "trailerplate": "which trailer license plate was requested",
+//   //   "phone": "which phone number was requested"
+
+//   Map<String,String> headers = {'Content-Type':'application/json'};
+
+//   var response = await http.post(url,
+//       headers: headers,
+//       body: jsonEncode(body)
 //   );
   
 //   logHelper.d("${response.statusCode}");

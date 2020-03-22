@@ -29,20 +29,33 @@ import 'package:HITCH/screens/testing_complete.dart';
 // Utils
 import 'package:HITCH/utils/database_helper.dart';
 
-
-
+/// Create a stateful Trailer Page
 class TrailerTestingPage extends StatefulWidget {
-  // Pull GetIt Singleton and create pointers to Singleton Helpers
+  /// Create singleton instance of [DatabaseHelper]
   final DatabaseHelper dbHelper = GetIt.instance<DatabaseHelper>();
+
+  /// Create singleton instance of [GlobalHelper]
   final GlobalHelper globalHelper = GetIt.instance<GlobalHelper>();
+
+  /// Create singleton instance of [BluetoothDevice]
   final BluetoothDevice device = GetIt.instance<BluetoothDevice>();
+
   // TODO: enable this
   // final BluetoothHelper btHelper = GetIt.instance<BluetoothHelper>();
 
+  /// Initialize a customer data object
   CustomerData custData;
+
+  /// Initialize empty [TruckTestData] object
   TruckTestData truckData = new TruckTestData.emptyConst();
+
+  /// Initialize empty [TrailerTestData] object
   TrailerTestData trailerData = new TrailerTestData.emptyConst();
 
+  /// Default constructor
+  /// 
+  /// Takes CustomerData object [cd] and optional TruckTestData [truckd] to initialize
+  /// the state
   TrailerTestingPage(CustomerData cd, [TruckTestData truckd]){
     this.custData = cd;
     if(truckd != null){
@@ -50,22 +63,27 @@ class TrailerTestingPage extends StatefulWidget {
     }
   }
 
-  // TrailerTestingPage({this.custData});
-
   @override
   State<StatefulWidget> createState() {
     return TrailerTestingPageState();
   }
 }
 
+/// Create state of testing page
 class TrailerTestingPageState extends State<TrailerTestingPage> {
+  /// Create futures for each test case
   Future leftTurnSignal, rightTurnSignal, tailLights, reverseLights;
-  bool one = false;
-  bool two = false;
-  bool three = false;
+
+  /// Create booleans to handle when objects draw
+  bool one, two, three = false;
+
+  /// Specify the maximum allowed passing current value
   int CURRENT_MAX = 2;
+
+  /// Specify the minimum allowed passing current value
   double CURRENT_MIN = .5;
 
+  /// Initialize the state of the object and call future objects
   @override
   void initState() {
     super.initState();
@@ -75,6 +93,9 @@ class TrailerTestingPageState extends State<TrailerTestingPage> {
     reverseLights = _getReverseLights();
   }
 
+  /// Specify async object waiting for left turn signal result
+  /// 
+  /// Will draw the right turn signal instruction after receiving result.
   _getLeftTurnSignal() async {
     // TODO: send enable relay and test 1
     var services = await widget.device.discoverServices();
@@ -84,10 +105,10 @@ class TrailerTestingPageState extends State<TrailerTestingPage> {
     for(int i = 0; i < 200; i++){
       var resp = await services[1].characteristics[4].read();
       if(initial[1] != resp[1]){
-        // TODO: insert this information into the database
         var firsthalf = resp[0].toString();
         var secondhalf = resp[1].toString();
 
+        // The doubles are split in half so combine them
         var combined = double.parse('$firsthalf.$secondhalf');
         widget.trailerData.trailerTest1Current = combined;
         if(combined >= CURRENT_MAX || combined < CURRENT_MIN){
@@ -102,6 +123,9 @@ class TrailerTestingPageState extends State<TrailerTestingPage> {
     return 'Error Retrieving Data';
   }
 
+  /// Specify async object waiting for right turn signal result
+  /// 
+  /// Will draw the tail lights instruction after receiving result.
   _getRightTurnSignal() async {
     // TODO: send enable relay and test 2
     var services = await widget.device.discoverServices();
@@ -111,10 +135,10 @@ class TrailerTestingPageState extends State<TrailerTestingPage> {
     for(int i = 0; i < 200; i++){
       var resp = await services[1].characteristics[5].read();
       if(initial[1] != resp[1]){
-        // TODO: insert this information into the database
         var firsthalf = resp[0].toString();
         var secondhalf = resp[1].toString();
 
+        // The doubles are split in half so combine them
         var combined = double.parse('$firsthalf.$secondhalf');
         widget.trailerData.trailerTest2Current = combined;
         if(combined >= CURRENT_MAX || combined < CURRENT_MIN){
@@ -129,6 +153,9 @@ class TrailerTestingPageState extends State<TrailerTestingPage> {
     return 'Error Retrieving Data';
   }
 
+  /// Specify async object waiting for tail lights result
+  /// 
+  /// Will draw the reverse lights instruction after receiving result.
   _getTailLights() async {
     // TODO: send enable relay and test 3
     var services = await widget.device.discoverServices();
@@ -138,10 +165,10 @@ class TrailerTestingPageState extends State<TrailerTestingPage> {
     for(int i = 0; i < 200; i++){
       var resp = await services[1].characteristics[6].read();
       if(initial[1] != resp[1]){
-        // TODO: insert this information into the database
         var firsthalf = resp[0].toString();
         var secondhalf = resp[1].toString();
 
+        // The doubles are split in half so combine them
         var combined = double.parse('$firsthalf.$secondhalf');
         widget.trailerData.trailerTest3Current = combined;
         if(combined >= CURRENT_MAX || combined < CURRENT_MIN){
@@ -156,6 +183,9 @@ class TrailerTestingPageState extends State<TrailerTestingPage> {
     return 'Error Retrieving Data';
   }
 
+  /// Specify async object waiting for reverse lights result
+  /// 
+  /// Will draw the testing complete continue button after receiving result.
   _getReverseLights() async {
     // TODO: send enable relay and test 3
     var services = await widget.device.discoverServices();
@@ -165,10 +195,10 @@ class TrailerTestingPageState extends State<TrailerTestingPage> {
     for(int i = 0; i < 200; i++){
       var resp = await services[1].characteristics[7].read();
       if(initial[1] != resp[1]){
-        // TODO: insert this information into the database
         var firsthalf = resp[0].toString();
         var secondhalf = resp[1].toString();
 
+        // The doubles are split in half so combine them
         var combined = double.parse('$firsthalf.$secondhalf');
         widget.trailerData.trailerTest4Current = combined;
         if(combined >= CURRENT_MAX || combined < CURRENT_MIN){
@@ -185,7 +215,6 @@ class TrailerTestingPageState extends State<TrailerTestingPage> {
 
   @override
   Widget build (BuildContext context) {
-    var lock = new Lock();
     return new Scaffold(
       appBar: new AppBar(
         title: new Text("Trailer Testing"),

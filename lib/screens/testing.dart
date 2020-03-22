@@ -8,10 +8,10 @@
 
 
 // Flutter Packages
+import 'package:flutter_blue/flutter_blue.dart';
 import 'package:get_it/get_it.dart';
 import 'package:HITCH/utils/home_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_blue/flutter_blue.dart';
 
 // Models
 import 'package:HITCH/models/customer_data.dart';
@@ -25,12 +25,16 @@ import 'package:HITCH/screens/testing_truck.dart';
 // Utils
 import 'package:HITCH/utils/database_helper.dart';
 
+/// Create the initial state object for Testing
+/// 
+/// Is a stateful widget so only for initial setup, does not have much
+/// functionality outside of creating state object
 class TestingPage extends StatefulWidget {
   // Pull GetIt Singleton and create pointers to Singleton Helpers
   final DatabaseHelper dbHelper = GetIt.instance<DatabaseHelper>();
   final GlobalHelper globalHelper = GetIt.instance<GlobalHelper>();
 
-  // Generate an empty 
+  // Generate an empty CustomerData object
   CustomerData customerData = new CustomerData.emptyConst();
 
   @override
@@ -357,40 +361,3 @@ class _TestingPageState extends State<TestingPage> {
     );
   }
 }
-
-// class TestingPage extends StatelessWidget {
-//   // Pull GetIt Singleton and create pointers to Singleton Helpers
-//   final DatabaseHelper dbHelper = GetIt.instance<DatabaseHelper>();
-
-//   @override
-//   Widget build (BuildContext context) {
-//     return new Scaffold(
-//         appBar: new AppBar(
-//           title: new Text("H.I.T.C.H. Testing"),
-//         ),
-//         body: SingleChildScrollView(
-//           child: Column(
-//             children: <Widget>[
-//               new SeparatorBox('Insert Customer Details'),
-//               new CustomerForm(),
-//               SizedBox(height: 20),
-//             ],
-//           ),
-//         ),
-//     );
-//   }
-// }
-
-// class TextEntryField extends StatelessWidget {
-//   final String text;
-//   TextEntryField(this.text);
-
-//   Widget build(BuildContext context){
-//     return TextFormField(
-//       decoration: InputDecoration(
-//         contentPadding: EdgeInsets.all(20),
-//         hintText: '$text',
-//       ),
-//     );
-//   }
-// }

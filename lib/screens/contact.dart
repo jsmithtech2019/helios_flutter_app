@@ -17,8 +17,13 @@ import 'package:HITCH/utils/database_helper.dart';
 // Models
 import 'package:HITCH/models/seperator.dart';
 
+/// Widget for the contact page
+/// 
+/// Contains the employee information such as email addresses and contact info
+/// for Helios team members. These are links that the user can click to open
+/// a message to us.
 class ContactPage extends StatelessWidget {
-  // Pull GetIt Singleton and create pointers to Singleton Helpers
+  /// [GetIt] singleton for [DatabaseHelper]
   final DatabaseHelper dbHelper = GetIt.instance<DatabaseHelper>();
 
   @override
@@ -34,10 +39,11 @@ class ContactPage extends StatelessWidget {
               new SeparatorBox("General Inquiries"),
               new NamePlates("Helios Team", "", "(713) 898-3810", "helioscapstone@gmail.com", "helioslogo.png", "7138983810"),
               new SeparatorBox("Our Team"),
+              new NamePlates("Jonathan Smith", "Software Engineer", "(303) 801-8528", "john.d.smitherton@tamu.edu", "jack_header.jpg", "3038018528"),
               new NamePlates("Christian Ledgard", "Project Manager", "(713) 898-3810", "christian.ledgard@tamu.edu", "christian_header.jpg", "7138983810"),
               new NamePlates("Kenley Pang", "Hardware Engineer", "(979) 571-5010", "kenleypang@tamu.edu", "kenley_header.jpg", "9795715010"),
-              new NamePlates("Jonathan Smith", "Software Engineer", "(303) 801-8528", "john.d.smitherton@tamu.edu", "jack_header.jpg", "3038018528"),
               new NamePlates("Diego Espina", "Test/Integration Engineer", "(979) 574-7193", "diegoespina7@tamu.edu", "diego_header.jpg", "9795747193"),
+              // TODO: remove
               RaisedButton(
                 onPressed: () {
                   seedDatabase();
@@ -47,12 +53,14 @@ class ContactPage extends StatelessWidget {
             ],
           )
         ),
-        //),
       ),
     );
   }
 }
 
+/// The nameplate objects for each developer
+/// 
+/// Creates a pretty object for each developer with useful information
 class NamePlates extends StatelessWidget {
   final String name, role, phone, email, image, phoneclean;
   NamePlates(this.name, this.role, this.phone, this.email, this.image, this.phoneclean);
@@ -117,6 +125,7 @@ class NamePlates extends StatelessWidget {
     );
   }
 
+  /// Open the messaging app with a draft to the specified number
   _sendMessage() async {
     String uri = 'sms:$phoneclean';
     if (await canLaunch(uri)) {
@@ -126,6 +135,7 @@ class NamePlates extends StatelessWidget {
     }
   }
 
+  /// Open the email client with a draft to the specified address
   _sendEmail() async {
     String uri = 'mailto:$email';
     if (await canLaunch(uri)) {
@@ -136,6 +146,8 @@ class NamePlates extends StatelessWidget {
   }
 }
 
+/// Dummy seed data to clean fill the database
+/// TODO: remove
 void seedDatabase(){
   final DatabaseHelper dbHelper = GetIt.instance<DatabaseHelper>();
   // Dummy Truck Test Data

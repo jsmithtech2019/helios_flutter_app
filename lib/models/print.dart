@@ -16,11 +16,16 @@ import 'package:get_it/get_it.dart';
 /// and well designed format. In the future this should be rolled into the
 /// database helper class.
 class PrintDatabaseResponses extends StatelessWidget {
+  /// [GetIt] singleton for [DatabaseHelper]
   final DatabaseHelper dbHelper = GetIt.instance<DatabaseHelper>();
-  final String query;
-  final String successStatement;
+
+  /// Initialize query and success statement strings
+  final String query, successStatement;
+
+  /// Initialize size double
   final double size;
 
+  /// Default constructor
   PrintDatabaseResponses(this.query, this.successStatement, this.size);
 
   Widget build(BuildContext context){
@@ -46,11 +51,16 @@ class PrintDatabaseResponses extends StatelessWidget {
 }
 
 class PrintDatabaseTestResult extends StatelessWidget {
+  /// [GetIt] singleton for [DatabaseHelper]
   final DatabaseHelper dbHelper = GetIt.instance<DatabaseHelper>();
-  final String query;
-  final String successStatement;
+
+  /// Initialize query and success statement strings
+  final String query, successStatement;
+
+  /// Initialize size double
   final double size;
 
+  /// Default constructor
   PrintDatabaseTestResult(this.query, this.successStatement, this.size);
 
   Widget build(BuildContext context){
@@ -76,11 +86,16 @@ class PrintDatabaseTestResult extends StatelessWidget {
 }
 
 class PrintDatabaseCurrentResult extends StatelessWidget {
+  /// [GetIt] singleton for [DatabaseHelper]
   final DatabaseHelper dbHelper = GetIt.instance<DatabaseHelper>();
-  final String query;
-  final String successStatement;
+
+  /// Initialize query and success statement strings
+  final String query, successStatement;
+
+  /// Initialize size double
   final double size;
 
+  /// Default constructor
   PrintDatabaseCurrentResult(this.query, this.successStatement, this.size);
 
   Widget build(BuildContext context){

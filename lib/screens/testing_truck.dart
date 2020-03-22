@@ -9,17 +9,14 @@
 // Flutter Packages
 import 'dart:io';
 import 'dart:math';
-
-import 'package:HITCH/models/customer_data.dart';
-import 'package:HITCH/models/global.dart';
-import 'package:HITCH/models/print.dart';
-import 'package:HITCH/models/truck_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:get_it/get_it.dart';
 
 // Models
-
+import 'package:HITCH/models/customer_data.dart';
+import 'package:HITCH/models/global.dart';
+import 'package:HITCH/models/truck_data.dart';
 
 // Screens
 import 'package:HITCH/screens/testing_complete.dart';
@@ -28,17 +25,27 @@ import 'package:HITCH/screens/testing_trailer.dart';
 // Utils
 import 'package:HITCH/utils/database_helper.dart';
 
+/// Create a stateful Truck Page
 class TruckTestingPage extends StatefulWidget{
-  // Pull GetIt Singleton and create pointers to Singleton Helpers
+  /// Create singleton instance of [DatabaseHelper]
   final DatabaseHelper dbHelper = GetIt.instance<DatabaseHelper>();
+
+  /// Create singleton instance of [GlobalHelper]
   final GlobalHelper globalHelper = GetIt.instance<GlobalHelper>();
+
+  /// Create singleton instance of [BluetoothDevice]
   final BluetoothDevice device = GetIt.instance<BluetoothDevice>();
+
   // TODO: enable this
   // final BluetoothHelper btHelper = GetIt.instance<BluetoothHelper>();
 
+  /// Initialize a customer data object
   final CustomerData custData;
+
+  /// Initialize empty [TruckTestData] object
   TruckTestData truckData = new TruckTestData.emptyConst();
 
+  /// Default constructor
   TruckTestingPage({this.custData});
 
   @override
@@ -58,6 +65,9 @@ class TruckTestingPageState extends State<TruckTestingPage>{
     reverseLights = _getReverseLights();
   }
 
+  /// Specify async object waiting for left turn signal result
+  /// 
+  /// Will draw the right turn signal instruction after receiving result.
   _getLeftTurnSignal() async {
     // TODO: send enable relay and test 1
     var services = await widget.device.discoverServices();
@@ -67,12 +77,11 @@ class TruckTestingPageState extends State<TruckTestingPage>{
     for(int i = 0; i < 200; i++){
       var resp = await services[1].characteristics[0].read();
       if(initial[1] != resp[1]){
-        // TODO: insert this information into the database
         print('Resp[0]: ${resp[0]}\nResp[1]: ${resp[1]}');
-        //return resp[0].toString();
         var firsthalf = resp[0].toString();
         var secondhalf = resp[1].toString();
 
+        // The doubles are split in half so combine them
         var combined = double.parse('$firsthalf.$secondhalf');
         widget.truckData.truckTest1Current = combined;
         if(combined >= 1.5 || combined < .5){
@@ -87,6 +96,9 @@ class TruckTestingPageState extends State<TruckTestingPage>{
     return 'Error Retrieving Data';
   }
 
+  /// Specify async object waiting for right turn signal result
+  /// 
+  /// Will draw the tail lights instruction after receiving result.
   _getRightTurnSignal() async {
     // TODO: send enable relay and test 2
     var services = await widget.device.discoverServices();
@@ -97,14 +109,12 @@ class TruckTestingPageState extends State<TruckTestingPage>{
       var resp = await services[1].characteristics[1].read();
 
       if(initial[1] != resp[1]){
-        // TODO: insert this information into the database
-        //print('Resp[0]: ${resp[0]}\nResp[1]: ${resp[1]}');
         var firsthalf = resp[0].toString();
         var secondhalf = resp[1].toString();
 
+        // The doubles are split in half so combine them
         var combined = double.parse('$firsthalf.$secondhalf');
         widget.truckData.truckTest2Current = combined;
-        //return resp[0].toString();
         if(combined >= 1.5 || combined < .5){
           widget.truckData.truckTest2Result = 0;
           return 'Result: Fail\nCurrent: ${combined}A';
@@ -117,6 +127,9 @@ class TruckTestingPageState extends State<TruckTestingPage>{
     return 'Error Retrieving Data';
   }
 
+  /// Specify async object waiting for tail lights result
+  /// 
+  /// Will draw the reverse lights instruction after receiving result.
   _getTailLights() async {
     // TODO: send enable relay and test 3
     var services = await widget.device.discoverServices();
@@ -126,14 +139,13 @@ class TruckTestingPageState extends State<TruckTestingPage>{
     for(int i = 0; i < 200; i++){
       var resp = await services[1].characteristics[2].read();
       if(initial[1] != resp[1]){
-        // TODO: insert this information into the database
         print('Resp[0]: ${resp[0]}\nResp[1]: ${resp[1]}');
         var firsthalf = resp[0].toString();
         var secondhalf = resp[1].toString();
 
+        // The doubles are split in half so combine them
         var combined = double.parse('$firsthalf.$secondhalf');
         widget.truckData.truckTest3Current = combined;
-        //return resp[0].toString();
         if(combined >= 1.5 || combined < .5){
           widget.truckData.truckTest3Result = 0;
           return 'Result: Fail\nCurrent: ${combined}A';
@@ -146,6 +158,9 @@ class TruckTestingPageState extends State<TruckTestingPage>{
     return 'Error Retrieving Data';
   }
 
+  /// Specify async object waiting for reverse lights result
+  /// 
+  /// Will draw the testing complete continue button after receiving result.
   _getReverseLights() async {
     // TODO: send enable relay and test 3
     var services = await widget.device.discoverServices();
@@ -156,11 +171,10 @@ class TruckTestingPageState extends State<TruckTestingPage>{
       var resp = await services[1].characteristics[3].read();
       if(initial[1] != resp[1]){
         print('Resp[0]: ${resp[0]}\nResp[1]: ${resp[1]}');
-        // TODO: insert this information into the database
-        //return resp[0].toString();
         var firsthalf = resp[0].toString();
         var secondhalf = resp[1].toString();
 
+        // The doubles are split in half so combine them
         var combined = double.parse('$firsthalf.$secondhalf');
         widget.truckData.truckTest4Current = combined;
         if(combined >= 1.5 || combined < .5){

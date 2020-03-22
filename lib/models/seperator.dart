@@ -9,10 +9,16 @@
 // Flutter Packages
 import 'package:flutter/material.dart';
 
+/// Separator box to split up sections of pages
 class SeparatorBox extends StatelessWidget {
+
+  /// The text for the box
   final String text;
+
+  /// Default constructor
   SeparatorBox(this.text);
 
+  /// The actual built and returned widget
   Widget build(BuildContext context){
     return Container(
       color: Colors.blueGrey[600],
