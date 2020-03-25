@@ -173,4 +173,22 @@ void seedDatabase(){
       'moduleID, dealership, dealer_uuid) VALUES ("Christian Ledgard", '
       '"7138983810", "christianledgard@tamu.edu", '
       '"password", "HITCH001", "Helios", "lkjfAIFhjsfdY78325")');
+
+  // Dummy Customer Data
+  dbHelper.executeRawQuery('INSERT INTO CUSTOMER_DATA (name, phone, email, '
+      'addr1, addr2, city, state, zip, truckplate, trailerplate) VALUES ('
+      '"Christian Ledgard", "1111111", "christian@gmail.com", "addr1", "addr2", "cstat", '
+      '"tx", "7777", "TRUCK", "TRAILER")');
+
+  // Dummy Truck Test Data
+  dbHelper.executeRawQuery('INSERT INTO TRUCK_TEST_DATA '
+      '(customerid, test1_result, test1_current, test2_result, test2_current, '
+      'test3_result, test3_current, test4_result, test4_current) '
+      'VALUES (2, 0, 19.0, 1, 1.19, 0, 19.9, 1, .19)');
+
+  // Dummy Trailer Test Data
+  dbHelper.executeRawQuery('INSERT INTO TRAILER_TEST_DATA '
+      '(customerid, test1_result, test1_current, test2_result, test2_current, '
+      'test3_result, test3_current, test4_result, test4_current) '
+      'VALUES (2, 0, 19.0, 1, 1.19, 0, 19.9, 1, .19)');
 }
