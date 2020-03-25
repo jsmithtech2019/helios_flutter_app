@@ -38,6 +38,14 @@ class HelpPage extends StatelessWidget {
       " sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt"
       " mollit anim id est laborum.";
 
+  final String setUp = "";
+  final String bluetoothPairing = "";
+  final String badReadings = "";
+  final String connectionFailur = "";
+  final String duetConnection = "";
+  final String testHistory = "";
+  final String removingTestHistory = "";
+
   @override
   Widget build (BuildContext context) {
     return new Scaffold(
@@ -49,43 +57,49 @@ class HelpPage extends StatelessWidget {
           margin: EdgeInsets.all(24),
           child: Column(
             children: <Widget>[
-              new ExpandablePanel(
+              ExpandablePanel(
                 header: Text("Setting up",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
-                expanded: Text(lorem, softWrap: true),
+                expanded: Text(setUp, softWrap: true),
               ),
               SizedBox(height: 30),
-              new ExpandablePanel(
+              ExpandablePanel(
                 header: Text("Bluetooth Pairing",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
-                expanded: Text(lorem, softWrap: true),
+                expanded: Text(bluetoothPairing, softWrap: true),
               ),
               SizedBox(height: 30),
-              new ExpandablePanel(
+              ExpandablePanel(
                 header: Text("Testing",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
-                expanded: Text(lorem, softWrap: true),
+                expanded: Text(badReadings, softWrap: true),
               ),
               SizedBox(height: 30),
-              new ExpandablePanel(
+              ExpandablePanel(
                 header: Text("Bad Test Readings",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
-                expanded: Text(lorem, softWrap: true),
+                expanded: Text(connectionFailur, softWrap: true),
               ),
               SizedBox(height: 30),
-              new ExpandablePanel(
+              ExpandablePanel(
                 header: Text("Module Not Connecting",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
-                expanded: Text(lorem, softWrap: true),
+                expanded: Text(duetConnection, softWrap: true),
               ),
               SizedBox(height: 30),
-              new ExpandablePanel(
+              ExpandablePanel(
                 header: Text("Connecting to Main Server",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
-                expanded: Text(lorem, softWrap: true),
+                expanded: Text(testHistory, softWrap: true),
               ),
               SizedBox(height: 30),
-              new ExpandablePanel(
+              ExpandablePanel(
+                header: Text("Removing Old Tests",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
+                expanded: Text(removingTestHistory, softWrap: true),
+              ),
+              SizedBox(height: 30),
+              ExpandablePanel(
                 header: Text("Searching Past Tests",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
                 expanded: Text(lorem, softWrap: true, ),

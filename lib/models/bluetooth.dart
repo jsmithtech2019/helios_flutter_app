@@ -327,9 +327,7 @@ class DeviceScreen extends StatelessWidget {
                   try {
                     sl.registerSingleton<BluetoothDevice>(device);
                   } catch (e) {
-                    // BluetoothDevice is not registered, register it
-                    BluetoothDevice bt = GetIt.instance<BluetoothDevice>();
-                    bt = device;
+                    // Some error, should be ok
                   }
 
                   // Return to TestingPage

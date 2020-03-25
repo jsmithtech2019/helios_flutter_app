@@ -84,7 +84,7 @@ class _TestingPageState extends State<TestingPage> {
     // If no bluetooth has been initialized, don't allow
     // testing to begin.
     try {
-      var btHelper = GetIt.instance<BluetoothDevice>();
+      GetIt.instance<BluetoothDevice>();
     } catch (e) {
       // BLE not initialized, popup error
       return Scaffold(

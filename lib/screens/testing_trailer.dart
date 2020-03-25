@@ -12,13 +12,11 @@ import 'dart:math';
 
 import 'package:HITCH/models/customer_data.dart';
 import 'package:HITCH/models/global.dart';
-import 'package:HITCH/models/print.dart';
 import 'package:HITCH/models/trailer_data.dart';
 import 'package:HITCH/models/truck_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:get_it/get_it.dart';
-import 'package:synchronized/synchronized.dart';
 
 // Models
 //import 'package:HITCH/models/seperator.dart';
@@ -78,10 +76,10 @@ class TrailerTestingPageState extends State<TrailerTestingPage> {
   bool one, two, three = false;
 
   /// Specify the maximum allowed passing current value
-  int CURRENT_MAX = 2;
+  static const int CURRENT_MAX = 2;
 
   /// Specify the minimum allowed passing current value
-  double CURRENT_MIN = .5;
+  static const double CURRENT_MIN = .5;
 
   /// Initialize the state of the object and call future objects
   @override

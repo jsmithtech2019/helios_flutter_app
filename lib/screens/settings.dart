@@ -13,7 +13,6 @@ import 'package:HITCH/models/global.dart';
 import 'package:HITCH/models/print.dart';
 import 'package:HITCH/utils/home_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_blue/flutter_blue.dart';
 import 'package:get_it/get_it.dart';
 
 // Utils
