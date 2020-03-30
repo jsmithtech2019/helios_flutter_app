@@ -81,11 +81,12 @@ void main() async {
   var employeeInfo = await dbHelper.executeRawQuery('SELECT * FROM ADMIN_DATA ORDER BY id DESC LIMIT 1');
 
   /// Seed [GlobalHelper] singleton with Admin values
-  globalHelper.adminData.dealership = employeeInfo[0]['dealership'];
-  globalHelper.adminData.dealershipUUID = employeeInfo[0]['dealer_uuid'];
+  globalHelper.adminData.employeeName = employeeInfo[0]['name'];
   globalHelper.adminData.employeeUUID = employeeInfo[0]['employee_uuid'];
   globalHelper.adminData.employeePhoneNumber = employeeInfo[0]['phone'];
   globalHelper.adminData.employeeEmail = employeeInfo[0]['email'];
+  globalHelper.adminData.dealership = employeeInfo[0]['dealership'];
+  globalHelper.adminData.dealershipUUID = employeeInfo[0]['dealer_uuid'];
   globalHelper.adminData.moduleUUID = employeeInfo[0]['moduleID'];
 
   /// Start the application

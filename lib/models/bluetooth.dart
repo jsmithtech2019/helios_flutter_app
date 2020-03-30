@@ -321,13 +321,14 @@ class DeviceScreen extends StatelessWidget {
                   globalHelper.bluetoothDevice = device;
 
                   // Register device on GetIt instance
-                  GetIt sl = globalHelper.getIt;
+                  GetIt sl = GetIt.instance;
 
                   // Attempt to register singleton
                   try {
                     sl.registerSingleton<BluetoothDevice>(device);
                   } catch (e) {
-                    // Some error, should be ok
+                    // Singleton failed to register, may have already been registered
+                    print('Failed to register singleton: $e');
                   }
 
                   // Return to TestingPage

@@ -8,6 +8,7 @@
 
 
 // Flutter Packages
+import 'package:HITCH/models/bluetooth.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:get_it/get_it.dart';
 import 'package:HITCH/utils/home_widget.dart';
@@ -79,17 +80,26 @@ class _TestingPageState extends State<TestingPage> {
     super.dispose();
   }
 
+  /// initialize the state (for dropdown menu items) to null
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     // If no bluetooth has been initialized, don't allow
     // testing to begin.
     try {
-      GetIt.instance<BluetoothDevice>();
-    } catch (e) {
+      var bt = GetIt.instance<BluetoothDevice>();
+      if (globalHelper.bluetoothDevice == null){
+        throw Error();
+      }
+    } catch (Error) {
       // BLE not initialized, popup error
       return Scaffold(
         appBar: AppBar(
-          title: Text("H.I.T.C.H. Testing"),
+          title: Text("HITCH Testing"),
         ),
         body: AlertDialog(
           title: Text('Bluetooth not initialized!\n\nPlease pair a HITCH module before'
@@ -98,6 +108,7 @@ class _TestingPageState extends State<TestingPage> {
             FlatButton(
               child: Text('Ok'),
               onPressed: () {
+                setState(() {});
                 Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
                     builder: (context) => Home(2)
@@ -113,7 +124,7 @@ class _TestingPageState extends State<TestingPage> {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text("H.I.T.C.H. Testing"),
+          title: Text("HITCH Testing"),
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -145,12 +156,12 @@ class _TestingPageState extends State<TestingPage> {
                   new TextFormField(
                     controller: _custPhoneController,
                     textAlign: TextAlign.left,
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Please provide Customer Phone Number';
-                    }
-                    return null;
-                  },
+                    // validator: (value) {
+                    //   if (value.isEmpty) {
+                    //     return 'Please provide Customer Phone Number';
+                    //   }
+                    //   return null;
+                    // },
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.all(20),
                       hintText: 'Customer Phone Number',
@@ -163,12 +174,12 @@ class _TestingPageState extends State<TestingPage> {
                   new TextFormField(
                     controller: _custEmailController,
                     textAlign: TextAlign.left,
-        //            validator: (value) {
-        //              if (value.isEmpty) {
-        //                return 'Please provide Customer Email';
-        //              }
-        //              return null;
-        //            },
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Please provide Customer Email';
+                      }
+                      return null;
+                    },
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.all(20),
                       hintText: 'Customer Email',
@@ -271,12 +282,12 @@ class _TestingPageState extends State<TestingPage> {
                   new TextFormField(
                     controller: _truckLicensePlateController,
                     textAlign: TextAlign.left,
-        //            validator: (value) {
-        //              if (value.isEmpty) {
-        //                return 'Please provide Truck License Plate';
-        //              }
-        //              return null;
-        //            },
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Please provide Truck License Plate';
+                      }
+                      return null;
+                    },
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.all(20),
                       hintText: 'Truck License Plate',
@@ -289,12 +300,12 @@ class _TestingPageState extends State<TestingPage> {
                   new TextFormField(
                     controller: _trailerLicensePlateController,
                     textAlign: TextAlign.left,
-        //            validator: (value) {
-        //              if (value.isEmpty) {
-        //                return 'Please provide Trailer License Plate';
-        //              }
-        //              return null;
-        //            },
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'Please provide Trailer License Plate';
+                      }
+                      return null;
+                    },
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.all(20),
                       hintText: 'Trailer License Plate',

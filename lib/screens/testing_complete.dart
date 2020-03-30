@@ -7,6 +7,7 @@
  */
 
 // Flutter Packages
+import 'package:HITCH/models/bluetooth.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter/material.dart';
@@ -97,7 +98,13 @@ class TestingCompletePage extends StatelessWidget {
               ),
               RaisedButton(
                 onPressed: () {
-                  dbHelper.insertCustomerData(custData);
+                  dbHelper.insertCustomerData(custData).then((custId){
+                    dbHelper.insertTruckData(truckData, custId);
+                    dbHelper.insertTrailerData(trailerData, custId);
+                    globalHelper.customerData.customerId = custId;
+                    globalHelper.lastTestId = custId;
+                  });
+
                   Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(
                       builder: (context) => Home(0)),

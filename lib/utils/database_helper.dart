@@ -11,6 +11,8 @@ import 'dart:async';
 import 'dart:io';
 
 //import 'dart:math';
+import 'package:HITCH/models/trailer_data.dart';
+import 'package:HITCH/models/truck_data.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
 import 'package:path/path.dart' as p;
@@ -146,7 +148,7 @@ class DatabaseHelper {
     logHelper.d('Using path: $path');
 
     // Open/create the database at a given path
-    return await openDatabase(path, version: 1, onCreate: _createTables);
+    return await openDatabase(path, version: 2, onCreate: _createTables);
   }
 
   /// Create the tables outlined in the schemas above.
@@ -258,8 +260,13 @@ class DatabaseHelper {
   /// insertion or a failure.
   Future<int> insertCustomerData(CustomerData custData) async {
     Database db = await this.database;
-    var result = await db.insert(custTable, custData.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
-    return result;
+    var id = await db.rawQuery('SELECT id FROM CUSTOMER_DATA WHERE name="${custData.customerName}" AND email="${custData.customerEmail}" AND truckplate="${custData.truckLicensePlate}" AND trailerplate="${custData.trailerLicensePlate}"');
+    if (id.isNotEmpty){
+      return id[0]['id'];
+    }
+    await db.insert(custTable, custData.toMap(), conflictAlgorithm: ConflictAlgorithm.abort);
+    id = await db.rawQuery('SELECT id FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1');
+    return id[0]['id'];
   }
 
   // // Update Operation: Update a TestData object and save it to database
@@ -287,6 +294,36 @@ class DatabaseHelper {
   Future<int> insertAdminData(AdminData adminData) async {
     Database db = await this.database;
     var result = await db.insert(adminTable, adminData.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
+    return result;
+  }
+
+  /// Insert a TruckTestData object into the TRUCK_TEST_DATA table.
+  ///
+  /// Using the provided [td] the function will attempt to insert the
+  /// data into the database. Upon finding a conflicting entry the conflict
+  /// resolution algorithm will replace it using this most recent entry.
+  ///
+  /// This will return an integer [result] that will either confirm a successful
+  /// insertion or a failure.
+  Future<int> insertTruckData(TruckTestData td, int custId) async {
+    Database db = await this.database;
+    td.customerId = custId;
+    var result = await db.insert(truckTable, td.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
+    return result;
+  }
+
+  /// Insert a TrailerTestData object into the TRAILER_TEST_DATA table.
+  ///
+  /// Using the provided [td] the function will attempt to insert the
+  /// data into the database. Upon finding a conflicting entry the conflict
+  /// resolution algorithm will replace it using this most recent entry.
+  ///
+  /// This will return an integer [result] that will either confirm a successful
+  /// insertion or a failure.
+  Future<int> insertTrailerData(TrailerTestData td, int custId) async {
+    Database db = await this.database;
+    td.customerId = custId;
+    var result = await db.insert(trailerTable, td.toMap(), conflictAlgorithm: ConflictAlgorithm.replace);
     return result;
   }
 

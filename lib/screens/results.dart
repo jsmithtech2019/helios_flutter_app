@@ -7,6 +7,7 @@
  */
 
 // Flutter Packages
+import 'package:HITCH/models/bluetooth.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
@@ -45,8 +46,8 @@ class ResultsPage extends StatefulWidget {
 /// choose results other than the most recent test result
 class ResultsPageState extends State<ResultsPage> {
   /// Initialize useful string variables
-  String dropDownNameValue, dropDownTestNum, custid;
-  
+  String dropDownNameValue, dropDownTestNum;
+
   /// Create a map of customer id's
   Map<String, dynamic> custNameIDmap = {'key': -1};
 
@@ -60,22 +61,22 @@ class ResultsPageState extends State<ResultsPage> {
             Align(
               alignment: Alignment.centerLeft,
               child:  PrintDatabaseResponses(
-                  //'SELECT name FROM CUSTOMER_DATA WHERE id="${gbHelper.customerID}" LIMIT 1',
-                  'SELECT name FROM CUSTOMER_DATA WHERE id=$dropDownTestNum',
+                  'SELECT name FROM CUSTOMER_DATA WHERE id="${globalHelper.customerData.customerId}" LIMIT 1',
+                  //'SELECT name FROM CUSTOMER_DATA WHERE id=$dropDownTestNum',
                   'Customer', 20),
             ),
             Align(
               alignment: Alignment.centerLeft,
               child: PrintDatabaseResponses(
-                  //'SELECT truckplate FROM CUSTOMER_DATA WHERE id="${gbHelper.customerID}" LIMIT 1',
-                  'SELECT truckplate FROM CUSTOMER_DATA WHERE id=$dropDownTestNum',
+                  'SELECT truckplate FROM CUSTOMER_DATA WHERE id="${globalHelper.customerData.customerId}" LIMIT 1',
+                  //'SELECT truckplate FROM CUSTOMER_DATA WHERE id=$dropDownTestNum',
                   'Truck License Plate', 20),
             ),
             Align(
               alignment: Alignment.centerLeft,
               child: PrintDatabaseResponses(
-                  //'SELECT trailerplate FROM CUSTOMER_DATA WHERE id="${gbHelper.customerID}" LIMIT 1',
-                  'SELECT trailerplate FROM CUSTOMER_DATA WHERE id=$dropDownTestNum',
+                  'SELECT trailerplate FROM CUSTOMER_DATA WHERE id="${globalHelper.customerData.customerId}" LIMIT 1',
+                  //'SELECT trailerplate FROM CUSTOMER_DATA WHERE id=$dropDownTestNum',
                   'Trailer License Plate', 20),
             ),
           ],
@@ -89,22 +90,22 @@ class ResultsPageState extends State<ResultsPage> {
             Align(
               alignment: Alignment.centerLeft,
               child:  PrintDatabaseResponses(
-                  //'SELECT name FROM CUSTOMER_DATA WHERE id="${gbHelper.customerID}" LIMIT 1',
-                  'SELECT name FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1',
+                  'SELECT name FROM CUSTOMER_DATA WHERE id="${globalHelper.customerData.customerId}" LIMIT 1',
+                  //'SELECT name FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1',
                   'Customer', 20),
             ),
             Align(
               alignment: Alignment.centerLeft,
               child: PrintDatabaseResponses(
-                  //'SELECT truckplate FROM CUSTOMER_DATA WHERE id="${gbHelper.customerID}" LIMIT 1',
-                  'SELECT truckplate FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1',
+                  'SELECT truckplate FROM CUSTOMER_DATA WHERE id="${globalHelper.customerData.customerId}" LIMIT 1',
+                  //'SELECT truckplate FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1',
                   'Truck License Plate', 20),
             ),
             Align(
               alignment: Alignment.centerLeft,
               child: PrintDatabaseResponses(
-                  //'SELECT trailerplate FROM CUSTOMER_DATA WHERE id="${gbHelper.customerID}" LIMIT 1',
-                  'SELECT trailerplate FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1',
+                  'SELECT trailerplate FROM CUSTOMER_DATA WHERE id="${globalHelper.customerData.customerId}" LIMIT 1',
+                  //'SELECT trailerplate FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1',
                   'Trailer License Plate', 20),
             ),
           ],
@@ -125,50 +126,51 @@ class ResultsPageState extends State<ResultsPage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               // Truck test result 1
-              Text('Truck Left Turn Signal:', style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5)),
-              PrintDatabaseCurrentResult('SELECT test1_current FROM TRUCK_TEST_DATA WHERE id=$dropDownTestNum', 'Current', 1),
-              PrintDatabaseResponses('SELECT test1_result FROM TRUCK_TEST_DATA WHERE id=$dropDownTestNum', 'Test Result', 14),
+              Text('Truck Left Turn Signal:', style: TextStyle(fontSize: 20, decoration: TextDecoration.underline)),
+              PrintDatabaseCurrentResult('SELECT test1_current FROM TRUCK_TEST_DATA WHERE id=$dropDownTestNum', 'Current', 17),
+              PrintDatabaseResponses('SELECT test1_result FROM TRUCK_TEST_DATA WHERE id=$dropDownTestNum', 'Test Result', 17),
 
               // Truck test result 2
               SizedBox(height: 15),
-              Text('Truck Right Turn Signal:', style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5)),
-              PrintDatabaseCurrentResult('SELECT test2_current FROM TRUCK_TEST_DATA WHERE id=$dropDownTestNum', 'Current', 1),
-              PrintDatabaseResponses('SELECT test2_result FROM TRUCK_TEST_DATA WHERE id=$dropDownTestNum', 'Test Result', 14),
+              Text('Truck Right Turn Signal:', style: TextStyle(fontSize: 20, decoration: TextDecoration.underline)),
+              PrintDatabaseCurrentResult('SELECT test2_current FROM TRUCK_TEST_DATA WHERE id=$dropDownTestNum', 'Current', 17),
+              PrintDatabaseResponses('SELECT test2_result FROM TRUCK_TEST_DATA WHERE id=$dropDownTestNum', 'Test Result', 17),
 
               // Truck test result 3
               SizedBox(height: 15),
-              Text('Truck Tail Lights:', style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5)),
-              PrintDatabaseCurrentResult('SELECT test3_current FROM TRUCK_TEST_DATA WHERE id=$dropDownTestNum', 'Current', 1),
-              PrintDatabaseResponses('SELECT test3_result FROM TRUCK_TEST_DATA WHERE id=$dropDownTestNum', 'Test Result', 14),
+              Text('Truck Tail Lights:', style: TextStyle(fontSize: 20, decoration: TextDecoration.underline)),
+              PrintDatabaseCurrentResult('SELECT test3_current FROM TRUCK_TEST_DATA WHERE id=$dropDownTestNum', 'Current', 17),
+              PrintDatabaseResponses('SELECT test3_result FROM TRUCK_TEST_DATA WHERE id=$dropDownTestNum', 'Test Result', 17),
 
               // Truck test result 4
               SizedBox(height: 15),
-              Text('Truck Reverse Lights:', style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5)),
-              PrintDatabaseCurrentResult('SELECT test4_current FROM TRUCK_TEST_DATA WHERE id=$dropDownTestNum', 'Current', 1),
-              PrintDatabaseResponses('SELECT test4_result FROM TRUCK_TEST_DATA WHERE id=$dropDownTestNum', 'Test Result', 14),
+              Text('Truck Reverse Lights:', style: TextStyle(fontSize: 20, decoration: TextDecoration.underline)),
+              PrintDatabaseCurrentResult('SELECT test4_current FROM TRUCK_TEST_DATA WHERE id=$dropDownTestNum', 'Current', 17),
+              PrintDatabaseResponses('SELECT test4_result FROM TRUCK_TEST_DATA WHERE id=$dropDownTestNum', 'Test Result', 17),
 
               // Trailer test result 1
-              Text('Trailer Left Turn Signal:', style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5)),
-              PrintDatabaseCurrentResult('SELECT test1_current FROM TRAILER_TEST_DATA WHERE id=$dropDownTestNum', 'Current', 1),
-              PrintDatabaseResponses('SELECT test1_result FROM TRAILER_TEST_DATA WHERE id=$dropDownTestNum', 'Test Result', 14),
+              SizedBox(height: 15),
+              Text('Trailer Left Turn Signal:', style: TextStyle(fontSize: 20, decoration: TextDecoration.underline)),
+              PrintDatabaseCurrentResult('SELECT test1_current FROM TRAILER_TEST_DATA WHERE id=$dropDownTestNum', 'Current', 17),
+              PrintDatabaseResponses('SELECT test1_result FROM TRAILER_TEST_DATA WHERE id=$dropDownTestNum', 'Test Result', 17),
 
               // Trailer test result 2
               SizedBox(height: 15),
-              Text('Trailer Right Turn Signal:', style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5)),
-              PrintDatabaseCurrentResult('SELECT test2_current FROM TRAILER_TEST_DATA WHERE id=$dropDownTestNum', 'Current', 1),
-              PrintDatabaseResponses('SELECT test2_result FROM TRAILER_TEST_DATA WHERE id=$dropDownTestNum', 'Test Result', 14),
+              Text('Trailer Right Turn Signal:', style: TextStyle(fontSize: 20, decoration: TextDecoration.underline)),
+              PrintDatabaseCurrentResult('SELECT test2_current FROM TRAILER_TEST_DATA WHERE id=$dropDownTestNum', 'Current', 17),
+              PrintDatabaseResponses('SELECT test2_result FROM TRAILER_TEST_DATA WHERE id=$dropDownTestNum', 'Test Result', 17),
 
               // Trailer test result 3
               SizedBox(height: 15),
-              Text('Trailer Tail Lights:', style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5)),
-              PrintDatabaseCurrentResult('SELECT test3_current FROM TRAILER_TEST_DATA WHERE id=$dropDownTestNum', 'Current', 1),
-              PrintDatabaseResponses('SELECT test3_result FROM TRAILER_TEST_DATA WHERE id=$dropDownTestNum', 'Test Result', 14),
+              Text('Trailer Tail Lights:', style: TextStyle(fontSize: 20, decoration: TextDecoration.underline)),
+              PrintDatabaseCurrentResult('SELECT test3_current FROM TRAILER_TEST_DATA WHERE id=$dropDownTestNum', 'Current', 17),
+              PrintDatabaseResponses('SELECT test3_result FROM TRAILER_TEST_DATA WHERE id=$dropDownTestNum', 'Test Result', 17),
 
               // Trailer test result 4
               SizedBox(height: 15),
-              Text('Trailer Reverse Lights:', style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5)),
-              PrintDatabaseCurrentResult('SELECT test4_current FROM TRAILER_TEST_DATA WHERE id=$dropDownTestNum', 'Current', 1),
-              PrintDatabaseResponses('SELECT test4_result FROM TRAILER_TEST_DATA WHERE id=$dropDownTestNum', 'Test Result', 14),
+              Text('Trailer Reverse Lights:', style: TextStyle(fontSize: 20, decoration: TextDecoration.underline)),
+              PrintDatabaseCurrentResult('SELECT test4_current FROM TRAILER_TEST_DATA WHERE id=$dropDownTestNum', 'Current', 17),
+              PrintDatabaseResponses('SELECT test4_result FROM TRAILER_TEST_DATA WHERE id=$dropDownTestNum', 'Test Result', 17),
             ],
           ),
         ),
@@ -183,50 +185,51 @@ class ResultsPageState extends State<ResultsPage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               // Truck test result 1
-              Text('Truck Left Turn Signal:', style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5)),
-              PrintDatabaseCurrentResult('SELECT test1_current FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
-              PrintDatabaseResponses('SELECT test1_result FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 14),
+              Text('Truck Left Turn Signal:', style: TextStyle(fontSize: 20, decoration: TextDecoration.underline)),
+              PrintDatabaseCurrentResult('SELECT test1_current FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 17),
+              PrintDatabaseResponses('SELECT test1_result FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 17),
 
               // Truck test result 2
               SizedBox(height: 15),
-              Text('Truck Right Turn Signal:', style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5)),
-              PrintDatabaseCurrentResult('SELECT test2_current FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
-              PrintDatabaseResponses('SELECT test2_result FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 14),
+              Text('Truck Right Turn Signal:', style: TextStyle(fontSize: 20, decoration: TextDecoration.underline)),
+              PrintDatabaseCurrentResult('SELECT test2_current FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 17),
+              PrintDatabaseResponses('SELECT test2_result FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 17),
 
               // Truck test result 3
               SizedBox(height: 15),
-              Text('Truck Tail Lights:', style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5)),
-              PrintDatabaseCurrentResult('SELECT test3_current FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
-              PrintDatabaseResponses('SELECT test3_result FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 14),
+              Text('Truck Tail Lights:', style: TextStyle(fontSize: 20, decoration: TextDecoration.underline)),
+              PrintDatabaseCurrentResult('SELECT test3_current FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 17),
+              PrintDatabaseResponses('SELECT test3_result FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 17),
 
               // Truck test result 4
               SizedBox(height: 15),
-              Text('Truck Reverse Lights:', style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5)),
-              PrintDatabaseCurrentResult('SELECT test4_current FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
-              PrintDatabaseResponses('SELECT test4_result FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 14),
+              Text('Truck Reverse Lights:', style: TextStyle(fontSize: 20, decoration: TextDecoration.underline)),
+              PrintDatabaseCurrentResult('SELECT test4_current FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 17),
+              PrintDatabaseResponses('SELECT test4_result FROM TRUCK_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 17),
 
               // Trailer test result 1
-              Text('Trailer Left Turn Signal:', style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5)),
-              PrintDatabaseCurrentResult('SELECT test1_current FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
-              PrintDatabaseResponses('SELECT test1_result FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 14),
+              SizedBox(height: 15),
+              Text('Trailer Left Turn Signal:', style: TextStyle(fontSize: 20, decoration: TextDecoration.underline)),
+              PrintDatabaseCurrentResult('SELECT test1_current FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 17),
+              PrintDatabaseResponses('SELECT test1_result FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 17),
 
               // Trailer test result 2
               SizedBox(height: 15),
-              Text('Trailer Right Turn Signal:', style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5)),
-              PrintDatabaseCurrentResult('SELECT test2_current FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
-              PrintDatabaseResponses('SELECT test2_result FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 14),
+              Text('Trailer Right Turn Signal:', style: TextStyle(fontSize: 20, decoration: TextDecoration.underline)),
+              PrintDatabaseCurrentResult('SELECT test2_current FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 17),
+              PrintDatabaseResponses('SELECT test2_result FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 17),
 
               // Trailer test result 3
               SizedBox(height: 15),
-              Text('Trailer Tail Lights:', style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5)),
-              PrintDatabaseCurrentResult('SELECT test3_current FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
-              PrintDatabaseResponses('SELECT test3_result FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 14),
+              Text('Trailer Tail Lights:', style: TextStyle(fontSize: 20, decoration: TextDecoration.underline)),
+              PrintDatabaseCurrentResult('SELECT test3_current FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 17),
+              PrintDatabaseResponses('SELECT test3_result FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 17),
 
               // Trailer test result 4
               SizedBox(height: 15),
-              Text('Trailer Reverse Lights:', style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 1.5)),
-              PrintDatabaseCurrentResult('SELECT test4_current FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 1),
-              PrintDatabaseResponses('SELECT test4_result FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 14),
+              Text('Trailer Reverse Lights:', style: TextStyle(fontSize: 20, decoration: TextDecoration.underline)),
+              PrintDatabaseCurrentResult('SELECT test4_current FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Current', 17),
+              PrintDatabaseResponses('SELECT test4_result FROM TRAILER_TEST_DATA ORDER BY id DESC LIMIT 1', 'Test Result', 17),
             ],
           ),
         ),
@@ -265,6 +268,7 @@ class ResultsPageState extends State<ResultsPage> {
                           color: Colors.grey[800],
                           onPressed: () {
                             setState(() {
+                              globalHelper.customerData.customerId = globalHelper.lastTestId;
                               dropDownTestNum = null;
                               dropDownNameValue = null;
                             });
@@ -287,8 +291,7 @@ class ResultsPageState extends State<ResultsPage> {
                                 // Convert map to list, drop second value (id)
                                 List<String> l = [];
 
-                                int i;
-                                for(i = 0; i < snapshot.data.length; i++){
+                                for(int i = 0; i < snapshot.data.length; i++){
                                   snapshot.data[i].forEach((k, v) => l.add(k));
                                 }
                                 return Container(
@@ -305,10 +308,10 @@ class ResultsPageState extends State<ResultsPage> {
                                     }).toList(),
                                     onChanged: (String newVal){
                                       setState(() {
-                                        int i;
-                                        for(i = 0; i < snapshot.data.length; i++){
+                                        for(int i = 0; i < snapshot.data.length; i++){
                                           if(snapshot.data[i].keys.contains(newVal)){
                                             custNameIDmap = snapshot.data[i];
+                                            globalHelper.customerData.customerId = snapshot.data[i][newVal];
                                           }
                                         }
                                         dropDownTestNum = null;

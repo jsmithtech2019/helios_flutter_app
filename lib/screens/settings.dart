@@ -102,37 +102,27 @@ class SettingsPageState extends State<SettingsPage> {
                   SizedBox(height: 15),
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: PrintDatabaseResponses(
-                        'SELECT name FROM ADMIN_DATA ORDER BY id DESC LIMIT 1',
-                        'Employee Name', 17),
+                    child: Text('Employee Name: ${globalHelper.adminData.employeeName}', style: TextStyle(fontSize: 17)),
                   ),
                   SizedBox(height: 5),
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: PrintDatabaseResponses(
-                        'SELECT email FROM ADMIN_DATA ORDER BY id DESC LIMIT 1',
-                        'Employee Name', 17),
+                    child: Text('Employee Email: ${globalHelper.adminData.employeeEmail}', style: TextStyle(fontSize: 17)),
                   ),
                   SizedBox(height: 5),
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: PrintDatabaseResponses(
-                        'SELECT dealership FROM ADMIN_DATA ORDER BY id DESC LIMIT 1',
-                        'Dealership', 17),
+                    child: Text('Employee UUID: ${globalHelper.adminData.employeeUUID}', style: TextStyle(fontSize: 17)),
                   ),
                   SizedBox(height: 5),
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: PrintDatabaseResponses(
-                        'SELECT dealer_uuid FROM ADMIN_DATA ORDER BY id DESC LIMIT 1',
-                        'Dealership UUID', 17),
+                    child: Text('Dealership: ${globalHelper.adminData.dealership}', style: TextStyle(fontSize: 17)),
                   ),
                   SizedBox(height: 5),
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: PrintDatabaseResponses(
-                        'SELECT moduleID FROM ADMIN_DATA ORDER BY id DESC LIMIT 1',
-                        'Paired Module', 17),
+                    child: Text('Dealership UUID: ${globalHelper.adminData.dealershipUUID}', style: TextStyle(fontSize: 17)),
                   ),
                   SizedBox(height: 20),
                 ],

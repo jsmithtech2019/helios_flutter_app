@@ -41,6 +41,9 @@ class GlobalHelper {
   /// TODO: maybe not reset this again.
   CustomerData _customerData = CustomerData.emptyConst();
 
+  /// Id of the last test run customer
+  int _lastTestId;
+
   /// [TruckTestData] object that stores the information received from the
   /// HITCH module following a truck test.
   TruckTestData _truckTestData = TruckTestData.emptyConst();
@@ -48,9 +51,6 @@ class GlobalHelper {
   /// [TrailerTestData] object that stores the information received from the
   /// HITCH module following a trailer test.
   TrailerTestData _trailerTestData = TrailerTestData.emptyConst();
-
-  /// [GetIt] singleton to add the bluetooth device later on.
-  GetIt _getIt;
 
   /// Bluetooth device that is currently paired with the controller application.
   ///
@@ -70,11 +70,11 @@ class GlobalHelper {
   /// Get [TrailerTestData] object
   get trailerTestData => _trailerTestData;
 
-  /// Get [GetIt] singleton
-  get getIt => _getIt;
-
   /// Get the [BluetoothDevice] object
   get bluetoothDevice => _bluetoothDevice;
+
+  /// Get the id of the last test run customer
+  get lastTestId => _lastTestId;
 
   /// Set the [AdminData] object
   set adminData(AdminData ad) {
@@ -96,14 +96,14 @@ class GlobalHelper {
     this._trailerTestData = td;
   }
 
-  /// Set the [GetIt] singleton
-  set getIt(GetIt gi) {
-    this._getIt = gi;
-  }
-
   /// Set the [BluetoothDevice] object
   set bluetoothDevice(BluetoothDevice bd) {
     this._bluetoothDevice = bd;
+  }
+
+  /// Set the id of the last test run customer
+  set lastTestId(int id) {
+    this._lastTestId = id;
   }
 
 

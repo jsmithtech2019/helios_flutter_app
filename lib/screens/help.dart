@@ -28,23 +28,44 @@ class HelpPage extends StatelessWidget {
   /// [GetIt] singleton for [DatabaseHelper]
   final DatabaseHelper dbHelper = GetIt.instance<DatabaseHelper>();
 
-  /// String for information into each help page
-  /// TODO: remove and replace with actual help data
-  final String lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit,"
-      " sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut "
-      "enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut "
-      "aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit "
-      "in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur"
-      " sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt"
-      " mollit anim id est laborum.";
+  /// Setup help string
+  final String setUp = "\nlol setup";
 
-  final String setUp = "";
-  final String bluetoothPairing = "";
-  final String badReadings = "";
-  final String connectionFailur = "";
-  final String duetConnection = "";
-  final String testHistory = "";
-  final String removingTestHistory = "";
+  /// Pairing with a device help string
+  final String bluetoothPairing = "\nIn order to begin testing you will need to "
+    "pair a HITCH module with this application. To do so, navigate to the settings "
+    "page and select 'Find Available Devices' which will then display available "
+    "modules that are powered on and nearby (it will also prompt you to enable "
+    "Bluetooth on your phone if it is not already enabled. Select the module you "
+    "wish to use and click on the 'Return to Home Page' button. You are now ready "
+    "to begin testing.";
+
+  /// Debugging connection failure help string
+  final String connectionFailure = "\nThere are a few options to try if a HITCH module "
+    "is refusing to connect. The first step is to identify you are attempting to "
+    "pair with the proper module by comparing the UUID found on the 'Devices' "
+    "page and the UUID printed on the module. If these are the same then a few "
+    "options may be useful:\n\n1) Force quit the application and restart before "
+    "attempting to pair again.\n\n2) Follow step 1 but also turn off Bluetooth on "
+    "the phone for a few seconds then reenable before restarting the app.\n\n3) "
+    "Power the HITCH module off for 10 seconds and then attempt to connect again.\n\n "
+    "If none of these steps work please consider filing a bug report with us on "
+    "the 'Contact Us' page.";
+
+  /// Instructions for testing
+  final String testingUsage = "\nHow to test";
+
+  /// Debugging bad readings help string
+  final String badReadings = "\nDebug bad readings";
+
+  /// Locating past tests help string
+  final String testHistory = "\nAccess old tests";
+
+  /// Deleting old tests
+  final String removingTestHistory = "\nDelet this app";
+
+  /// Connecting with duet help string
+  final String duetConnection = "\nFiguring out why DUET isn't working";
 
   @override
   Widget build (BuildContext context) {
@@ -60,49 +81,49 @@ class HelpPage extends StatelessWidget {
               ExpandablePanel(
                 header: Text("Setting up",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
-                expanded: Text(setUp, softWrap: true),
+                expanded: Text(setUp, softWrap: true, style: TextStyle(fontSize: 20)),
               ),
               SizedBox(height: 30),
               ExpandablePanel(
                 header: Text("Bluetooth Pairing",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
-                expanded: Text(bluetoothPairing, softWrap: true),
-              ),
-              SizedBox(height: 30),
-              ExpandablePanel(
-                header: Text("Testing",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
-                expanded: Text(badReadings, softWrap: true),
-              ),
-              SizedBox(height: 30),
-              ExpandablePanel(
-                header: Text("Bad Test Readings",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
-                expanded: Text(connectionFailur, softWrap: true),
+                expanded: Text(bluetoothPairing, softWrap: true, style: TextStyle(fontSize: 20)),
               ),
               SizedBox(height: 30),
               ExpandablePanel(
                 header: Text("Module Not Connecting",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
-                expanded: Text(duetConnection, softWrap: true),
+                expanded: Text(connectionFailure, softWrap: true, style: TextStyle(fontSize: 20)),
               ),
               SizedBox(height: 30),
               ExpandablePanel(
-                header: Text("Connecting to Main Server",
+                header: Text("Testing",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
-                expanded: Text(testHistory, softWrap: true),
+                expanded: Text(testingUsage, softWrap: true, style: TextStyle(fontSize: 20)),
               ),
               SizedBox(height: 30),
               ExpandablePanel(
-                header: Text("Removing Old Tests",
+                header: Text("Bad Test Readings",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
-                expanded: Text(removingTestHistory, softWrap: true),
+                expanded: Text(badReadings, softWrap: true, style: TextStyle(fontSize: 20)),
               ),
               SizedBox(height: 30),
               ExpandablePanel(
                 header: Text("Searching Past Tests",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
-                expanded: Text(lorem, softWrap: true, ),
+                expanded: Text(testHistory, softWrap: true, style: TextStyle(fontSize: 20)),
+              ),
+              SizedBox(height: 30),
+              ExpandablePanel(
+                header: Text("Removing Old Tests",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
+                expanded: Text(removingTestHistory, softWrap: true, style: TextStyle(fontSize: 20)),
+              ),
+              SizedBox(height: 30),
+              ExpandablePanel(
+                header: Text("Connecting to Main Server",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30)),
+                expanded: Text(duetConnection, softWrap: true, style: TextStyle(fontSize: 20)),
               ),
               SizedBox(height: 30),
               new SizedBox(

@@ -40,9 +40,15 @@ class PrintDatabaseResponses extends StatelessWidget {
               if(snapshot.hasError){
                 return new Text('Error: ${snapshot.error}');
               } else {
-                return new Text('$successStatement: ${snapshot.data}',
-                  style: TextStyle(fontStyle: FontStyle.italic, fontSize: size)
-                );
+                if (snapshot.data == '1.0' || snapshot.data == '1'){
+                  return Text('$successStatement: Pass',style: TextStyle(fontStyle: FontStyle.italic, fontSize: size, color: Colors.green));
+                } else if (snapshot.data == '0.0' || snapshot.data == '0'){
+                  return Text('$successStatement: Fail',style: TextStyle(fontStyle: FontStyle.italic, fontSize: size, color: Colors.red));
+                } else {
+                  return new Text('$successStatement: ${snapshot.data}',
+                    style: TextStyle(fontStyle: FontStyle.italic, fontSize: size)
+                  );
+                }
               }
           }
         }
@@ -76,7 +82,8 @@ class PrintDatabaseTestResult extends StatelessWidget {
                 return new Text('Error: ${snapshot.error}');
               } else {
                 return new Text('$successStatement: ${snapshot.data}',
-                  style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: size),
+                  style: TextStyle(fontSize: size),
+                  //style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: size),
                 );
               }
           }
@@ -111,7 +118,8 @@ class PrintDatabaseCurrentResult extends StatelessWidget {
                 return new Text('Error: ${snapshot.error}');
               } else {
                 return new Text('$successStatement: ${snapshot.data} A',
-                  style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: size),
+                  style: TextStyle(fontSize: size),
+                  //style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: size),
                 );
               }
           }

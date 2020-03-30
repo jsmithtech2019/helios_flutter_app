@@ -46,7 +46,7 @@ Future<http.Response> postRequest (CustomerData cust, TruckTestData truckd, Trai
 
   // Get Application information
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
-  var employeePass = await dbHelper.executeRawQuery('SELECT pass FROM ADMIN_DATA WHERE phone="${globalHelper.adminData.employeePhone}" AND email="${globalHelper.adminData.employeeEmail}"');
+  var employeePass = await dbHelper.executeRawQuery('SELECT pass FROM ADMIN_DATA WHERE phone="${globalHelper.adminData.employeePhoneNumber}" AND email="${globalHelper.adminData.employeeEmail}"');
 
   Map testData = {
     'truck':[
@@ -147,7 +147,7 @@ Future<http.Response> postRequest (CustomerData cust, TruckTestData truckd, Trai
       "employee_uuid": globalHelper.adminData.employeeUUID,
       "email": globalHelper.adminData.employeeEmail,
       "password": employeePass[0]['pass'],
-      "phone": globalHelper.adminData.employeePhone.toString(),
+      "phone": globalHelper.adminData.employeePhoneNumber.toString(),
       "module_uuid": globalHelper.adminData.moduleUUID,
     },
     "customer": {

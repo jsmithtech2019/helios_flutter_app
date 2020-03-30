@@ -21,6 +21,9 @@ class TruckTestData {
   /// Truck identification number
   int _truckId;
 
+  /// Integer CUSTOMER_DATA ID value to link tables
+  int _customerId;
+
   /// Boolean integer result (pass/fail) for truck test result 1
   int _truckTest1Result;
 
@@ -80,6 +83,9 @@ class TruckTestData {
   /// Get the truck identifier
   int get truckId => _truckId;
 
+  /// Get the customer id identifier
+  int get customerId => _customerId;
+
   /// Get the truck test 1 result
   int get truckTest1Result => _truckTest1Result;
 
@@ -108,6 +114,12 @@ class TruckTestData {
   set truckId(int newId){
     this._truckId = newId;
   }
+
+  /// Set the customer id identifier
+  set customerId(int newId){
+    this._customerId = newId;
+  }
+
 
   /// Set the truck test 1 result
   set truckTest1Result(int newResult){
@@ -155,6 +167,7 @@ class TruckTestData {
     if(truckId != null){
       map['id'] = _truckId;
     }
+    map['customerid'] = _customerId;
     map['test1_result'] = _truckTest1Result;
     map['test2_result'] = _truckTest2Result;
     map['test3_result'] = _truckTest3Result;

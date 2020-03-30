@@ -21,6 +21,9 @@ class TrailerTestData {
   /// Trailer identification number
   int _trailerId;
 
+  /// Integer CUSTOMER_DATA ID value to link tables
+  int _customerId;
+
   /// Boolean integer result (pass/fail) for trailer test result 1
   int _trailerTest1Result;
 
@@ -80,6 +83,9 @@ class TrailerTestData {
   /// Get the trailer identifier
   int get trailerId => _trailerId;
 
+  /// Get the customer id identifier
+  int get customerId => _customerId;
+
   /// Get the trailer test 1 result
   int get trailerTest1Result => _trailerTest1Result;
 
@@ -107,6 +113,11 @@ class TrailerTestData {
   /// Set the trailer identifier
   set trailerId(int newId){
     this._trailerId = newId;
+  }
+
+  /// Set the customer id identifier
+  set customerId(int newId){
+    this._customerId = newId;
   }
 
   /// Set the trailer test 1 result
@@ -155,6 +166,7 @@ class TrailerTestData {
     if(trailerId != null){
       map['id'] = _trailerId;
     }
+    map['customerid'] = _customerId;
     map['test1_result'] = _trailerTest1Result;
     map['test2_result'] = _trailerTest2Result;
     map['test3_result'] = _trailerTest3Result;
