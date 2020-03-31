@@ -7,6 +7,7 @@
  */
 
 // Flutter Packages
+import 'package:HITCH/models/bluetooth.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
@@ -71,13 +72,12 @@ void main() async {
   logHelper.d("Database has been initialized!");
 
   /// Only seed test data once, if data exists do not write again
-  var coun = await dbHelper.executeRawQuery("SELECT count(id) FROM CUSTOMER_DATA");
-  if (coun[0].values.toList()[0].toString() == "0"){
+  var count = await dbHelper.executeRawQuery("SELECT count(id) FROM CUSTOMER_DATA");
+  if (count[0].values.toList()[0].toString() == "0"){
     seedDatabase();
   }
 
   /// Get the most recent employee from database for usage
-  /// TODO: change to sort by timestamp rather than ID
   var employeeInfo = await dbHelper.executeRawQuery('SELECT * FROM ADMIN_DATA ORDER BY id DESC LIMIT 1');
 
   /// Seed [GlobalHelper] singleton with Admin values
@@ -88,6 +88,11 @@ void main() async {
   globalHelper.adminData.dealership = employeeInfo[0]['dealership'];
   globalHelper.adminData.dealershipUUID = employeeInfo[0]['dealer_uuid'];
   globalHelper.adminData.moduleUUID = employeeInfo[0]['moduleID'];
+
+  /// Get the most recent Customer added to the database
+  var custInfo = await dbHelper.executeRawQuery('SELECT id FROM CUSTOMER_DATA ORDER BY ID DESC LIMIT 1');
+  globalHelper.customerData.customerId = custInfo[0]['id'];
+  globalHelper.lastTestId = custInfo[0]['id'];
 
   /// Start the application
   runApp(HeliosApp());

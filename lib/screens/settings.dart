@@ -76,6 +76,18 @@ class SettingsPageState extends State<SettingsPage> {
   /// [TextEditingController] for Employee UUID
   TextEditingController employeeUUIDController = new TextEditingController();
 
+  /// Update the [AdminData] object used by the app from the dropdown list
+  void updateAdmin(String name) async {
+    var employeeInfo = await dbHelper.executeRawQuery('SELECT * FROM ADMIN_DATA WHERE name="$name" LIMIT 1');
+    globalHelper.adminData.employeeName = employeeInfo[0]['name'];
+    globalHelper.adminData.employeePhoneNumber = employeeInfo[0]['phone'];
+    globalHelper.adminData.employeeEmail = employeeInfo[0]['email'];
+    globalHelper.adminData.employeeUUID = employeeInfo[0]['employee_uuid'];
+    globalHelper.adminData.moduleUUID = employeeInfo[0]['moduleID'];
+    globalHelper.adminData.dealership = employeeInfo[0]['dealership'];
+    globalHelper.adminData.dealershipUUID = employeeInfo[0]['dealer_uuid'];
+  }
+
   /// Initialize the state of the page to null
   @override
   void initState() {
@@ -112,12 +124,12 @@ class SettingsPageState extends State<SettingsPage> {
                   SizedBox(height: 5),
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: Text('Employee UUID: ${globalHelper.adminData.employeeUUID}', style: TextStyle(fontSize: 17)),
+                    child: Text('Dealership: ${globalHelper.adminData.dealership}', style: TextStyle(fontSize: 17)),
                   ),
                   SizedBox(height: 5),
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: Text('Dealership: ${globalHelper.adminData.dealership}', style: TextStyle(fontSize: 17)),
+                    child: Text('Employee UUID: ${globalHelper.adminData.employeeUUID}', style: TextStyle(fontSize: 17)),
                   ),
                   SizedBox(height: 5),
                   Align(
@@ -153,6 +165,7 @@ class SettingsPageState extends State<SettingsPage> {
                             );
                           }).toList(),
                           onChanged: (String newVal){
+                            updateAdmin(newVal);
                             // TODO: update the admin configuration to use selected profile
                             setState(() {
                               dropDownValue = newVal;
