@@ -7,7 +7,6 @@
  */
 
 // Flutter Packages
-import 'package:HITCH/models/bluetooth.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
@@ -58,8 +57,6 @@ void main() async {
   );
   sl.registerSingleton<DatabaseHelper>(DatabaseHelper());
   sl.registerSingleton<GlobalHelper>(GlobalHelper());
-  // Write a default constructor for bluetooth device
-  //sl.registerSingleton<BluetoothDevice>(BluetoothDevice());
 
   /// Get instances of [DatabaseHelper], [Logger] and [GlobalHelper] singletons
   var dbHelper = GetIt.instance<DatabaseHelper>();
@@ -73,7 +70,7 @@ void main() async {
 
   /// Only seed test data once, if data exists do not write again
   var count = await dbHelper.executeRawQuery("SELECT count(id) FROM CUSTOMER_DATA");
-  if (count[0].values.toList()[0].toString() == "0"){
+  if (count[0]['count(id)'] == 0){
     seedDatabase();
   }
 
@@ -139,33 +136,50 @@ void seedDatabase(){
   Logger logHelper = GetIt.instance<Logger>();
   final DatabaseHelper dbHelper = GetIt.instance<DatabaseHelper>();
   // Dummy Truck Test Data
+  // dbHelper.executeRawQuery('INSERT INTO TRUCK_TEST_DATA '
+  //     '(customerid, test1_result, test1_current, test2_result, test2_current, '
+  //     'test3_result, test3_current, test4_result, test4_current) '
+  //     'VALUES (1, 0, 21.0, 1, 1.24, 0, 13.9, 1, .98)');
   dbHelper.executeRawQuery('INSERT INTO TRUCK_TEST_DATA '
       '(customerid, test1_result, test1_current, test2_result, test2_current, '
       'test3_result, test3_current, test4_result, test4_current) '
-      'VALUES (1, 0, 21.0, 1, 1.24, 0, 13.9, 1, .98)');
+      'VALUES (1, 1, 0, 1, 0, 1, 0, 1, 0)');
 
   // Dummy Trailer Test Data
+  // dbHelper.executeRawQuery('INSERT INTO TRAILER_TEST_DATA '
+  //     '(customerid, test1_result, test1_current, test2_result, test2_current, '
+  //     'test3_result, test3_current, test4_result, test4_current) '
+  //     'VALUES (1, 0, 21.0, 1, 1.24, 0, 13.9, 1, .98)');
   dbHelper.executeRawQuery('INSERT INTO TRAILER_TEST_DATA '
       '(customerid, test1_result, test1_current, test2_result, test2_current, '
       'test3_result, test3_current, test4_result, test4_current) '
-      'VALUES (1, 0, 21.0, 1, 1.24, 0, 13.9, 1, .98)');
+      'VALUES (1, 1, 0, 1, 0, 1, 0, 1, 0)');
 
   // Dummy Customer Data
+  // dbHelper.executeRawQuery('INSERT INTO CUSTOMER_DATA (name, phone, email, '
+  //     'addr1, addr2, city, state, zip, truckplate, trailerplate) VALUES ('
+  //     '"Jack Smith", "3038018528", "dummy@gmail.com", "addr1", "addr2", "cstat", '
+  //     '"tx", "7777", "246-ZLF", "ZLF-246")');
   dbHelper.executeRawQuery('INSERT INTO CUSTOMER_DATA (name, phone, email, '
       'addr1, addr2, city, state, zip, truckplate, trailerplate) VALUES ('
-      '"Jack Smith", "3038018528", "dummy@gmail.com", "addr1", "addr2", "cstat", '
-      '"tx", "7777", "246-ZLF", "ZLF-246")');
+      '"", "", "", "", "", "", "", "", "", "")');
 
   // Dummy Employee Data
+  // dbHelper.executeRawQuery('INSERT INTO ADMIN_DATA (name, phone, email, pass, '
+  //     'moduleID, dealership, dealer_uuid, employee_uuid) VALUES ("Christian Ledgard", '
+  //     '"7138983810", "christianledgard@tamu.edu", '
+  //     '"password", "c1cde887-51e2-11ea-8777-0242c0a83004", "Helios", "c1cde81b-51e2-11ea-8777-0242c0a83004", "c1cde8fc-51e2-11ea-8777-0242c0a83004")');
   dbHelper.executeRawQuery('INSERT INTO ADMIN_DATA (name, phone, email, pass, '
-      'moduleID, dealership, dealer_uuid, employee_uuid) VALUES ("Christian Ledgard", '
-      '"7138983810", "christianledgard@tamu.edu", '
-      '"password", "c1cde887-51e2-11ea-8777-0242c0a83004", "Helios", "c1cde81b-51e2-11ea-8777-0242c0a83004", "c1cde8fc-51e2-11ea-8777-0242c0a83004")');
+      'dealership, moduleID, dealer_uuid, employee_uuid) VALUES ("", '
+      '"", "", ''"", "", "", "", "")');
 
+  // dbHelper.executeRawQuery('INSERT INTO ADMIN_DATA (name, phone, email, pass, '
+  //     'moduleID, dealership, dealer_uuid, employee_uuid) VALUES ("Christian Ledgard", '
+  //     '"303", "test@mail", '
+  //     '"pass", "34cdcaf4-5e2d-11ea-bd80-0242ac180004", "Helios", "34cdcad7-5e2d-11ea-bd80-0242ac180004", "34cdcb1a-5e2d-11ea-bd80-0242ac180004")');
   dbHelper.executeRawQuery('INSERT INTO ADMIN_DATA (name, phone, email, pass, '
-      'moduleID, dealership, dealer_uuid, employee_uuid) VALUES ("Christian Ledgard", '
-      '"303", "test@mail", '
-      '"pass", "34cdcaf4-5e2d-11ea-bd80-0242ac180004", "Helios", "34cdcad7-5e2d-11ea-bd80-0242ac180004", "34cdcb1a-5e2d-11ea-bd80-0242ac180004")');
-  
+      'dealership, moduleID, dealer_uuid, employee_uuid) VALUES ("", '
+      '"", "", "", "", "", "", "")');
+
   logHelper.d("Database has been seeded with test data.");
 }

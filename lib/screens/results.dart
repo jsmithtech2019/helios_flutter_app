@@ -62,21 +62,18 @@ class ResultsPageState extends State<ResultsPage> {
               alignment: Alignment.centerLeft,
               child:  PrintDatabaseResponses(
                   'SELECT name FROM CUSTOMER_DATA WHERE id="${globalHelper.customerData.customerId}" LIMIT 1',
-                  //'SELECT name FROM CUSTOMER_DATA WHERE id=$dropDownTestNum',
                   'Customer', 20),
             ),
             Align(
               alignment: Alignment.centerLeft,
               child: PrintDatabaseResponses(
                   'SELECT truckplate FROM CUSTOMER_DATA WHERE id="${globalHelper.customerData.customerId}" LIMIT 1',
-                  //'SELECT truckplate FROM CUSTOMER_DATA WHERE id=$dropDownTestNum',
                   'Truck License Plate', 20),
             ),
             Align(
               alignment: Alignment.centerLeft,
               child: PrintDatabaseResponses(
                   'SELECT trailerplate FROM CUSTOMER_DATA WHERE id="${globalHelper.customerData.customerId}" LIMIT 1',
-                  //'SELECT trailerplate FROM CUSTOMER_DATA WHERE id=$dropDownTestNum',
                   'Trailer License Plate', 20),
             ),
           ],
@@ -91,21 +88,18 @@ class ResultsPageState extends State<ResultsPage> {
               alignment: Alignment.centerLeft,
               child:  PrintDatabaseResponses(
                   'SELECT name FROM CUSTOMER_DATA WHERE id="${globalHelper.customerData.customerId}" LIMIT 1',
-                  //'SELECT name FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1',
                   'Customer', 20),
             ),
             Align(
               alignment: Alignment.centerLeft,
               child: PrintDatabaseResponses(
                   'SELECT truckplate FROM CUSTOMER_DATA WHERE id="${globalHelper.customerData.customerId}" LIMIT 1',
-                  //'SELECT truckplate FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1',
                   'Truck License Plate', 20),
             ),
             Align(
               alignment: Alignment.centerLeft,
               child: PrintDatabaseResponses(
                   'SELECT trailerplate FROM CUSTOMER_DATA WHERE id="${globalHelper.customerData.customerId}" LIMIT 1',
-                  //'SELECT trailerplate FROM CUSTOMER_DATA ORDER BY id DESC LIMIT 1',
                   'Trailer License Plate', 20),
             ),
           ],
@@ -176,7 +170,7 @@ class ResultsPageState extends State<ResultsPage> {
         ),
       );
     } else {
-      return new Align(
+      return Align(
         alignment: Alignment.centerLeft,
         child: Container(
           margin: EdgeInsets.fromLTRB(24, 24, 0, 0),

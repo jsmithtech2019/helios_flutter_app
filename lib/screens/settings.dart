@@ -141,7 +141,7 @@ class SettingsPageState extends State<SettingsPage> {
               ),
             ),
             // Create dropdown for existing configurations
-            new SeparatorBox("Choose Existing Configuration"),
+            new SeparatorBox("Choose Existing Admin"),
             new FutureBuilder<List<String>>(
                 future: dbHelper.getEmployeesList('name'),
                 builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
@@ -293,21 +293,6 @@ class SettingsPageState extends State<SettingsPage> {
                           ),
                         ),
                         new TextFormField(
-                          controller: moduleID,
-                          textAlign: TextAlign.left,
-              //            validator: (value) {
-              //              if (value.isEmpty) {
-              //                return 'Please provide Trailer License Plate';
-              //              }
-              //              return null;
-              //            },
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.all(20),
-                            hintText: 'Module ID',
-                            hintStyle: TextStyle(color: Colors.grey),
-                          ),
-                        ),
-                        new TextFormField(
                           controller: dealership,
                           textAlign: TextAlign.left,
               //            validator: (value) {
@@ -323,21 +308,6 @@ class SettingsPageState extends State<SettingsPage> {
                           ),
                         ),
                         new TextFormField(
-                          controller: dealershipUUID,
-                          textAlign: TextAlign.left,
-              //            validator: (value) {
-              //              if (value.isEmpty) {
-              //                return 'Please provide Trailer License Plate';
-              //              }
-              //              return null;
-              //            },
-                          decoration: InputDecoration(
-                            contentPadding: EdgeInsets.all(20),
-                            hintText: 'Dealership UUID',
-                            hintStyle: TextStyle(color: Colors.grey),
-                          ),
-                        ),
-                        new TextFormField(
                           controller: employeeUUIDController,
                           textAlign: TextAlign.left,
               //            validator: (value) {
@@ -349,6 +319,36 @@ class SettingsPageState extends State<SettingsPage> {
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.all(20),
                             hintText: 'Employee UUID',
+                            hintStyle: TextStyle(color: Colors.grey),
+                          ),
+                        ),
+                        new TextFormField(
+                          controller: moduleID,
+                          textAlign: TextAlign.left,
+              //            validator: (value) {
+              //              if (value.isEmpty) {
+              //                return 'Please provide Trailer License Plate';
+              //              }
+              //              return null;
+              //            },
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.all(20),
+                            hintText: 'Module UUID',
+                            hintStyle: TextStyle(color: Colors.grey),
+                          ),
+                        ),
+                        new TextFormField(
+                          controller: dealershipUUID,
+                          textAlign: TextAlign.left,
+              //            validator: (value) {
+              //              if (value.isEmpty) {
+              //                return 'Please provide Trailer License Plate';
+              //              }
+              //              return null;
+              //            },
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.all(20),
+                            hintText: 'Dealership UUID',
                             hintStyle: TextStyle(color: Colors.grey),
                           ),
                         ),
