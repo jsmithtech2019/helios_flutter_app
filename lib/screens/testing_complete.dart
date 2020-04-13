@@ -124,9 +124,8 @@ class TestingCompletePage extends StatelessWidget {
                         return new Text("Error: ${snapshot.error}");
                       } else if(int.parse(snapshot.data.elementAt(0)) > 290){
                         // Got an error code, print error
-                        return new Text("Warning, upload failure: ${snapshot.data.elementAt(1)} (${snapshot.data.elementAt(0)})");
+                        return new Text("WDUET Upload Failure: ${snapshot.data.elementAt(1)} (${snapshot.data.elementAt(0)})");
                       } else {
-                        // Got good response
                         //return new Text("Server Response: ${snapshot.data.elementAt(1)} (${snapshot.data.elementAt(0)})");
                         return new Text("DUET Upload Successful");
                       }

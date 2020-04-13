@@ -29,7 +29,12 @@ class HelpPage extends StatelessWidget {
   final DatabaseHelper dbHelper = GetIt.instance<DatabaseHelper>();
 
   /// Setup help string
-  final String setUp = "\nlol setup";
+  final String setUp = "\nTo setup the module first enroll an employee in the "
+    "central server using the website interface. This will allow test results to "
+    "post results to DUET and be available on both local and server storage. "
+    "Next simply select 'pair a device' from the settings page (after powering on "
+    "a HITCH module) and pair the device via bluetooth. You are now ready to begin "
+    "testing!";
 
   /// Pairing with a device help string
   final String bluetoothPairing = "\nIn order to begin testing you will need to "
@@ -53,19 +58,44 @@ class HelpPage extends StatelessWidget {
     "the 'Contact Us' page.";
 
   /// Instructions for testing
-  final String testingUsage = "\nHow to test";
+  final String testingUsage = "\nThe module will guide you through the testing "
+    "for the truck as well as the trailer in real time. After connecting the "
+    "truck to the module, begin the truck test and follow the instructions on "
+    "the interface. They will drop through in the following order:\n1) Left Turn Signal"
+    "\n2) Right Turn Signal\n3) Tail Lights\n4) Break Lights\nWhen each instruction "
+    "is activated perform the necessary action to enable that component. \nPlease note: "
+    "the truck must not be fully powered on while connected, it should run in "
+    "Auxillary power only!";
 
   /// Debugging bad readings help string
-  final String badReadings = "\nDebug bad readings";
+  final String badReadings = "\nIf the HITCH module is consistently giving bad readings "
+    "there are a few possibilities that can be addressed:\n1) Ensure the module is "
+    "fully charged and has not sustained damage from water or shock.\n2) Check that "
+    "there is no debris or buildup on the HITCH connectors or the truck/trailer pins "
+    "as this could lead to faulty connection.\n3) Check that there are no loose or "
+    "disconnected cables in the modules internals or that nothing has broken loose.\n"
+    "If none of these have occurred consider contacting us with the issue you are having.";
 
   /// Locating past tests help string
-  final String testHistory = "\nAccess old tests";
+  final String testHistory = "\nPreviously run tests can be accessed from the results "
+    "page. Select a customer from the drop down menu and then the results box will "
+    "fill with avaiable tests run for that customer. Note that these results are "
+    "only for tests that have been run on this controller app and do not include "
+    "results that are stored from other applications in the cloud. These results "
+    "can be viewed from the results page of the website";
 
   /// Deleting old tests
-  final String removingTestHistory = "\nDelet this app";
+  final String removingTestHistory = "\nTo remove test results from the application "
+    "simply delete the application and reinstall it on the device. A word of "
+    "caution: deleting the app will also remove all existing admin profiles.";
 
   /// Connecting with duet help string
-  final String duetConnection = "\nFiguring out why DUET isn't working";
+  final String duetConnection = "\nIf you are seeing errors with results uploads "
+    "ensure that all information in the employee console is correct. You will "
+    "need to validate that the employee, dealership and module are all enrolled "
+    "on the webserver and that there is an internet connection for the device to "
+    "transmit the results to the server.\nAlso ensure that all tests have completed "
+    "successfully as failed tests could lead to broken uploads.";
 
   @override
   Widget build (BuildContext context) {
