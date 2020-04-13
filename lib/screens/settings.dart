@@ -7,19 +7,18 @@
  */
 
 // Flutter Packages
-import 'package:HITCH/models/admin_data.dart';
-import 'package:HITCH/models/bluetooth.dart';
-import 'package:HITCH/models/global.dart';
-import 'package:HITCH/models/print.dart';
-import 'package:HITCH/utils/home_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 // Utils
 import 'package:HITCH/utils/database_helper.dart';
+import 'package:HITCH/utils/home_widget.dart';
 
 // Models
 import 'package:HITCH/models/seperator.dart';
+import 'package:HITCH/models/admin_data.dart';
+import 'package:HITCH/models/bluetooth.dart';
+import 'package:HITCH/models/global.dart';
 
 /// Settings page stateful object
 class SettingsPage extends StatefulWidget{
@@ -51,6 +50,10 @@ class SettingsPageState extends State<SettingsPage> {
   /// Create a global key that uniquely identifies the Form widget
   /// and allows validation of the form.
   final _formKey = GlobalKey<FormState>();
+  final _key2 = GlobalKey<FormState>();
+
+  /// [TextEditingController] for website name
+  TextEditingController websiteAddressName = new TextEditingController();
 
   /// [TextEditingController] for Employee Name
   TextEditingController employeeNameController = new TextEditingController();
@@ -136,6 +139,11 @@ class SettingsPageState extends State<SettingsPage> {
                     alignment: Alignment.centerLeft,
                     child: Text('Dealership UUID: ${globalHelper.adminData.dealershipUUID}', style: TextStyle(fontSize: 17)),
                   ),
+                  SizedBox(height: 5),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text('DUET Address: http://duet.${globalHelper.websiteAddress}.com', style: TextStyle(fontSize: 17)),
+                  ),
                   SizedBox(height: 20),
                 ],
               ),
@@ -166,7 +174,6 @@ class SettingsPageState extends State<SettingsPage> {
                           }).toList(),
                           onChanged: (String newVal){
                             updateAdmin(newVal);
-                            // TODO: update the admin configuration to use selected profile
                             setState(() {
                               dropDownValue = newVal;
                             });
@@ -175,6 +182,52 @@ class SettingsPageState extends State<SettingsPage> {
                       }
                   }
                 }
+            ),
+            SizedBox(height: 20),
+            new SeparatorBox("Choose Existing Admin"),
+            Container(
+              margin: EdgeInsets.fromLTRB(24, 0, 24, 0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Form(
+                    key: _key2,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        new TextFormField(
+                          controller: websiteAddressName,
+                          textAlign: TextAlign.left,
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Please provide a valid name';
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                            contentPadding: EdgeInsets.all(20),
+                            hintText: 'Website name',
+                            hintStyle: TextStyle(color: Colors.grey),
+                          ),
+                        ),
+                        RaisedButton(
+                          onPressed: () {
+                            // Validate returns true if the form is valid, or false
+                            // otherwise.
+                            if (_key2.currentState.validate()) {
+                              setState(() {
+                                // Update global singleton
+                                widget.globalHelper.websiteAddress = websiteAddressName.text;
+                              });
+                            } // if
+                          }, // onPressed
+                          child: Text('Update Admin Configuration'),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
             // Create the device pair button
             SizedBox(height: 20),
@@ -234,12 +287,12 @@ class SettingsPageState extends State<SettingsPage> {
                         new TextFormField(
                           controller: employeeNameController,
                           textAlign: TextAlign.left,
-              //            validator: (value) {
-              //              if (value.isEmpty) {
-              //                return 'Please provide Trailer License Plate';
-              //              }
-              //              return null;
-              //            },
+                         validator: (value) {
+                           if (value.isEmpty) {
+                             return 'Please provide employee name';
+                           }
+                           return null;
+                         },
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.all(20),
                             hintText: 'Employee Name',
@@ -249,12 +302,12 @@ class SettingsPageState extends State<SettingsPage> {
                         new TextFormField(
                           controller: employeePhoneNumberController,
                           textAlign: TextAlign.left,
-              //            validator: (value) {
-              //              if (value.isEmpty) {
-              //                return 'Please provide Trailer License Plate';
-              //              }
-              //              return null;
-              //            },
+                         validator: (value) {
+                           if (value.isEmpty) {
+                             return 'Please provide employee phone number';
+                           }
+                           return null;
+                         },
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.all(20),
                             hintText: 'Employee Phone Number',
@@ -264,12 +317,12 @@ class SettingsPageState extends State<SettingsPage> {
                         new TextFormField(
                           controller: employeeEmailController,
                           textAlign: TextAlign.left,
-              //            validator: (value) {
-              //              if (value.isEmpty) {
-              //                return 'Please provide Trailer License Plate';
-              //              }
-              //              return null;
-              //            },
+                         validator: (value) {
+                           if (value.isEmpty) {
+                             return 'Please provide Employee Email';
+                           }
+                           return null;
+                         },
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.all(20),
                             hintText: 'Employee Email',
@@ -279,12 +332,12 @@ class SettingsPageState extends State<SettingsPage> {
                         new TextFormField(
                           controller: employeePassController,
                           textAlign: TextAlign.left,
-              //            validator: (value) {
-              //              if (value.isEmpty) {
-              //                return 'Please provide Trailer License Plate';
-              //              }
-              //              return null;
-              //            },
+                         validator: (value) {
+                           if (value.isEmpty) {
+                             return 'Please provide Employee Password';
+                           }
+                           return null;
+                         },
                           obscureText: true,
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.all(20),
@@ -295,12 +348,12 @@ class SettingsPageState extends State<SettingsPage> {
                         new TextFormField(
                           controller: dealership,
                           textAlign: TextAlign.left,
-              //            validator: (value) {
-              //              if (value.isEmpty) {
-              //                return 'Please provide Trailer License Plate';
-              //              }
-              //              return null;
-              //            },
+                         validator: (value) {
+                           if (value.isEmpty) {
+                             return 'Please provide Dealership name';
+                           }
+                           return null;
+                         },
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.all(20),
                             hintText: 'Dealership',
@@ -310,12 +363,12 @@ class SettingsPageState extends State<SettingsPage> {
                         new TextFormField(
                           controller: employeeUUIDController,
                           textAlign: TextAlign.left,
-              //            validator: (value) {
-              //              if (value.isEmpty) {
-              //                return 'Please provide Trailer License Plate';
-              //              }
-              //              return null;
-              //            },
+                         validator: (value) {
+                           if (value.isEmpty) {
+                             return 'Please provide Employee UUID';
+                           }
+                           return null;
+                         },
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.all(20),
                             hintText: 'Employee UUID',
@@ -325,12 +378,12 @@ class SettingsPageState extends State<SettingsPage> {
                         new TextFormField(
                           controller: moduleID,
                           textAlign: TextAlign.left,
-              //            validator: (value) {
-              //              if (value.isEmpty) {
-              //                return 'Please provide Trailer License Plate';
-              //              }
-              //              return null;
-              //            },
+                         validator: (value) {
+                           if (value.isEmpty) {
+                             return 'Please provide Module UUID';
+                           }
+                           return null;
+                         },
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.all(20),
                             hintText: 'Module UUID',
@@ -340,12 +393,12 @@ class SettingsPageState extends State<SettingsPage> {
                         new TextFormField(
                           controller: dealershipUUID,
                           textAlign: TextAlign.left,
-              //            validator: (value) {
-              //              if (value.isEmpty) {
-              //                return 'Please provide Trailer License Plate';
-              //              }
-              //              return null;
-              //            },
+                         validator: (value) {
+                           if (value.isEmpty) {
+                             return 'Please provide Dealership UUID';
+                           }
+                           return null;
+                         },
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.all(20),
                             hintText: 'Dealership UUID',

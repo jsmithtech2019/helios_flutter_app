@@ -43,13 +43,6 @@ class ContactPage extends StatelessWidget {
               new NamePlates("Christian Ledgard", "Project Manager", "(713) 898-3810", "christian.ledgard@tamu.edu", "christian_header.jpg", "7138983810"),
               new NamePlates("Kenley Pang", "Hardware Engineer", "(979) 571-5010", "kenleypang@tamu.edu", "kenley_header.jpg", "9795715010"),
               new NamePlates("Diego Espina", "Test/Integration Engineer", "(979) 574-7193", "diegoespina7@tamu.edu", "diego_header.jpg", "9795747193"),
-              // TODO: remove
-              RaisedButton(
-                onPressed: () {
-                  seedDatabase();
-                }, // onPressed
-                child: Text('Init Test Data'),
-              ),
             ],
           )
         ),
@@ -144,51 +137,4 @@ class NamePlates extends StatelessWidget {
       throw 'Could not email $uri';
     }
   }
-}
-
-/// Dummy seed data to clean fill the database
-/// TODO: remove
-void seedDatabase(){
-  final DatabaseHelper dbHelper = GetIt.instance<DatabaseHelper>();
-  // Dummy Truck Test Data
-  dbHelper.executeRawQuery('INSERT INTO TRUCK_TEST_DATA '
-      '(test1_result, test1_current, test2_result, test2_current, '
-      'test3_result, test3_current, test4_result, test4_current) '
-      'VALUES (0, 21.0, 1, 1.24, 0, 13.9, 1, .98)');
-
-  // Dummy Trailer Test Data
-  dbHelper.executeRawQuery('INSERT INTO TRAILER_TEST_DATA '
-      '(test1_result, test1_current, test2_result, test2_current, '
-      'test3_result, test3_current, test4_result, test4_current) '
-      'VALUES (0, 21.0, 1, 1.24, 0, 13.9, 1, .98)');
-
-  // Dummy Customer Data
-  dbHelper.executeRawQuery('INSERT INTO CUSTOMER_DATA (name, phone, email, '
-      'addr1, addr2, city, state, zip, truckplate, trailerplate) VALUES ('
-      '"Jack Smith", "3038018528", "dummy@gmail.com", "addr1", "addr2", "cstat", '
-      '"tx", "7777", "246-ZLF", "ZLF-246")');
-
-  // Dummy Employee Data
-  dbHelper.executeRawQuery('INSERT INTO ADMIN_DATA (name, phone, email, pass, '
-      'moduleID, dealership, dealer_uuid) VALUES ("Christian Ledgard", '
-      '"7138983810", "christianledgard@tamu.edu", '
-      '"password", "HITCH001", "Helios", "lkjfAIFhjsfdY78325")');
-
-  // Dummy Customer Data
-  dbHelper.executeRawQuery('INSERT INTO CUSTOMER_DATA (name, phone, email, '
-      'addr1, addr2, city, state, zip, truckplate, trailerplate) VALUES ('
-      '"Christian Ledgard", "1111111", "christian@gmail.com", "addr1", "addr2", "cstat", '
-      '"tx", "7777", "TRUCK", "TRAILER")');
-
-  // Dummy Truck Test Data
-  dbHelper.executeRawQuery('INSERT INTO TRUCK_TEST_DATA '
-      '(customerid, test1_result, test1_current, test2_result, test2_current, '
-      'test3_result, test3_current, test4_result, test4_current) '
-      'VALUES (2, 0, 19.0, 1, 1.19, 0, 19.9, 1, .19)');
-
-  // Dummy Trailer Test Data
-  dbHelper.executeRawQuery('INSERT INTO TRAILER_TEST_DATA '
-      '(customerid, test1_result, test1_current, test2_result, test2_current, '
-      'test3_result, test3_current, test4_result, test4_current) '
-      'VALUES (2, 0, 19.0, 1, 1.19, 0, 19.9, 1, .19)');
 }

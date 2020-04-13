@@ -37,10 +37,6 @@ class TrailerTestingPage extends StatefulWidget {
 
   /// Create singleton instance of [BluetoothDevice]
   final BluetoothDevice device = GetIt.instance<BluetoothDevice>();
-
-  // TODO: enable this
-  // final BluetoothHelper btHelper = GetIt.instance<BluetoothHelper>();
-
   /// Initialize a customer data object
   CustomerData custData;
 
@@ -95,7 +91,6 @@ class TrailerTestingPageState extends State<TrailerTestingPage> {
   /// 
   /// Will draw the right turn signal instruction after receiving result.
   _getLeftTurnSignal() async {
-    // TODO: send enable relay and test 1
     var services = await widget.device.discoverServices();
     var initial = await services[1].characteristics[4].read();
     await services[1].characteristics[4].write([Random().nextInt(4), Random().nextInt(255)]);
@@ -125,7 +120,6 @@ class TrailerTestingPageState extends State<TrailerTestingPage> {
   /// 
   /// Will draw the tail lights instruction after receiving result.
   _getRightTurnSignal() async {
-    // TODO: send enable relay and test 2
     var services = await widget.device.discoverServices();
     var initial = await services[1].characteristics[5].read();
     await services[1].characteristics[5].write([Random().nextInt(4), Random().nextInt(255)]);
@@ -155,7 +149,6 @@ class TrailerTestingPageState extends State<TrailerTestingPage> {
   /// 
   /// Will draw the reverse lights instruction after receiving result.
   _getTailLights() async {
-    // TODO: send enable relay and test 3
     var services = await widget.device.discoverServices();
     var initial = await services[1].characteristics[6].read();
     await services[1].characteristics[6].write([Random().nextInt(4), Random().nextInt(255)]);
@@ -185,7 +178,6 @@ class TrailerTestingPageState extends State<TrailerTestingPage> {
   /// 
   /// Will draw the testing complete continue button after receiving result.
   _getReverseLights() async {
-    // TODO: send enable relay and test 3
     var services = await widget.device.discoverServices();
     var initial = await services[1].characteristics[7].read();
     await services[1].characteristics[7].write([Random().nextInt(4), Random().nextInt(4)]);

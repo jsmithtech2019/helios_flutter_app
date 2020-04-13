@@ -36,9 +36,6 @@ class TruckTestingPage extends StatefulWidget{
   /// Create singleton instance of [BluetoothDevice]
   final BluetoothDevice device = GetIt.instance<BluetoothDevice>();
 
-  // TODO: enable this
-  // final BluetoothHelper btHelper = GetIt.instance<BluetoothHelper>();
-
   /// Initialize a customer data object
   final CustomerData custData;
 
@@ -69,7 +66,6 @@ class TruckTestingPageState extends State<TruckTestingPage>{
   /// 
   /// Will draw the right turn signal instruction after receiving result.
   _getLeftTurnSignal() async {
-    // TODO: send enable relay and test 1
     var services = await widget.device.discoverServices();
     var initial = await services[1].characteristics[0].read();
     await services[1].characteristics[0].write([Random().nextInt(3), Random().nextInt(255)]);
@@ -100,7 +96,6 @@ class TruckTestingPageState extends State<TruckTestingPage>{
   /// 
   /// Will draw the tail lights instruction after receiving result.
   _getRightTurnSignal() async {
-    // TODO: send enable relay and test 2
     var services = await widget.device.discoverServices();
     var initial = await services[1].characteristics[1].read();
     await services[1].characteristics[1].write([Random().nextInt(3), Random().nextInt(255)]);
@@ -131,7 +126,6 @@ class TruckTestingPageState extends State<TruckTestingPage>{
   /// 
   /// Will draw the reverse lights instruction after receiving result.
   _getTailLights() async {
-    // TODO: send enable relay and test 3
     var services = await widget.device.discoverServices();
     var initial = await services[1].characteristics[2].read();
     await services[1].characteristics[2].write([Random().nextInt(3), Random().nextInt(255)]);
@@ -162,7 +156,6 @@ class TruckTestingPageState extends State<TruckTestingPage>{
   /// 
   /// Will draw the testing complete continue button after receiving result.
   _getReverseLights() async {
-    // TODO: send enable relay and test 3
     var services = await widget.device.discoverServices();
     var initial = await services[1].characteristics[3].read();
     await services[1].characteristics[3].write([Random().nextInt(3), Random().nextInt(255)]);

@@ -44,7 +44,6 @@ class CustomerData {
   String _customerCity;
 
   /// Customer state
-  /// TODO: add from drop down list rather than an entry mode
   String _customerState;
 
   /// Customer zip code

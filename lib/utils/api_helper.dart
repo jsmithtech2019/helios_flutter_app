@@ -35,14 +35,12 @@ import 'package:HITCH/utils/database_helper.dart';
 /// http.Response object [response] contains the status code and the message 
 /// returned by the server.
 Future<http.Response> postRequest (CustomerData cust, TruckTestData truckd, TrailerTestData trailerd) async {
-  // TODO: update from HTTP to HTTPS
-  // TODO: create a dynamic URL that can change for different dealerships
-  var url ='http://duet.helioscapstone.com/upload/';
-
   // Various GetIt singletons
   var globalHelper = GetIt.instance<GlobalHelper>();
   Logger logHelper = GetIt.instance<Logger>();
   var dbHelper = GetIt.instance<DatabaseHelper>();
+
+  var url = 'http://duet.${globalHelper.websiteAddress}.com/upload';
 
   // Get Application information
   PackageInfo packageInfo = await PackageInfo.fromPlatform();

@@ -6,9 +6,6 @@
  * Author: Jack Smith (john.d.smitherton@tamu.edu)
  */
 
-// Dart Packages
-import 'dart:math';
-
 // Flutter Packages
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
@@ -188,17 +185,15 @@ class DeviceScreen extends StatelessWidget {
   final BluetoothDevice device;
 
   /// Testing function to change values and debug the TI-RTOS system
-  /// TODO: remove
   List<int> _getRandomBytes() {
     //final math = Random();
-    var t = [Random().nextInt(255), Random().nextInt(255)];
+    var t = [150, 150];
     return t; 
   }
 
   /// Create a list of services that the device offers
   /// 
   /// Useful for developement
-  /// TODO: remove
   List<Widget> _buildServiceTiles(List<BluetoothService> services) {
     return services.map((s) => ServiceTile(
         service: s,

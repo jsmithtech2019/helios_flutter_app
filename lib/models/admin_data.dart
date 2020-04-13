@@ -82,10 +82,6 @@ class AdminData {
   /// Get the employee email address
   String get employeeEmail => _employeeEmail;
 
-  /// Get the employee password
-  /// TODO: remove this
-  String get employeePass => _employeePass;
-
   /// Get the employee UUID
   String get employeeUUID => _employeeUUID;
 

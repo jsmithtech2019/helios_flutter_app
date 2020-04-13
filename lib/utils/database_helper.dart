@@ -332,7 +332,6 @@ class DatabaseHelper {
   /// Using the provided [query] this function will run it explicitly against
   /// the database. This can be dangerous and should likely be removed and
   /// replaced with safer insertion methods but is useful for debugging.
-  /// TODO: remove and replace with functions
   Future<List<Map<dynamic, dynamic>>> executeRawQuery(String query) async {
     Database db = await this.database;
     return await db.rawQuery(query);
